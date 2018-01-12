@@ -11,7 +11,21 @@ sysinfo.txt
 /Assets/AssetStoreTools*
 *.apk
 *.unitypackage
- 
+
+
+# ====================== #
+# Assets too big for git #
+# ====================== #
+/Assets/StreamingAssets/
+/Assets/UnityHDRI/Gareoult/
+/Assets/UnityHDRI/MuirWood/
+/Assets/UnityHDRI/Seaside/
+/Assets/UnityHDRI/TreasureIsland/
+/Assets/UnityHDRI/Trinitatis Church/
+/Assets/UnityHDRI/Unite/
+
+
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
