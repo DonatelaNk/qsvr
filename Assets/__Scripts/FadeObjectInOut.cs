@@ -101,7 +101,7 @@ public class FadeObjectInOut : MonoBehaviour
                 Color newColor = (colors != null ? colors[i] : rendererObjects[i].material.color);
                 newColor.a = Mathf.Min(newColor.a, alphaValue);
                 newColor.a = Mathf.Clamp(newColor.a, 0.0f, 1.0f);
-                rendererObjects[i].material.SetColor("_Color", newColor);
+                //rendererObjects[i].material.SetColor("_Color", newColor);
             }
 
             yield return null;

@@ -278,7 +278,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 478642, guid: b0047dd65ff208349bf3a5aaaeae24d0, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -14.28
+      value: -11.79
       objectReference: {fileID: 0}
     - target: {fileID: 478642, guid: b0047dd65ff208349bf3a5aaaeae24d0, type: 2}
       propertyPath: m_LocalRotation.x
@@ -639,7 +639,6 @@ MonoBehaviour:
   TitleText: {fileID: 1845475388}
   NameText: {fileID: 296135769}
   SubtitleText: {fileID: 1459031652}
-  Skybox: {fileID: 0}
 --- !u!1 &1086710464
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +744,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1137601463}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7949998, y: -0.04400003, z: -0.04500008}
+  m_LocalPosition: {x: 0.7796, y: -0.04400003, z: -0.04500008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 683015227}
@@ -833,6 +832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1173825486}
   - component: {fileID: 1173825485}
+  - component: {fileID: 1173825487}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -853,6 +853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VanitySkybox: {fileID: 2100000, guid: 88ec9a13802800449aaf825aff3aadc7, type: 2}
   StorySkybox: {fileID: 2100000, guid: c6009c518b3fa764d960a012396d76fb, type: 2}
+  VanityCardDelay: 9
 --- !u!4 &1173825486
 Transform:
   m_ObjectHideFlags: 0
@@ -866,6 +867,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1173825487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1173825484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bfb2d6cf9d9e6246893717c917060de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1249624371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,7 +1272,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1905202805}
-  - component: {fileID: 1905202804}
   m_Layer: 0
   m_Name: Fancy
   m_TagString: Untagged
@@ -1268,21 +1279,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1905202804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1905202803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebaf2edbcbd3e284991e8cbc99739829, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeDelay: 7
-  fadeTime: 0.5
-  fadeInOnStart: 0
-  fadeOutOnStart: 1
 --- !u!4 &1905202805
 Transform:
   m_ObjectHideFlags: 0

@@ -8,14 +8,17 @@ public class OpeningTitlesController : MonoBehaviour {
     public GameObject NameText; //Crew name
     public GameObject SubtitleText; //Crew subtitle
 
-    private GameObject Fancy;
-
     private int CurrentCrewArrayPos = 0;
     private float delay = 1.0f;
     private float WaitTime = 3.9f;
     private float VanityCardDelay;
+    private GameObject SceneManager;
 
     IEnumerator RollOpeningCreditsCoroutine;
+    IEnumerator FadeInCoroutine;
+    IEnumerator FadeOutCoroutine;
+
+    
 
     string[,] crew = new string[,]
         {
@@ -43,8 +46,8 @@ public class OpeningTitlesController : MonoBehaviour {
     }
     void Start () {
         //Get the Fade Delay value from the Fade Object in/out script attached to teh Fancy game object
-        Fancy = GameObject.Find("Fancy");
-        VanityCardDelay = Fancy.GetComponent<FadeObjectInOut>().fadeDelay;
+        SceneManager = GameObject.Find("SceneManager");
+        VanityCardDelay = SceneManager.GetComponent<SceneController>().VanityCardDelay;
         //start title roll
         RollOpeningCreditsCoroutine = RollOpeningCredits(); // create an IEnumerator object
         StartCoroutine(RollOpeningCreditsCoroutine);
@@ -68,17 +71,24 @@ public class OpeningTitlesController : MonoBehaviour {
             CurrentCrewArrayPos++;
 
             //Fade in next crew name
-            StartCoroutine(FadeIn(Title, Name, Subtitle));
+            FadeInCoroutine = FadeIn(Title, Name, Subtitle); // Create the FadeIn IEnumerator object
+            StartCoroutine(FadeInCoroutine);
 
-            //also init the fadeout sequence 
-            StartCoroutine(FadeOut(WaitTime + delay));
+            //also init the fadeout sequence
+            FadeOutCoroutine = FadeOut(WaitTime + delay); // Create the FadeIn IEnumerator object
+            StartCoroutine(FadeOutCoroutine);
 
             //Debug.Log(crew.GetUpperBound(0));
         }
         else
         {
-            //Destroy the Titles Gameobject
-            Destroy(this.gameObject);
+            //Tell the scene manager, we're done with titles
+            EventManager.TriggerEvent("TitlesAreDone");
+
+            //Stop Coroutines and Destroy the Titles Gameobject
+            StopCoroutine(FadeInCoroutine);
+            StopCoroutine(FadeOutCoroutine);
+            Destroy(this.gameObject); 
         }
     }
 
