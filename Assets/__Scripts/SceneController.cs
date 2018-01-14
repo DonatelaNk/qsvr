@@ -12,6 +12,12 @@ public class SceneController : MonoBehaviour {
     public Material StorySkybox;
     //time in seconds to wait for the vanite card animation to complete
     public float VanityCardDelay;
+    //360 video gameobject reference
+    public GameObject SphereVideo;
+    //Fade blindfold
+    public GameObject Blindfold;
+
+
     //Vanity card game object
     private GameObject Fancy;
     //Corutine to change skybox blend (fade to balck)
@@ -27,8 +33,8 @@ public class SceneController : MonoBehaviour {
     void Awake()
     {
         //Liste for the title sequence completion event to be fired
-        //once it's fired, set  the story skybox
-        OpenningSequenceComplete = new UnityAction(setStorySkybox);
+        //once it's fired, start the scene
+        OpenningSequenceComplete = new UnityAction(StartScene);
     }
     void OnEnable()
     {
@@ -39,11 +45,19 @@ public class SceneController : MonoBehaviour {
         EventManager.StopListening("TitlesAreDone", OpenningSequenceComplete);
     }
     //Function triggered by listener once the title sequence is compeleted
-    void setStorySkybox()
+    void StartScene()
     {
+        //Blindfold user while we're activating all the game objects
+        //Blindfold.SetActive(true);
         //Set the story skybox;
         RenderSettings.skybox = StorySkybox;
+        //enable the 360 video
+        SphereVideo.SetActive(true);
+
+    
+
     }
+
 
     // Use this for initialization
     void Start () {
@@ -56,6 +70,10 @@ public class SceneController : MonoBehaviour {
         Fancy = GameObject.Find("Fancy");
         changeSkyboxBlendCoroutine = changeSkyboxBlend(); // create an IEnumerator object
         StartCoroutine(changeSkyboxBlendCoroutine);
+
+        //Hide things till they are needed
+        SphereVideo.SetActive(false);
+        Blindfold.SetActive(false);
     }
 	
 	// Update is called once per frame
