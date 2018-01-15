@@ -17,6 +17,7 @@ sysinfo.txt
 # Assets too big for git #
 # ====================== #
 /Assets/StreamingAssets/
+/Assets/Models
 /Assets/UnityHDRI/Gareoult/
 /Assets/UnityHDRI/MuirWood/
 /Assets/UnityHDRI/Seaside/
