@@ -1,0 +1,8 @@
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\t$m$p$$$\box8.max
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\t$m$p$$$\MAXFILES.TXT
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\texturas\box 8\box 8 diffuse.jpg
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\texturas\box 8\box 8 bump.jpg
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\texturas\box 8\box 8 reflect.jpg
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\texturas\box 8\rope diffuse.jpg
+C:\Documents and Settings\grekecomp\Escritorio\turbosquid\packages\texturas\box 8\rope bump.jpg
+F:\hdri\hdri\nature\boulder_color.hdr
