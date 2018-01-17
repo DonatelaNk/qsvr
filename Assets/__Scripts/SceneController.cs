@@ -16,8 +16,16 @@ public class SceneController : MonoBehaviour {
     //AVPRO video player
     public GameObject VideoPlayer;
 
+    //Depthkit videos
+    public GameObject Red;
+    public GameObject Blue;
+
+    //Interactive Objects
+    public GameObject InteractiveObejcts;
+
     //User blindfold (A sphere around user's head with inside/visible shader)
     public GameObject Blindfold;
+
     //Cady
     public GameObject Car;
 
@@ -38,12 +46,28 @@ public class SceneController : MonoBehaviour {
     //Corutine to change skybox blend (fade to black)
     IEnumerator changeSkyboxBlendCoroutine;
 
+    //Set up reference for the 360 video
+    MediaPlayer mediaplayer360;
+    IMediaControl control360;
+    bool video360Loaded = false;
+
+    //Set up references for the 2 depthkit videos we have
+    MediaPlayer mediaplayerRed;
+    IMediaControl controlRed;
+    bool videoRedLoaded = false;
+
+    MediaPlayer mediaplayerBlue;
+    IMediaControl controlBlue;
+    bool videoBlueLoaded = false;
+
     Color _color;
-    bool videoLoaded=false;
+    bool SetBlindFold = false;
 
     //Set up listeners
     private UnityAction OpenningSequenceComplete;
-    private UnityAction SkipToSecond;
+    private UnityAction Skip360;
+    private UnityAction SkipRed;
+    private UnityAction SkipBlue;
 
 
     void Awake()
@@ -55,7 +79,9 @@ public class SceneController : MonoBehaviour {
         //in the experience (this is a debug feature, can be enbaled via the Skip To var found in the SceneController Script)
         if (SkipTo > 0)
         {
-            SkipToSecond = new UnityAction(Skip);
+            Skip360 = new UnityAction(Skip360Video);
+            SkipRed = new UnityAction(SkipRedVideo);
+            SkipBlue = new UnityAction(SkipBlueVideo);
         }
         
     }
@@ -64,7 +90,9 @@ public class SceneController : MonoBehaviour {
         EventManager.StartListening("TitlesAreDone", OpenningSequenceComplete);
         if (SkipTo > 0)
         {
-            EventManager.StartListening("SkipNow", SkipToSecond);
+            EventManager.StartListening("Skip360", Skip360);
+            EventManager.StartListening("SkipRed", SkipRed);
+            EventManager.StartListening("SkipBlue", SkipBlue);
         }
             
     }
@@ -73,14 +101,27 @@ public class SceneController : MonoBehaviour {
         EventManager.StopListening("TitlesAreDone", OpenningSequenceComplete);
         if (SkipTo > 0)
         {
-            EventManager.StopListening("SkipNow", SkipToSecond);
+            EventManager.StopListening("Skip360", Skip360);
+            EventManager.StopListening("SkipRed", SkipRed);
+            EventManager.StopListening("SkipBlue", SkipBlue);
         }    
     }
 
-    void Skip()
+    void Skip360Video()
     {
-        MediaPlayer mediaplayer = VideoPlayer.GetComponent<MediaPlayer>();
-        IMediaControl control = mediaplayer.Control;
+        Skip(control360);
+    }
+    void SkipRedVideo()
+    {
+        Skip(controlRed);
+    }
+    void SkipBlueVideo()
+    {
+        Skip(controlBlue);
+    }
+    void Skip(IMediaControl control)
+    {
+        //Skip to specific point in video
         control.Pause();
         control.SeekFast(SkipTo);
         control.Play();
@@ -97,6 +138,13 @@ public class SceneController : MonoBehaviour {
         
         //Activate car
         Car.SetActive(true);
+
+        //Activate Actors
+        Red.SetActive(true);
+        Blue.SetActive(true);
+
+        //Activate Interactive Objects
+        InteractiveObejcts.SetActive(true);
 
         //TODO: Remove user blindfold more gracefully (fade it out)
         Blindfold.SetActive(false);
@@ -121,6 +169,9 @@ public class SceneController : MonoBehaviour {
 
             //Hide things till they are needed
             SphereVideo.SetActive(false);
+            Red.SetActive(false);
+            Blue.SetActive(false);
+            InteractiveObejcts.SetActive(false);
 
             /*****************/
             //Setup user bnlindfold 
@@ -146,21 +197,69 @@ public class SceneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!videoLoaded && SkipTo > 0)
+       
+        if (!video360Loaded)
         {
-            MediaPlayer mediaplayer = VideoPlayer.GetComponent<MediaPlayer>();
-            IMediaControl control = mediaplayer.Control;
-            if (control.IsPlaying())
+            //Keeping it in the loop since it takes a few seconds to init the player
+            mediaplayer360 = VideoPlayer.GetComponent<MediaPlayer>();
+            control360 = mediaplayer360.Control;
+            if (control360.IsPlaying())
             {
-                videoLoaded = true;
+                video360Loaded = true;
                 //Tell listener, video is ready to be scrubbed
-                EventManager.TriggerEvent("SkipNow");
+                if(SkipTo > 0) {
+                    EventManager.TriggerEvent("Skip360");
+                } 
             }
         } else
         {
-           
+           //Debug.Log(control360.GetCurrentTimeMs());
         }
+
+        if (!videoRedLoaded)
+        {
+            //Keeping it in the loop since it takes a few seconds to init the player
+            mediaplayerRed = Red.GetComponent<MediaPlayer>();
+            controlRed = mediaplayerRed.Control;
+            if (controlRed.IsPlaying())
+            {
+                videoRedLoaded = true;
+                //Tell listener, video is ready to be scrubbed
+                if(SkipTo > 0)
+                {
+                    EventManager.TriggerEvent("SkipRed");
+                }
+            }
+        }
+        else
+        {
+            
+        }
+
+        if (!videoBlueLoaded)
+        {
+            //Keeping it in the loop since it takes a few seconds to init the player
+            mediaplayerBlue = Blue.GetComponent<MediaPlayer>();
+            controlBlue = mediaplayerBlue.Control;
+            if (controlBlue.IsPlaying())
+            {
+                videoBlueLoaded = true;
+                //Tell listener, video is ready to be scrubbed
+                if (SkipTo > 0)
+                {
+                    EventManager.TriggerEvent("SkipBlue");
+                }
+            }
+        }
+        else
+        {
+
+        }
+
+
     }
+
+    
 
     IEnumerator changeSkyboxBlend() 
     {
