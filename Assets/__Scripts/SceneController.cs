@@ -60,8 +60,6 @@ public class SceneController : MonoBehaviour {
     IMediaControl controlBlue;
     bool videoBlueLoaded = false;
 
-    Color _color;
-    bool SetBlindFold = false;
 
     //Set up listeners
     private UnityAction OpenningSequenceComplete;
@@ -85,6 +83,8 @@ public class SceneController : MonoBehaviour {
         }
         
     }
+
+
     void OnEnable()
     {
         EventManager.StartListening("TitlesAreDone", OpenningSequenceComplete);
@@ -107,18 +107,9 @@ public class SceneController : MonoBehaviour {
         }    
     }
 
-    void Skip360Video()
-    {
-        Skip(control360);
-    }
-    void SkipRedVideo()
-    {
-        Skip(controlRed);
-    }
-    void SkipBlueVideo()
-    {
-        Skip(controlBlue);
-    }
+    void Skip360Video() { Skip(control360); }
+    void SkipRedVideo() { Skip(controlRed); }
+    void SkipBlueVideo() { Skip(controlBlue); }
     void Skip(IMediaControl control)
     {
         //Skip to specific point in video
@@ -126,33 +117,11 @@ public class SceneController : MonoBehaviour {
         control.SeekFast(SkipTo);
         control.Play();
     }
-    //Function triggered by listener once the title sequence is compeleted
-    void StartScene()
-    {
-        //Blindfold user while we're activating all the game objects
-        Blindfold.SetActive(true);
-        //Set the story skybox;
-        RenderSettings.skybox = StorySkybox;
-        //enable the 360 video
-        SphereVideo.SetActive(true);
-        
-        //Activate car
-        Car.SetActive(true);
-
-        //Activate Actors
-        Red.SetActive(true);
-        Blue.SetActive(true);
-
-        //Activate Interactive Objects
-        InteractiveObejcts.SetActive(true);
-
-        //TODO: Remove user blindfold more gracefully (fade it out)
-        Blindfold.SetActive(false);
-    }
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
         //See if we need to skip intro and/or to specific place
@@ -173,27 +142,46 @@ public class SceneController : MonoBehaviour {
             Blue.SetActive(false);
             InteractiveObejcts.SetActive(false);
 
-            /*****************/
-            //Setup user bnlindfold 
-            //store color value in variable
-            _color = Blindfold.GetComponent<Renderer>().material.color;
-            //set the alpha to 0
-            _color.a = 0f;
-            //assign color to out game object
-            Blindfold.GetComponent<Renderer>().material.color = _color;
-            Blindfold.SetActive(false);
-            /*****************/
-
             Car.SetActive(false);
-        } else
+        }
+        else
         {
             //If Skip Intro option checked, go straight to the cady scene
             Destroy(Fancy);
             Destroy(Titles);
             StartScene();
         }
-       
+
     }
+
+
+
+    //Function triggered by listener once the title sequence is compeleted (or if we skipped it)
+    void StartScene()
+    {
+        //Blindfold user while we're activating all the game objects
+        this.gameObject.GetComponent<Blindfold>().setBlindFold();
+        //Set the story skybox;
+        RenderSettings.skybox = StorySkybox;
+        //enable the 360 video
+        SphereVideo.SetActive(true);
+        
+        //Activate car
+        Car.SetActive(true);
+
+        //Activate Actors
+        Red.SetActive(true);
+        Blue.SetActive(true);
+
+        //Activate Interactive Objects
+        InteractiveObejcts.SetActive(true);
+
+        //TODO: Remove user blindfold more gracefully (fade it out)
+        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
+    }
+
+
+    
 	
 	// Update is called once per frame
 	void Update () {
@@ -258,8 +246,9 @@ public class SceneController : MonoBehaviour {
 
 
     }
-
     
+
+
 
     IEnumerator changeSkyboxBlend() 
     {
