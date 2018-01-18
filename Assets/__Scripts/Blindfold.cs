@@ -24,18 +24,14 @@ public class Blindfold : MonoBehaviour {
     }
 
     void Start () {
-        StartCoroutine(test());
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
         
     }
-    IEnumerator test()
-    {
-        yield return new WaitForSeconds(11.0f);
-        fadeInBlindFold();
-    }
+   
 
     // Define an enumerator to perform our fading.
     // Pass it the opacity to fade to (0 = transparent, 1 = opaque),

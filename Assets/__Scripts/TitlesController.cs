@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OpeningTitlesController : MonoBehaviour {
+public class TitlesController : MonoBehaviour {
     public GameObject TitleText; //Crew title
     public GameObject NameText; //Crew name
     public GameObject SubtitleText; //Crew subtitle
@@ -18,9 +18,9 @@ public class OpeningTitlesController : MonoBehaviour {
     IEnumerator FadeInCoroutine;
     IEnumerator FadeOutCoroutine;
 
-    
+    string[,] titles;
 
-    string[,] crew = new string[,]
+    string[,] openingTitles = new string[,]
         {
             {"", "Hadley Boyd",""},
             {"", "Drew Moore",""},
@@ -35,6 +35,11 @@ public class OpeningTitlesController : MonoBehaviour {
             {"", "Queerskins:\nA Love Story",""},
         };
 
+    string[,] closingCredits = new string[,]
+        {
+            
+            {"", "The End",""},
+        };
 
     // Use this for initialization
     void Awake()
@@ -43,6 +48,7 @@ public class OpeningTitlesController : MonoBehaviour {
         TitleText.GetComponent<Text>().text = "";
         NameText.GetComponent<Text>().text = "";
         SubtitleText.GetComponent<Text>().text = "";
+        titles = openingTitles;
     }
     void Start () {
         //Get the Fade Delay value from the Fade Object in/out script attached to teh Fancy game object
@@ -60,14 +66,14 @@ public class OpeningTitlesController : MonoBehaviour {
 
     void NameSelector()
     {
-        if (CurrentCrewArrayPos <= crew.GetUpperBound(0))
+        if (CurrentCrewArrayPos <= titles.GetUpperBound(0))
         {
-            //for (int i = 0; i <= crew.GetUpperBound(0); i++)
+            //for (int i = 0; i <= titles.GetUpperBound(0); i++)
             //{
-            string Title = crew[CurrentCrewArrayPos, 0];
-            string Name = crew[CurrentCrewArrayPos, 1];
-            string Subtitle = crew[CurrentCrewArrayPos, 2];
-            //incremenent crew position in array
+            string Title = titles[CurrentCrewArrayPos, 0];
+            string Name = titles[CurrentCrewArrayPos, 1];
+            string Subtitle = titles[CurrentCrewArrayPos, 2];
+            //incremenent titles position in array
             CurrentCrewArrayPos++;
 
             //Fade in next crew name
@@ -78,7 +84,7 @@ public class OpeningTitlesController : MonoBehaviour {
             FadeOutCoroutine = FadeOut(WaitTime + delay); // Create the FadeIn IEnumerator object
             StartCoroutine(FadeOutCoroutine);
 
-            //Debug.Log(crew.GetUpperBound(0));
+            //Debug.Log(titles.GetUpperBound(0));
         }
         else
         {
@@ -88,7 +94,7 @@ public class OpeningTitlesController : MonoBehaviour {
             //Stop Coroutines and Destroy the Titles Gameobject
             StopCoroutine(FadeInCoroutine);
             StopCoroutine(FadeOutCoroutine);
-            Destroy(this.gameObject); 
+            //Destroy(this.gameObject); 
         }
     }
 

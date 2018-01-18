@@ -10,7 +10,10 @@ public class SceneController : MonoBehaviour {
     public Material VanitySkybox;
     //Skybox for the car scene (uses one of Unitys HDRIs textures)
     public Material StorySkybox;
-    
+
+    //Skybox for the memory spaces
+    public Material MemorySkybox;
+
     //360 video gameobject reference
     public GameObject SphereVideo;
     //AVPRO video player
@@ -61,11 +64,18 @@ public class SceneController : MonoBehaviour {
     bool videoBlueLoaded = false;
 
 
+    //Are we done?
+    bool finished = false;
+    IEnumerator startWrapUpCoroutine;
+
+
+
     //Set up listeners
     private UnityAction OpenningSequenceComplete;
     private UnityAction Skip360;
     private UnityAction SkipRed;
     private UnityAction SkipBlue;
+    private UnityAction WrapItUp;
 
 
     void Awake()
@@ -81,20 +91,23 @@ public class SceneController : MonoBehaviour {
             SkipRed = new UnityAction(SkipRedVideo);
             SkipBlue = new UnityAction(SkipBlueVideo);
         }
-        
+        //Listen for the finish trigger
+        WrapItUp = new UnityAction(WrapUpScene);
+
     }
 
 
     void OnEnable()
     {
         EventManager.StartListening("TitlesAreDone", OpenningSequenceComplete);
+        
         if (SkipTo > 0)
         {
             EventManager.StartListening("Skip360", Skip360);
             EventManager.StartListening("SkipRed", SkipRed);
             EventManager.StartListening("SkipBlue", SkipBlue);
         }
-            
+        EventManager.StartListening("SceneIsDone", WrapItUp);
     }
     void OnDisable ()
     {
@@ -104,7 +117,8 @@ public class SceneController : MonoBehaviour {
             EventManager.StopListening("Skip360", Skip360);
             EventManager.StopListening("SkipRed", SkipRed);
             EventManager.StopListening("SkipBlue", SkipBlue);
-        }    
+        }
+        EventManager.StopListening("SceneIsDone", WrapItUp);
     }
 
     void Skip360Video() { Skip(control360); }
@@ -117,6 +131,27 @@ public class SceneController : MonoBehaviour {
         control.SeekFast(SkipTo);
         control.Play();
     }
+
+    /********************************************/
+    /* Things to do at the end fo the experience*/
+    
+    IEnumerator startWrapUp(float wait)
+    {
+        
+        yield return new WaitForSeconds(wait);
+        EventManager.TriggerEvent("SceneIsDone");
+        StopCoroutine(startWrapUpCoroutine);
+        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
+
+    }
+    void WrapUpScene()
+    {
+        Red.SetActive(false);
+        Blue.SetActive(false);
+        Car.SetActive(false);
+        SphereVideo.SetActive(false);
+    }
+
 
 
     // Use this for initialization
@@ -141,6 +176,7 @@ public class SceneController : MonoBehaviour {
             Red.SetActive(false);
             Blue.SetActive(false);
             InteractiveObejcts.SetActive(false);
+            Titles.SetActive(false);
 
             Car.SetActive(false);
         }
@@ -148,7 +184,7 @@ public class SceneController : MonoBehaviour {
         {
             //If Skip Intro option checked, go straight to the cady scene
             Destroy(Fancy);
-            Destroy(Titles);
+            Titles.SetActive(false);
             StartScene();
         }
 
@@ -201,7 +237,17 @@ public class SceneController : MonoBehaviour {
             }
         } else
         {
-           //Debug.Log(control360.GetCurrentTimeMs());
+            //Debug.Log(control360.GetCurrentTimeMs());
+            
+            if (!finished && control360.GetCurrentTimeMs() > 630000)
+            {
+                //Wrap up the scene
+                startWrapUpCoroutine = startWrapUp(8.0f);
+                StartCoroutine(startWrapUpCoroutine);
+                this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
+                finished = true;
+            }
+            
         }
 
         if (!videoRedLoaded)
