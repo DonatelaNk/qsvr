@@ -6,10 +6,24 @@ using RenderHeads.Media.AVProVideo;
 
 public class SceneController : MonoBehaviour {
 
+    /************************************************/
+    /******* cheatsheet for skipping around *********/
+    /* Enter these milliseconds as the `Skip To` variable value to skip around the story
+    /* See the `Scene Controller` script attached to the `SceneManager` gameobject
+    /* First Memory Space:  230000
+     * Violent Outburst:    360000
+     * End:                 120000
+     * 
+
+    /******* //END **********************************/
+
     //skybox for vanity card and opening title sequence
     public Material VanitySkybox;
     //Skybox for the car scene (uses one of Unitys HDRIs textures)
     public Material StorySkybox;
+    //variable that tells our script to trigger the memory spaces
+    bool triggerMemorySpace = true;
+    int memorySpaceCounter = 0;
 
     //Skybox for the memory spaces
     public Material MemorySkybox;
@@ -24,7 +38,7 @@ public class SceneController : MonoBehaviour {
     public GameObject Blue;
 
     //Interactive Objects
-    public GameObject InteractiveObejcts;
+    public GameObject InteractiveObjects;
 
     //User blindfold (A sphere around user's head with inside/visible shader)
     public GameObject Blindfold;
@@ -75,6 +89,7 @@ public class SceneController : MonoBehaviour {
     private UnityAction Skip360;
     private UnityAction SkipRed;
     private UnityAction SkipBlue;
+    private UnityAction MemorySpace;
     private UnityAction WrapItUp;
 
 
@@ -83,6 +98,11 @@ public class SceneController : MonoBehaviour {
         //Listen for the title sequence completion event to be fired
         //once it's fired, start the scene
         OpenningSequenceComplete = new UnityAction(StartScene);
+
+        //Listen for memory space triggers
+        //once it's fired, enter memory space
+        MemorySpace = new UnityAction(EnterMemorySpace);
+
         //This listener waits for the assets to load before skipping to a particular point
         //in the experience (this is a debug feature, can be enbaled via the Skip To var found in the SceneController Script)
         if (SkipTo > 0)
@@ -91,6 +111,7 @@ public class SceneController : MonoBehaviour {
             SkipRed = new UnityAction(SkipRedVideo);
             SkipBlue = new UnityAction(SkipBlueVideo);
         }
+
         //Listen for the finish trigger
         WrapItUp = new UnityAction(WrapUpScene);
 
@@ -107,6 +128,7 @@ public class SceneController : MonoBehaviour {
             EventManager.StartListening("SkipRed", SkipRed);
             EventManager.StartListening("SkipBlue", SkipBlue);
         }
+        EventManager.StartListening("EnterMemorySpace", MemorySpace);
         EventManager.StartListening("SceneIsDone", WrapItUp);
     }
     void OnDisable ()
@@ -118,6 +140,7 @@ public class SceneController : MonoBehaviour {
             EventManager.StopListening("SkipRed", SkipRed);
             EventManager.StopListening("SkipBlue", SkipBlue);
         }
+        EventManager.StopListening("EnterMemorySpace", MemorySpace);
         EventManager.StopListening("SceneIsDone", WrapItUp);
     }
 
@@ -132,25 +155,7 @@ public class SceneController : MonoBehaviour {
         control.Play();
     }
 
-    /********************************************/
-    /* Things to do at the end fo the experience*/
     
-    IEnumerator startWrapUp(float wait)
-    {
-        
-        yield return new WaitForSeconds(wait);
-        EventManager.TriggerEvent("SceneIsDone");
-        StopCoroutine(startWrapUpCoroutine);
-        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
-
-    }
-    void WrapUpScene()
-    {
-        Red.SetActive(false);
-        Blue.SetActive(false);
-        Car.SetActive(false);
-        SphereVideo.SetActive(false);
-    }
 
 
 
@@ -175,7 +180,7 @@ public class SceneController : MonoBehaviour {
             SphereVideo.SetActive(false);
             Red.SetActive(false);
             Blue.SetActive(false);
-            InteractiveObejcts.SetActive(false);
+            InteractiveObjects.SetActive(false);
             Titles.SetActive(false);
 
             Car.SetActive(false);
@@ -196,7 +201,7 @@ public class SceneController : MonoBehaviour {
     void StartScene()
     {
         //Blindfold user while we're activating all the game objects
-        this.gameObject.GetComponent<Blindfold>().setBlindFold();
+        GetComponent<Blindfold>().setBlindFold();
         //Set the story skybox;
         RenderSettings.skybox = StorySkybox;
         //enable the 360 video
@@ -210,10 +215,10 @@ public class SceneController : MonoBehaviour {
         Blue.SetActive(true);
 
         //Activate Interactive Objects
-        InteractiveObejcts.SetActive(true);
+        InteractiveObjects.SetActive(true);
 
         //TODO: Remove user blindfold more gracefully (fade it out)
-        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
+        GetComponent<Blindfold>().fadeOutBlindFold();
     }
 
 
@@ -237,11 +242,20 @@ public class SceneController : MonoBehaviour {
             }
         } else
         {
-            //Debug.Log(control360.GetCurrentTimeMs());
-            
+            Debug.Log(control360.GetCurrentTimeMs());
+
+            //Enter first Memory space 
+            if (triggerMemorySpace && control360.GetCurrentTimeMs() > 229300 && control360.GetCurrentTimeMs() < 232400)
+            {
+                triggerMemorySpace = false;
+                memorySpaceCounter = 1;
+                EventManager.TriggerEvent("EnterMemorySpace");
+            }
+
+            //Wrap up the scene
             if (!finished && control360.GetCurrentTimeMs() > 630000)
             {
-                //Wrap up the scene
+                
                 startWrapUpCoroutine = startWrapUp(8.0f);
                 StartCoroutine(startWrapUpCoroutine);
                 this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
@@ -292,9 +306,6 @@ public class SceneController : MonoBehaviour {
 
 
     }
-    
-
-
 
     IEnumerator changeSkyboxBlend() 
     {
@@ -311,5 +322,47 @@ public class SceneController : MonoBehaviour {
             }
             yield return null;
         }
+    }
+
+    /********************************************/
+    /* Things to do at the end fo the experience*/
+
+    IEnumerator startWrapUp(float wait)
+    {
+
+        yield return new WaitForSeconds(wait);
+        EventManager.TriggerEvent("SceneIsDone");
+        StopCoroutine(startWrapUpCoroutine);
+        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
+
+    }
+    void WrapUpScene()
+    {
+        Red.SetActive(false);
+        Blue.SetActive(false);
+        Car.SetActive(false);
+        SphereVideo.SetActive(false);
+        //Remove interactiveobjects
+        Destroy(InteractiveObjects);
+        //reset skybox
+        RenderSettings.skybox = VanitySkybox;
+        //show titles
+        Titles.SetActive(true);
+        //roll closing credits
+        Titles.GetComponent<TitlesController>().RollClosingCredits();
+    }
+
+
+    //initiate memory space
+    void EnterMemorySpace()
+    {
+        //set blindfold to white, and fade it in
+        //Now fade it in
+        //Color bColor = new Color(1, 1, 1, 1);
+        //GetComponent<Blindfold>().initBlindFold(bColor);
+        //FADE DOESN"T WORK HERE!!!????
+        GetComponent<Blindfold>().fadeInBlindFold();
+
+        GetComponent<MemorySpaces>().enterMemorySpace();
     }
 }

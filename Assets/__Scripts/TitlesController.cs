@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class TitlesController : MonoBehaviour {
     public GameObject TitleText; //Crew title
     public GameObject NameText; //Crew name
@@ -13,6 +14,7 @@ public class TitlesController : MonoBehaviour {
     private float WaitTime = 3.9f;
     private float VanityCardDelay;
     private GameObject SceneManager;
+    private bool SceneFinished = false;
 
     IEnumerator RollOpeningCreditsCoroutine;
     IEnumerator FadeInCoroutine;
@@ -39,6 +41,7 @@ public class TitlesController : MonoBehaviour {
         {
             
             {"", "The End",""},
+            {"TO DO:", "Closing Credits",""},
         };
 
     // Use this for initialization
@@ -88,12 +91,24 @@ public class TitlesController : MonoBehaviour {
         }
         else
         {
-            //Tell the scene manager, we're done with titles
-            EventManager.TriggerEvent("TitlesAreDone");
+            if (!SceneFinished)
+            {
+                //Tell the scene manager, we're done with titles, only if this was
+                //the openning credits roll
+                EventManager.TriggerEvent("TitlesAreDone");
+            } else
+            {
+                //otherwise we are done done!
+                //Show the replay button or soemthing
+                Application.Quit();
+            }
+           
 
             //Stop Coroutines and Destroy the Titles Gameobject
             StopCoroutine(FadeInCoroutine);
             StopCoroutine(FadeOutCoroutine);
+            //Reset CurrentCrewArrayPos
+            CurrentCrewArrayPos = 0;
             //Destroy(this.gameObject); 
         }
     }
@@ -128,5 +143,12 @@ public class TitlesController : MonoBehaviour {
         yield return new WaitForSeconds(VanityCardDelay+1);
         NameSelector();
         StopCoroutine(RollOpeningCreditsCoroutine);
+    }
+
+    public void RollClosingCredits()
+    {
+        titles = closingCredits;
+        SceneFinished = true;
+        NameSelector();
     }
 }

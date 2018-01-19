@@ -17,10 +17,12 @@ public class Blindfold : MonoBehaviour {
     private void Awake()
     {
         //  Get value from the SceneController
-        blindfold = GameObject.Find("SceneManager").GetComponent<SceneController>().Blindfold;
+        blindfold = GetComponent<SceneController>().Blindfold;
         _renderer = blindfold.GetComponent<Renderer>(); // do this in awake, it has an impact on performances in Update
         _color = _renderer.material.color;
-        initBlindFold();
+        //set blindfold to black and initialize it
+        Color color = new Color(0, 0, 0, 0);
+        initBlindFold(color);
     }
 
     void Start () {
@@ -69,12 +71,10 @@ public class Blindfold : MonoBehaviour {
     }
 
 
-    public void initBlindFold()
+    public void initBlindFold(Color myColor)
     {
         /*****************/
-        //set the alpha to 0
-        Color color = new Color(0, 0, 0, 0);
-        _renderer.material.SetColor("_Color", color);
+        _renderer.material.color = myColor;
         /*****************/
 
     }
