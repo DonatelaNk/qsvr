@@ -26,7 +26,7 @@ public class SceneController : MonoBehaviour {
     int memorySpaceCounter = 0;
 
     //Skybox for the memory spaces
-    public Material MemorySkybox;
+    //public Material MemorySkybox;
 
     //360 video gameobject reference
     public GameObject SphereVideo;
@@ -52,7 +52,7 @@ public class SceneController : MonoBehaviour {
     //Debug vars
     public bool SkipIntro = false;
     //seconds to skip to in the video and project timeline in milliseconds
-    public float SkipTo = 0f;
+    private float SkipTo = 0f;
 
 
     //Vanity card game object
@@ -181,7 +181,7 @@ public class SceneController : MonoBehaviour {
             Red.SetActive(false);
             Blue.SetActive(false);
             InteractiveObjects.SetActive(false);
-            Titles.SetActive(false);
+            //Titles.SetActive(false);
 
             Car.SetActive(false);
         }
@@ -227,7 +227,7 @@ public class SceneController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
        
-        if (!video360Loaded)
+       /* if (!video360Loaded)
         {
             //Keeping it in the loop since it takes a few seconds to init the player
             mediaplayer360 = VideoPlayer.GetComponent<MediaPlayer>();
@@ -303,7 +303,7 @@ public class SceneController : MonoBehaviour {
         {
 
         }
-
+        */
 
     }
 
@@ -361,8 +361,8 @@ public class SceneController : MonoBehaviour {
         //Color bColor = new Color(1, 1, 1, 1);
         //GetComponent<Blindfold>().initBlindFold(bColor);
         //FADE DOESN"T WORK HERE!!!????
-        GetComponent<Blindfold>().fadeInBlindFold();
+        //GetComponent<Blindfold>().fadeInBlindFold();
 
-        GetComponent<MemorySpaces>().enterMemorySpace();
+        //GetComponent<MemorySpaces>().enterMemorySpace();
     }
 }

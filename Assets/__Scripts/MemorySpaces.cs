@@ -21,9 +21,9 @@ public class MemorySpaces : MonoBehaviour {
     
     public void enterMemorySpace()
     {
-        RenderSettings.skybox = GetComponent<SceneController>().MemorySkybox;
-        setupMemorySpaceCorutine = SetupMemorySpace(4.5f); // create an IEnumerator object
-        StartCoroutine(setupMemorySpaceCorutine);
+        //RenderSettings.skybox = GetComponent<SceneController>().MemorySkybox;
+        //setupMemorySpaceCorutine = SetupMemorySpace(4.5f); // create an IEnumerator object
+        //StartCoroutine(setupMemorySpaceCorutine);
     }
 
     public void hideSceneObjects()
