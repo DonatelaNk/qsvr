@@ -8,11 +8,12 @@ public class SceneController : MonoBehaviour {
 
     /************************************************/
     /******* cheatsheet for skipping around *********/
-    /* Enter these milliseconds as the `Skip To` variable value to skip around the story
+    /* Enter these seconds as the `Skip To` variable value to skip around the story
     /* See the `Scene Controller` script attached to the `SceneManager` gameobject
-    /* First Memory Space:  230000
-     * Violent Outburst:    360000
-     * End:                 120000
+    /* First Memory Space:  230
+     * Violent Outburst:    350
+     * Second Memory Space: 435
+     * End:                 600
      * 
 
     /******* //END **********************************/
@@ -46,24 +47,25 @@ public class SceneController : MonoBehaviour {
     //Cady
     public GameObject Car;
 
-    //time in seconds to wait for the vanite card animation to complete
+    //time in seconds to wait for the vanity card animation to complete
     public float VanityCardDelay;
+
+    //Prelude time audio intro over the title sequence
+    public float PreludeDelay;
     
     //Debug vars
     public bool SkipIntro = false;
-    //seconds to skip to in the video and project timeline in milliseconds
-    private float SkipTo = 0f;
+    //Where to skip to in the video and project timeline in seconds
+    public float SkipTo = 0f;
 
 
     //Vanity card game object
     private GameObject Fancy;
-    //openingTitles game object
+    //Titles game object
     private GameObject Titles;
     
-    //Corutine to change skybox blend (fade to black)
-    IEnumerator changeSkyboxBlendCoroutine;
 
-    //Set up reference for the 360 video
+    //Set up references for the 360 video
     MediaPlayer mediaplayer360;
     IMediaControl control360;
     bool video360Loaded = false;
@@ -77,23 +79,22 @@ public class SceneController : MonoBehaviour {
     IMediaControl controlBlue;
     bool videoBlueLoaded = false;
 
-    //AudioSource
-    AudioSource NonDialogTrack_audioSource;
+    //AudioSources
     public AudioSource[] SebastianVoiceovers;
+    public AudioSource NonDialogTrack;
+    bool NonDialogTrackSkipped = false;
 
     //Are we done?
     bool finished = false;
-    IEnumerator startWrapUpCoroutine;
-
-
 
     //Set up listeners
     private UnityAction OpenningSequenceComplete;
-    private UnityAction Skip360;
-    private UnityAction SkipRed;
-    private UnityAction SkipBlue;
     private UnityAction MemorySpace;
-    private UnityAction WrapItUp;
+
+    //*************** Time manager ********************/
+    float ActualTime = 0; // is set to Debug.Log(Time.time);
+    float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
+    //*************** //END ***************************/
 
 
     void Awake()
@@ -101,94 +102,42 @@ public class SceneController : MonoBehaviour {
         //Listen for the title sequence completion event to be fired
         //once it's fired, start the scene
         OpenningSequenceComplete = new UnityAction(StartScene);
-
-        //Listen for memory space triggers
-        //once it's fired, enter memory space
-        MemorySpace = new UnityAction(EnterMemorySpace);
-
-        //This listener waits for the assets to load before skipping to a particular point
-        //in the experience (this is a debug feature, can be enbaled via the Skip To var found in the SceneController Script)
-        if (SkipTo > 0)
-        {
-            Skip360 = new UnityAction(Skip360Video);
-            SkipRed = new UnityAction(SkipRedVideo);
-            SkipBlue = new UnityAction(SkipBlueVideo);
-        }
-
-        //Listen for the finish trigger
-        WrapItUp = new UnityAction(WrapUpScene);
-
     }
 
 
     void OnEnable()
     {
         EventManager.StartListening("TitlesAreDone", OpenningSequenceComplete);
-        
-        if (SkipTo > 0)
-        {
-            EventManager.StartListening("Skip360", Skip360);
-            EventManager.StartListening("SkipRed", SkipRed);
-            EventManager.StartListening("SkipBlue", SkipBlue);
-        }
-        EventManager.StartListening("EnterMemorySpace", MemorySpace);
-        EventManager.StartListening("SceneIsDone", WrapItUp);
     }
     void OnDisable ()
     {
         EventManager.StopListening("TitlesAreDone", OpenningSequenceComplete);
-        if (SkipTo > 0)
-        {
-            EventManager.StopListening("Skip360", Skip360);
-            EventManager.StopListening("SkipRed", SkipRed);
-            EventManager.StopListening("SkipBlue", SkipBlue);
-        }
-        EventManager.StopListening("EnterMemorySpace", MemorySpace);
-        EventManager.StopListening("SceneIsDone", WrapItUp);
     }
 
-    void Skip360Video() { Skip(control360); skipAudio(SkipTo/1000);  }
-    void SkipRedVideo() { Skip(controlRed); }
-    void SkipBlueVideo() { Skip(controlBlue); }
-    void Skip(IMediaControl control)
-    {
-        //Skip to specific point in video
-        control.Pause();
-        control.SeekFast(SkipTo);
-        control.Play();
-    }
-    void skipAudio(float startAt)
-    {
-        NonDialogTrack_audioSource.time = startAt;
-    }
-
-
-
-
+    
     // Use this for initialization
     void Start()
     {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
-        //See if we need to skip intro and/or to specific place
+       
+        //See if we need to skip intro and/or go to specific place
+        //if not, run the project from the beginning
         if (!SkipIntro && SkipTo == 0f)
         {
             //set vanity nebula skybox
             RenderSettings.skybox = VanitySkybox;
             RenderSettings.skybox.SetFloat("_Blend", 0);
 
-            //start the change skybox blend coroutine
-            //Get the Fade Delay value from the Fade Object in/out script attached to the Fancy game object   
-            changeSkyboxBlendCoroutine = changeSkyboxBlend(); // create an IEnumerator object
-            StartCoroutine(changeSkyboxBlendCoroutine);
+            //start the change skybox blend coroutine 
+            StartCoroutine(changeSkyboxBlend());
 
-            //Hide things till they are needed
+            //Hide our gameobejects till they are needed
+
             SphereVideo.SetActive(false);
             Red.SetActive(false);
             Blue.SetActive(false);
             InteractiveObjects.SetActive(false);
-            //Titles.SetActive(false);
-
             Car.SetActive(false);
         }
         else
@@ -196,8 +145,12 @@ public class SceneController : MonoBehaviour {
             //If Skip Intro option checked, go straight to the cady scene
             Destroy(Fancy);
             Titles.SetActive(false);
-            skipAudio(80.54f);
             StartScene();
+            //Then see if we also need to skip ahead
+            if (SkipTo>0)
+            {
+                ProjectTime = ProjectTime + SkipTo;
+            } 
         }
 
     }
@@ -212,20 +165,17 @@ public class SceneController : MonoBehaviour {
         //Set the story skybox;
         RenderSettings.skybox = StorySkybox;
         //enable the 360 video
-        SphereVideo.SetActive(true);
-        
+        SphereVideo.SetActive(true);  
         //Activate car
         Car.SetActive(true);
-
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
-
         //Activate Interactive Objects
         InteractiveObjects.SetActive(true);
 
         //TODO: Remove user blindfold more gracefully (fade it out)
-        GetComponent<Blindfold>().fadeOutBlindFold();
+        StartCoroutine(removeBlindfold());
     }
 
 
@@ -233,87 +183,107 @@ public class SceneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       /*
-        if (!video360Loaded && SkipTo > 0)
+        //we're not skipping, project time is always equal to actual time,
+        //if we are skipping, then ProjectTime is set to the Skip seconds above
+        ProjectTime = ProjectTime + Time.deltaTime;
+        //Debug.Log(ProjectTime);
+
+        //is our 360 video running? if it is, check to see if it's loaded yet,
+        //only this do this once
+        if (VideoPlayer.activeSelf && !video360Loaded)
         {
             //Keeping it in the loop since it takes a few seconds to init the player
+            //Get player controls
             mediaplayer360 = VideoPlayer.GetComponent<MediaPlayer>();
             control360 = mediaplayer360.Control;
-            if (control360!=null && control360.IsPlaying())
+            //if the video is already playing, skip to the desired position
+            if (control360.IsPlaying())
             {
                 video360Loaded = true;
-                //Tell listener, video is ready to be scrubbed
-                if(SkipTo > 0) {
-                    EventManager.TriggerEvent("Skip360");
-                } 
-            }
-        } else
-        {
-            Debug.Log(control360.GetCurrentTimeMs());
-
-            //Enter first Memory space 
-            if (triggerMemorySpace && control360.GetCurrentTimeMs() > 229300 && control360.GetCurrentTimeMs() < 232400)
-            {
-                triggerMemorySpace = false;
-                memorySpaceCounter = 1;
-                EventManager.TriggerEvent("EnterMemorySpace");
-            }
-
-            //Wrap up the scene
-            if (!finished && control360.GetCurrentTimeMs() > 630000)
-            {
-                
-                startWrapUpCoroutine = startWrapUp(8.0f);
-                StartCoroutine(startWrapUpCoroutine);
-                this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
-                finished = true;
-            }
-            
-        }
-
-        if (!videoRedLoaded)
-        {
-            //Keeping it in the loop since it takes a few seconds to init the player
-            mediaplayerRed = Red.GetComponent<MediaPlayer>();
-            controlRed = mediaplayerRed.Control;
-            if (controlRed!=null & controlRed.IsPlaying())
-            {
-                videoRedLoaded = true;
-                //Tell listener, video is ready to be scrubbed
-                if(SkipTo > 0)
-                {
-                    EventManager.TriggerEvent("SkipRed");
-                }
-            }
-        }
-        else
-        {
-            
-        }
-
-        if (!videoBlueLoaded)
-        {
-            //Keeping it in the loop since it takes a few seconds to init the player
-            mediaplayerBlue = Blue.GetComponent<MediaPlayer>();
-            controlBlue = mediaplayerBlue.Control;
-            if (controlBlue!=null && controlBlue.IsPlaying())
-            {
-                videoBlueLoaded = true;
-                //Tell listener, video is ready to be scrubbed
                 if (SkipTo > 0)
                 {
-                    EventManager.TriggerEvent("SkipBlue");
+                    Skip360Video();
                 }
             }
         }
-        else
+        //Reat for the Red and Blue videos
+        if (Red.activeSelf && !videoRedLoaded)
         {
+            mediaplayerRed = Red.GetComponent<MediaPlayer>();
+            controlRed = mediaplayerRed.Control;
+            if (controlRed.IsPlaying())
+            {
+                videoRedLoaded = true;
+                if (SkipTo > 0){SkipRedVideo();}
+            }
+        }
+        if (Blue.activeSelf && !videoBlueLoaded)
+        {
+            mediaplayerBlue = Blue.GetComponent<MediaPlayer>();
+            controlBlue = mediaplayerBlue.Control;
+            if (controlBlue.IsPlaying())
+            {
+                videoBlueLoaded = true;
+                if (SkipTo > 0) { SkipBlueVideo(); }
+            }
+        }
 
-        } */
-       
 
+        //Check out background track
+        if (NonDialogTrack.isPlaying && !NonDialogTrackSkipped)
+        {
+            NonDialogTrackSkipped = true;
+            //Now check if we need to fast forward it
+            if (SkipTo > 0) { skipAudio(SkipTo+PreludeDelay); }
+        }
+
+
+        //Enter memory space 1
+        if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 237)
+        {
+            triggerMemorySpace = false;
+            memorySpaceCounter = 1;
+            EnterMemorySpace();
+            Debug.Log("Memory Space 1");
+        }
+
+
+        //Wrap up the scene
+        if (!finished && ProjectTime > 640)
+        {
+            StartCoroutine(startWrapUp(8.0f));
+            this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
+            finished = true;
+        }
     }
 
+
+    //********** FUNCTION TO SKIP AROUND TIMELINE************/
+    //*******************************************************//
+
+    void Skip360Video() { Skip(control360); }
+    void SkipRedVideo() { Skip(controlRed); }
+    void SkipBlueVideo() { Skip(controlBlue); }
+
+    void Skip(IMediaControl control)
+    {
+        //Skip to specific point in video
+        control.Pause();
+        control.SeekFast(SkipTo*1000);
+        control.Play();
+    }
+    void skipAudio(float s)
+    {
+        //s=second to start player from in the background track
+        NonDialogTrack.time = s;
+    }
+
+
+
+
+    //******************* COROUTINES *************************/
+    //*******************************************************//
+    //*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*//
     IEnumerator changeSkyboxBlend() 
     {
         yield return new WaitForSeconds(VanityCardDelay);
@@ -323,23 +293,28 @@ public class SceneController : MonoBehaviour {
             RenderSettings.skybox.SetFloat("_Blend", f);     
             if (f > 0.99)
             {
-                //once done, stop this coroutine and destroy the fancy vanity card gameobject
-                StopCoroutine(changeSkyboxBlendCoroutine);
+                //once done, destroy the fancy vanity card gameobject
                 Destroy(Fancy);
             }
             yield return null;
         }
     }
+    //Courtine to remove the user blindfold with a 2 second delay
+    IEnumerator removeBlindfold()
+    {
+        yield return new WaitForSeconds(2);
+        GetComponent<Blindfold>().fadeOutBlindFold();
+    }
+
 
     /********************************************/
     /* Things to do at the end fo the experience*/
-
+    /********************************************/
     IEnumerator startWrapUp(float wait)
     {
 
         yield return new WaitForSeconds(wait);
-        EventManager.TriggerEvent("SceneIsDone");
-        StopCoroutine(startWrapUpCoroutine);
+        WrapUpScene();
         this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
 
     }
@@ -353,6 +328,7 @@ public class SceneController : MonoBehaviour {
         Destroy(InteractiveObjects);
         //reset skybox
         RenderSettings.skybox = VanitySkybox;
+        RenderSettings.skybox.SetFloat("_Blend", 1.0f);
         //show titles
         Titles.SetActive(true);
         //roll closing credits

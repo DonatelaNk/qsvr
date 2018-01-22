@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-    float delay = 6.0f;
+    float delay = 1.0f;
     AudioSource[] SebastianVoiceovers;
     IEnumerator playVoiceoverCoroutine;
     int currentVoiceOver = 0;
