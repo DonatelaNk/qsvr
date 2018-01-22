@@ -2042,6 +2042,7 @@ GameObject:
   - component: {fileID: 1173825487}
   - component: {fileID: 1173825488}
   - component: {fileID: 1173825489}
+  - component: {fileID: 1173825490}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -2071,6 +2072,9 @@ MonoBehaviour:
   Car: {fileID: 1830465173}
   VanityCardDelay: 9
   SkipIntro: 0
+  SebastianVoiceovers:
+  - {fileID: 829875825}
+  - {fileID: 1256263139}
 --- !u!4 &1173825486
 Transform:
   m_ObjectHideFlags: 0
@@ -2115,6 +2119,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f42dad572436db40bc994df2a459256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1173825490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1173825484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e038ab6187de2874cb2838ae3d164976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1177024674

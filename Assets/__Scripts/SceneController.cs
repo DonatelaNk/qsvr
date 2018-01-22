@@ -77,6 +77,9 @@ public class SceneController : MonoBehaviour {
     IMediaControl controlBlue;
     bool videoBlueLoaded = false;
 
+    //AudioSource
+    AudioSource NonDialogTrack_audioSource;
+    public AudioSource[] SebastianVoiceovers;
 
     //Are we done?
     bool finished = false;
@@ -144,7 +147,7 @@ public class SceneController : MonoBehaviour {
         EventManager.StopListening("SceneIsDone", WrapItUp);
     }
 
-    void Skip360Video() { Skip(control360); }
+    void Skip360Video() { Skip(control360); skipAudio(SkipTo/1000);  }
     void SkipRedVideo() { Skip(controlRed); }
     void SkipBlueVideo() { Skip(controlBlue); }
     void Skip(IMediaControl control)
@@ -154,8 +157,11 @@ public class SceneController : MonoBehaviour {
         control.SeekFast(SkipTo);
         control.Play();
     }
+    void skipAudio(float startAt)
+    {
+        NonDialogTrack_audioSource.time = startAt;
+    }
 
-    
 
 
 
@@ -190,6 +196,7 @@ public class SceneController : MonoBehaviour {
             //If Skip Intro option checked, go straight to the cady scene
             Destroy(Fancy);
             Titles.SetActive(false);
+            skipAudio(80.54f);
             StartScene();
         }
 
@@ -226,13 +233,13 @@ public class SceneController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       
-       /* if (!video360Loaded)
+       /*
+        if (!video360Loaded && SkipTo > 0)
         {
             //Keeping it in the loop since it takes a few seconds to init the player
             mediaplayer360 = VideoPlayer.GetComponent<MediaPlayer>();
             control360 = mediaplayer360.Control;
-            if (control360.IsPlaying())
+            if (control360!=null && control360.IsPlaying())
             {
                 video360Loaded = true;
                 //Tell listener, video is ready to be scrubbed
@@ -269,7 +276,7 @@ public class SceneController : MonoBehaviour {
             //Keeping it in the loop since it takes a few seconds to init the player
             mediaplayerRed = Red.GetComponent<MediaPlayer>();
             controlRed = mediaplayerRed.Control;
-            if (controlRed.IsPlaying())
+            if (controlRed!=null & controlRed.IsPlaying())
             {
                 videoRedLoaded = true;
                 //Tell listener, video is ready to be scrubbed
@@ -289,7 +296,7 @@ public class SceneController : MonoBehaviour {
             //Keeping it in the loop since it takes a few seconds to init the player
             mediaplayerBlue = Blue.GetComponent<MediaPlayer>();
             controlBlue = mediaplayerBlue.Control;
-            if (controlBlue.IsPlaying())
+            if (controlBlue!=null && controlBlue.IsPlaying())
             {
                 videoBlueLoaded = true;
                 //Tell listener, video is ready to be scrubbed
@@ -302,8 +309,8 @@ public class SceneController : MonoBehaviour {
         else
         {
 
-        }
-        */
+        } */
+       
 
     }
 
@@ -362,7 +369,7 @@ public class SceneController : MonoBehaviour {
         //GetComponent<Blindfold>().initBlindFold(bColor);
         //FADE DOESN"T WORK HERE!!!????
         //GetComponent<Blindfold>().fadeInBlindFold();
-
         //GetComponent<MemorySpaces>().enterMemorySpace();
+        GetComponent<SoundManager>().initVoiceover();
     }
 }
