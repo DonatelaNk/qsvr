@@ -241,23 +241,25 @@ public class SceneController : MonoBehaviour {
         }
 
 
-        //Enter memory space 1
-        if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 237)
-        {
-            triggerMemorySpace = false;
-            memorySpaceCounter = 1;
-            EnterMemorySpace();
-            Debug.Log("Memory Space 1");
-        }
+        //Enter memory space 1 
+        //THIS IS WRONG
+        /* if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 237)
+         {
+             triggerMemorySpace = false;
+             memorySpaceCounter = 1;
+             EnterMemorySpace();
+             Debug.Log("Memory Space 1");
+         }*/
 
 
         //Wrap up the scene
-        if (!finished && ProjectTime > 640)
+        ///THIS IS PRobably also wrong if played from the beginning without skipping
+       /* if (!finished && ProjectTime > 640)
         {
             StartCoroutine(startWrapUp(8.0f));
             this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
             finished = true;
-        }
+        }*/
     }
 
 
