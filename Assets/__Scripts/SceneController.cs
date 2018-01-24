@@ -214,6 +214,7 @@ public class SceneController : MonoBehaviour {
             if (controlRed.IsPlaying())
             {
                 videoRedLoaded = true;
+                Debug.Log("RED START TIME: " + ProjectTime);
                 if (SkipTo > 0){SkipRedVideo();}
             }
         }
@@ -234,7 +235,9 @@ public class SceneController : MonoBehaviour {
         {
             NonDialogTrackSkipped = true;
             //Now check if we need to fast forward it
-            if (SkipTo > 0) { skipAudio(SkipTo+PreludeDelay); }
+            if (SkipTo > 0 || SkipIntro) {
+                skipAudio(SkipTo+PreludeDelay);
+            } 
         }
 
 
