@@ -200,10 +200,7 @@ public class SceneController : MonoBehaviour {
             if (control360.IsPlaying())
             {
                 video360Loaded = true;
-                if (SkipTo > 0)
-                {
-                    Skip360Video();
-                }
+                if (SkipTo > 0) { Skip360Video(); }
             }
         }
         //Reat for the Red and Blue videos
@@ -237,29 +234,31 @@ public class SceneController : MonoBehaviour {
             //Now check if we need to fast forward it
             if (SkipTo > 0 || SkipIntro) {
                 skipAudio(SkipTo+PreludeDelay);
-            } 
+                //incremement projectime by the prelude that we skipped
+                //so our times for various triggers remain correct
+                ProjectTime = ProjectTime + PreludeDelay;
+            }
         }
 
 
         //Enter memory space 1 
-        //THIS IS WRONG
-        /* if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 237)
+        Debug.Log(Mathf.FloorToInt(ProjectTime));
+        if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 317)
          {
              triggerMemorySpace = false;
              memorySpaceCounter = 1;
              EnterMemorySpace();
              Debug.Log("Memory Space 1");
-         }*/
+         }
 
 
         //Wrap up the scene
-        ///THIS IS PRobably also wrong if played from the beginning without skipping
-       /* if (!finished && ProjectTime > 640)
+        if (!finished && ProjectTime > 720)
         {
             StartCoroutine(startWrapUp(8.0f));
             this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
             finished = true;
-        }*/
+        }
     }
 
 
