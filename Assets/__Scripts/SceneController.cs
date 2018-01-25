@@ -242,7 +242,7 @@ public class SceneController : MonoBehaviour {
 
 
         //Enter memory space 1 
-        Debug.Log(Mathf.FloorToInt(ProjectTime));
+        //Debug.Log(Mathf.FloorToInt(ProjectTime));
         if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 317)
          {
              triggerMemorySpace = false;
