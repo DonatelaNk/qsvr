@@ -180,6 +180,16 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 21.563
       objectReference: {fileID: 0}
+    - target: {fileID: 64082992771173046, guid: def5a05256f57a1449f4623c7e140217,
+        type: 2}
+      propertyPath: m_CookingOptions
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54685616077862592, guid: def5a05256f57a1449f4623c7e140217,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114858169567447394, guid: def5a05256f57a1449f4623c7e140217, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: def5a05256f57a1449f4623c7e140217, type: 2}
@@ -197,11 +207,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.19
+      value: 1.63
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1.37
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -229,15 +239,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11404242, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: _camera
@@ -826,15 +836,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.11
+      value: 0.10899
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.43476215
+      value: 0.43132
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.056370467
+      value: -0.054307
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalRotation.x
@@ -862,15 +872,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5799997
+      value: 1.8327996
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5799999
+      value: 1.8327999
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5799999
+      value: 1.8327999
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: aade361a10c40364c97d5580b5c3fb2f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -973,11 +983,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.742
+      value: 0.723
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.141
+      value: 0.256
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2522,8 +2532,8 @@ MonoBehaviour:
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
   PreludeDelay: 80.54
-  SkipIntro: 0
-  SkipTo: 0
+  SkipIntro: 1
+  SkipTo: 180
   SebastianVoiceovers:
   - {fileID: 829875825}
   - {fileID: 1256263139}

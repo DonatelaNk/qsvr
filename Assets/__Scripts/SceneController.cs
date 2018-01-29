@@ -118,6 +118,7 @@ public class SceneController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //OVRManager.display.RecenterPose();
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
        
