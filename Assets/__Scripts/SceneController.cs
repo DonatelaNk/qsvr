@@ -118,7 +118,7 @@ public class SceneController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        //OVRManager.display.RecenterPose();
+       
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
        
@@ -175,6 +175,9 @@ public class SceneController : MonoBehaviour {
         //Activate Interactive Objects
         InteractiveObjects.SetActive(true);
 
+        //recenter the headset
+        OVRManager.display.RecenterPose();
+
         //TODO: Remove user blindfold more gracefully (fade it out)
         StartCoroutine(removeBlindfold());
     }
@@ -189,9 +192,14 @@ public class SceneController : MonoBehaviour {
         ProjectTime = ProjectTime + Time.deltaTime;
         //Debug.Log(ProjectTime);
 
-        //is our 360 video running? if it is, check to see if it's loaded yet,
-        //only this do this once
-        if (VideoPlayer.activeSelf && !video360Loaded)
+        if (Input.GetKeyDown("space"))
+        {
+            OVRManager.display.RecenterPose();
+        }
+
+            //is our 360 video running? if it is, check to see if it's loaded yet,
+            //only this do this once
+            if (VideoPlayer.activeSelf && !video360Loaded)
         {
             //Keeping it in the loop since it takes a few seconds to init the player
             //Get player controls
