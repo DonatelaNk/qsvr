@@ -43,6 +43,7 @@ public class SceneController : MonoBehaviour {
 
     //User blindfold (A sphere around user's head with inside/visible shader)
     public GameObject Blindfold;
+    
 
     //Cady
     public GameObject Car;
@@ -315,7 +316,7 @@ public class SceneController : MonoBehaviour {
     //Courtine to remove the user blindfold with a 2 second delay
     IEnumerator removeBlindfold()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         GetComponent<Blindfold>().fadeOutBlindFold();
     }
 
@@ -353,12 +354,11 @@ public class SceneController : MonoBehaviour {
     void EnterMemorySpace()
     {
         //set blindfold to white, and fade it in
-        //Now fade it in
-        //Color bColor = new Color(1, 1, 1, 1);
-        //GetComponent<Blindfold>().initBlindFold(bColor);
+        //Color bColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        //GetComponent<Blindfold>().fadeColor = bColor;
         //FADE DOESN"T WORK HERE!!!????
         //GetComponent<Blindfold>().fadeInBlindFold();
         //GetComponent<MemorySpaces>().enterMemorySpace();
-        GetComponent<SoundManager>().initVoiceover();
+        //GetComponent<SoundManager>().initVoiceover();
     }
 }
