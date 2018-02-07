@@ -13,10 +13,14 @@ public class Blindfold : MonoBehaviour {
     private ScreenFadeControl fadeControl;
     private List<ScreenFadeControl> fadeControls;
 
+    void Awake()
+    {
+        initBlindFold();
+    }
+
 
     void Start()
     {
-        initBlindFold();
     }
    
 

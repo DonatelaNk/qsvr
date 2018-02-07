@@ -18,6 +18,8 @@ public class SceneController : MonoBehaviour {
 
     /******* //END **********************************/
 
+    //Direction light (sun)
+    public Light Sun;
     //skybox for vanity card and opening title sequence
     public Material VanitySkybox;
     //Skybox for the car scene (uses one of Unitys HDRIs textures)
@@ -37,6 +39,8 @@ public class SceneController : MonoBehaviour {
     //Depthkit videos
     public GameObject Red;
     public GameObject Blue;
+
+
 
     //Interactive Objects
     public GameObject InteractiveObjects;
@@ -144,15 +148,18 @@ public class SceneController : MonoBehaviour {
         }
         else
         {
+            //Then see if we also need to skip ahead
+            Debug.Log("SkipTo = " + SkipTo);
+            if (SkipTo > 0)
+            {
+                ProjectTime = ProjectTime + SkipTo;
+
+            }
             //If Skip Intro option checked, go straight to the cady scene
             Destroy(Fancy);
             Titles.SetActive(false);
             StartScene();
-            //Then see if we also need to skip ahead
-            if (SkipTo>0)
-            {
-                ProjectTime = ProjectTime + SkipTo;
-            } 
+            
         }
 
     }
@@ -191,7 +198,7 @@ public class SceneController : MonoBehaviour {
         //we're not skipping, project time is always equal to actual time,
         //if we are skipping, then ProjectTime is set to the Skip seconds above
         ProjectTime = ProjectTime + Time.deltaTime;
-        //Debug.Log(ProjectTime);
+        Debug.Log(ProjectTime);
 
         if (Input.GetKeyDown("space"))
         {
