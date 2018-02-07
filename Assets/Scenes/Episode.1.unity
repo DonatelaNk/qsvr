@@ -2721,7 +2721,7 @@ MonoBehaviour:
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
   PreludeDelay: 80.54
-  SkipIntro: 1
+  SkipIntro: 0
   SkipTo: 0
   SebastianVoiceovers:
   - {fileID: 829875825}
