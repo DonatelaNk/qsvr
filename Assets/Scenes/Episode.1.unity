@@ -259,7 +259,7 @@ Prefab:
       objectReference: {fileID: 1865100264}
     - target: {fileID: 11498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_VideoPath
-      value: QueerSkinsSeventhCut.mp4
+      value: QueerSkinsEigthCut.mp4
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -275,7 +275,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_AutoStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_Volume
@@ -1363,7 +1363,7 @@ MonoBehaviour:
   _needToRefreshPlayerValues: 0
   _needToResetRenderType: 0
   _needToRefreshMetadata: 0
-  _autoPlay: 1
+  _autoPlay: 0
   _autoLoad: 1
   _delaySeconds: 0
   _videoLoops: 0
@@ -1885,7 +1885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &845925056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3404,7 +3404,7 @@ MonoBehaviour:
   _needToRefreshPlayerValues: 0
   _needToResetRenderType: 0
   _needToRefreshMetadata: 0
-  _autoPlay: 1
+  _autoPlay: 0
   _autoLoad: 1
   _delaySeconds: 0
   _videoLoops: 0

@@ -66,7 +66,7 @@ public class Blindfold : MonoBehaviour {
     }
     public IEnumerator FadeIn(IEnumerable<ScreenFadeControl> fadeControls)
     {
-        Debug.Log("Doing fade out");
+        //Debug.Log("Doing fade In");
         // Derived from OVRScreenFade
         float elapsedTime = 0.0f;
         Color color = fadeColor;
@@ -84,7 +84,7 @@ public class Blindfold : MonoBehaviour {
 
     public IEnumerator FadeOut(IEnumerable<ScreenFadeControl> fadeControls)
     {
-        Debug.Log("Fading back in");
+        //Debug.Log("Fading back out");
         float elapsedTime = 0.0f;
         Color color = fadeMaterial.color = fadeColor;
         while (elapsedTime < fadeTime)

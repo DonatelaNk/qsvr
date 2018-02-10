@@ -12,7 +12,6 @@ public class SoundManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         SebastianVoiceovers = GetComponent<SceneController>().SebastianVoiceovers;
-
     }
 	
 	// Update is called once per frame

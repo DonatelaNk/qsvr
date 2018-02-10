@@ -7,40 +7,58 @@ public class MemorySpaces : MonoBehaviour {
 
     //Corutine setup memory space
     IEnumerator setupMemorySpaceCorutine;
-
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
     
-    public void enterMemorySpace()
+    
+    /*
+    Logic for each memory space goes into this function
+    */
+    public void MemorySpaceIsReady(float memberSpaceNumber)
     {
-        //setupMemorySpaceCorutine = SetupMemorySpace(4.5f); // create an IEnumerator object
-        //StartCoroutine(setupMemorySpaceCorutine);
-        GetComponent<SceneController>().Sun.intensity = 11.0f;
-        Debug.Log("Function hit");
+        
+        //First memory space logic
+        if (memberSpaceNumber == 1)
+        {
+            //PauseVideos();
+            //TODO: This is temp
+            StartCoroutine(ExitMemorySpace(25.5f, "ExitMemorySpaceOne"));
+        }
+
+        //Second memory space logic
+        if (memberSpaceNumber == 2)
+        {
+            GetComponent<SoundManager>().initVoiceover();
+            //TODO: This is temp
+            StartCoroutine(ExitMemorySpace(25.5f, "ExitMemorySpaceTwo"));
+        }
+    }
+    //~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
+
+
+
+
+    public void enterMemorySpace(float memberSpaceNumber)
+    {
+        setupMemorySpaceCorutine = SetupMemorySpace(4.5f, memberSpaceNumber); // create an IEnumerator object
+        StartCoroutine(setupMemorySpaceCorutine);
     }
 
-    public void hideSceneObjects()
+    public void PauseVideos()
     {
-        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();
-        
+        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();   
         GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Pause();
-
         GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
     }
 
-    IEnumerator SetupMemorySpace(float wait)
+    IEnumerator SetupMemorySpace(float wait, float memberSpaceNumber)
     {
-
         yield return new WaitForSeconds(wait);
-        hideSceneObjects();
+        MemorySpaceIsReady(memberSpaceNumber);
+        StopCoroutine(setupMemorySpaceCorutine);
+    }
 
+    IEnumerator ExitMemorySpace(float wait, string triggerLabel)
+    {
+        yield return new WaitForSeconds(wait);
+        EventManager.TriggerEvent(triggerLabel);
     }
 }

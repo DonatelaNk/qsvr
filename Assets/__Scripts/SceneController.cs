@@ -94,10 +94,16 @@ public class SceneController : MonoBehaviour {
 
     //Set up listeners
     private UnityAction OpenningSequenceComplete;
-    private UnityAction MemorySpace;
+    private UnityAction RedVideoIsLoaded;
+    private UnityAction BlueVideoIsLoaded;
+    private UnityAction SphereVideoIsLoaded;
+
+    private UnityAction EnterMemorySpaceOne;
+    private UnityAction ExitMemorySpaceOne;
+    private UnityAction EnterMemorySpaceTwo;
+    private UnityAction ExitMemorySpaceTwo;
 
     //*************** Time manager ********************/
-    float ActualTime = 0; // is set to Debug.Log(Time.time);
     float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
     //*************** //END ***************************/
 
@@ -107,19 +113,48 @@ public class SceneController : MonoBehaviour {
         //Listen for the title sequence completion event to be fired
         //once it's fired, start the scene
         OpenningSequenceComplete = new UnityAction(StartScene);
+        //Videos take up to a second to actual load, so these triggers
+        //are fired when the videos are actually loaded
+        RedVideoIsLoaded  = new UnityAction(RedVideoIsLoadedAndReady);
+        BlueVideoIsLoaded = new UnityAction(BlueVideoIsLoadedAndReady);
+        SphereVideoIsLoaded = new UnityAction(SphereVideoIsLoadedAndReady);
+
+        //Memory spaces triggers
+        EnterMemorySpaceOne = new UnityAction(StartEntryIntoMemorySpaceOne);
+        ExitMemorySpaceOne = new UnityAction(StartExitFromMemorySpaceOne);
+
+        EnterMemorySpaceTwo = new UnityAction(StartEntryIntoMemorySpaceTwo);
+        ExitMemorySpaceTwo = new UnityAction(StartExitFromMemorySpaceTwo);
+
     }
 
 
     void OnEnable()
     {
         EventManager.StartListening("TitlesAreDone", OpenningSequenceComplete);
+        EventManager.StartListening("RedVideoIsLoaded", RedVideoIsLoaded);
+        EventManager.StartListening("BlueVideoIsLoaded", BlueVideoIsLoaded);
+        EventManager.StartListening("SphereVideoIsLoaded", SphereVideoIsLoaded);
+
+        EventManager.StartListening("EnterMemorySpaceOne", EnterMemorySpaceOne);
+        EventManager.StartListening("ExitMemorySpaceOne", ExitMemorySpaceOne);
+        EventManager.StartListening("EnterMemorySpaceTwo", EnterMemorySpaceTwo);
+        EventManager.StartListening("ExitMemorySpaceTwo", ExitMemorySpaceTwo);
     }
     void OnDisable ()
     {
         EventManager.StopListening("TitlesAreDone", OpenningSequenceComplete);
+        EventManager.StopListening("RedVideoIsLoaded", RedVideoIsLoaded);
+        EventManager.StopListening("BlueVideoIsLoaded", BlueVideoIsLoaded);
+        EventManager.StopListening("SphereVideoIsLoaded", SphereVideoIsLoaded);
+
+        EventManager.StopListening("EnterMemorySpaceOne", EnterMemorySpaceOne);
+        EventManager.StopListening("ExitMemorySpaceOne", ExitMemorySpaceOne);
+        EventManager.StopListening("EnterMemorySpaceTwo", EnterMemorySpaceTwo);
+        EventManager.StopListening("ExitMemorySpaceTwo", ExitMemorySpaceTwo);
     }
 
-    
+    /*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*/
     // Use this for initialization
     void Start()
     {
@@ -153,18 +188,18 @@ public class SceneController : MonoBehaviour {
             if (SkipTo > 0)
             {
                 ProjectTime = ProjectTime + SkipTo;
-
             }
             //If Skip Intro option checked, go straight to the cady scene
             Destroy(Fancy);
             Titles.SetActive(false);
-            StartScene();
-            
+            EventManager.TriggerEvent("TitlesAreDone");          
         }
 
     }
 
 
+    // ╔═════ ∘◦ These functions are triggered by our listeners ◦∘ ══════╗
+    // ╚═════ ∘◦ ❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉❉ ◦∘ ══════╝
 
     //Function triggered by listener once the title sequence is compeleted (or if we skipped it)
     void StartScene()
@@ -182,64 +217,147 @@ public class SceneController : MonoBehaviour {
         Blue.SetActive(true);
         //Activate Interactive Objects
         InteractiveObjects.SetActive(true);
-
         //recenter the headset
         OVRManager.display.RecenterPose();
-
-        //TODO: Remove user blindfold more gracefully (fade it out)
+        //Remove user blindfold more gracefully (fade it out)
         StartCoroutine(removeBlindfold());
     }
 
+    //360 video is ready to play
+    void SphereVideoIsLoadedAndReady()
+    {
+        control360.Play();
+        if (SkipTo > 0) { Skip360Video(); }
+        EventManager.StopListening("SphereVideoIsLoaded", SphereVideoIsLoadedAndReady);
+    }
 
-    
-	
-	// Update is called once per frame
-	void Update () {
+    //Red (Ed/Driver) video is ready to play
+    void RedVideoIsLoadedAndReady()
+    {
+        controlRed.Play();
+        if (SkipTo > 0) { SkipRedVideo(); }
+        EventManager.StopListening("RedVideoIsLoaded", RedVideoIsLoadedAndReady);
+    }
+
+    //Blue (MH/Passenger) video is ready to play
+    void BlueVideoIsLoadedAndReady()
+    {
+        controlBlue.Play();
+        if (SkipTo > 0) { SkipBlueVideo(); }
+        EventManager.StopListening("BlueVideoIsLoadedAndReady", BlueVideoIsLoadedAndReady);
+    }
+
+    void StartEntryIntoMemorySpaceOne()
+    {
+        Debug.Log("Now entering memory space 1");
+        GetComponent<MemorySpaces>().enterMemorySpace(1);
+        EventManager.StopListening("EnterMemorySpaceOne", StartEntryIntoMemorySpaceOne);
+    }
+    void StartExitFromMemorySpaceOne()
+    {
+        triggerMemorySpace = true; //reset this var for 2nd memory sapce entry
+        EventManager.StopListening("ExitMemorySpaceOne", StartExitFromMemorySpaceOne);
+    }
+
+    void StartEntryIntoMemorySpaceTwo()
+    {
+        Debug.Log("Now entering memory space 2");
+        GetComponent<MemorySpaces>().enterMemorySpace(2);
+        EventManager.StopListening("EnterMemorySpaceTwo", StartEntryIntoMemorySpaceTwo);
+    }
+    void StartExitFromMemorySpaceTwo()
+    {
+        EventManager.StopListening("ExitMemorySpaceTwo", StartExitFromMemorySpaceTwo);
+    }
+
+
+
+    //This function is called when the scene is fully faded at the end
+    IEnumerator startWrapUp(float wait)
+    {
+        yield return new WaitForSeconds(wait);
+        WrapUpScene();
+        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
+
+    }
+    void WrapUpScene()
+    {
+        Red.SetActive(false);
+        Blue.SetActive(false);
+        Car.SetActive(false);
+        SphereVideo.SetActive(false);
+        //Remove interactiveobjects
+        Destroy(InteractiveObjects);
+        //reset skybox
+        RenderSettings.skybox = VanitySkybox;
+        RenderSettings.skybox.SetFloat("_Blend", 1.0f);
+        //show titles
+        Titles.SetActive(true);
+        //roll closing credits
+        Titles.GetComponent<TitlesController>().RollClosingCredits();
+    }
+
+    //--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--
+    //+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    // END LISTENERS / TRIGGERS
+
+
+
+
+
+
+
+    // Update is called once per frame
+    void Update () {
         //we're not skipping, project time is always equal to actual time,
         //if we are skipping, then ProjectTime is set to the Skip seconds above
         ProjectTime = ProjectTime + Time.deltaTime;
-        Debug.Log(ProjectTime);
+        //Debug.Log(ProjectTime);
 
+        
+
+        //Hit space to reposition the player in backseat
         if (Input.GetKeyDown("space"))
         {
             OVRManager.display.RecenterPose();
         }
-
-            //is our 360 video running? if it is, check to see if it's loaded yet,
-            //only this do this once
-            if (VideoPlayer.activeSelf && !video360Loaded)
+        
+        //is our 360 video running? if it is, check to see if it's loaded yet,
+        //only do this once
+        if (VideoPlayer.activeSelf && !video360Loaded)
         {
             //Keeping it in the loop since it takes a few seconds to init the player
             //Get player controls
             mediaplayer360 = VideoPlayer.GetComponent<MediaPlayer>();
             control360 = mediaplayer360.Control;
             //if the video is already playing, skip to the desired position
-            if (control360.IsPlaying())
+            if (control360.CanPlay())
             {
                 video360Loaded = true;
-                if (SkipTo > 0) { Skip360Video(); }
+                EventManager.TriggerEvent("SphereVideoIsLoaded");
             }
         }
+       
+
         //Reat for the Red and Blue videos
         if (Red.activeSelf && !videoRedLoaded)
         {
             mediaplayerRed = Red.GetComponent<MediaPlayer>();
             controlRed = mediaplayerRed.Control;
-            if (controlRed.IsPlaying())
+            if (controlRed.CanPlay())
             {
                 videoRedLoaded = true;
-                Debug.Log("RED START TIME: " + ProjectTime);
-                if (SkipTo > 0){SkipRedVideo();}
+                EventManager.TriggerEvent("RedVideoIsLoaded");
             }
         }
         if (Blue.activeSelf && !videoBlueLoaded)
         {
             mediaplayerBlue = Blue.GetComponent<MediaPlayer>();
             controlBlue = mediaplayerBlue.Control;
-            if (controlBlue.IsPlaying())
+            if (controlBlue.CanPlay())
             {
                 videoBlueLoaded = true;
-                if (SkipTo > 0) { SkipBlueVideo(); }
+                EventManager.TriggerEvent("BlueVideoIsLoaded");
             }
         }
 
@@ -257,18 +375,38 @@ public class SceneController : MonoBehaviour {
             }
         }
 
+        if (video360Loaded)
+        {
+            Debug.Log(control360.GetCurrentTimeMs());
+            //if we skipped past first memory space update counter
+            if (SkipTo > 231) { memorySpaceCounter = 1; }
+            //Enter memory space 1 
+            if (triggerMemorySpace && 
+                memorySpaceCounter == 0 && 
+                control360.GetCurrentTimeMs() > 231600 && 
+                SkipTo < 231)
+            {
+                triggerMemorySpace = false;
+                memorySpaceCounter = 1;
+                EventManager.TriggerEvent("EnterMemorySpaceOne");
+            }
 
-        //Enter memory space 1 
-        //Debug.Log(Mathf.FloorToInt(ProjectTime));
-        if (triggerMemorySpace && Mathf.FloorToInt(ProjectTime) == 317)
-         {
-             triggerMemorySpace = false;
-             memorySpaceCounter = 1;
-             EnterMemorySpace();
-             Debug.Log("Memory Space 1");
-         }
+            //Enter memory space 2
+            if (triggerMemorySpace &&
+                memorySpaceCounter == 1 &&
+                control360.GetCurrentTimeMs() > 440000 &&
+                SkipTo < 440)
+            {
+                triggerMemorySpace = false;
+                memorySpaceCounter = 2;
+                EventManager.TriggerEvent("EnterMemorySpaceTwo");
+            }
+        }
+
+        
 
 
+        //If the finished flag is not yet set and we've reached 720 seconds in the experience
         //Wrap up the scene
         if (!finished && ProjectTime > 720)
         {
@@ -299,9 +437,6 @@ public class SceneController : MonoBehaviour {
         NonDialogTrack.time = s;
     }
 
-
-
-
     //******************* COROUTINES *************************/
     //*******************************************************//
     //*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*//
@@ -327,45 +462,4 @@ public class SceneController : MonoBehaviour {
         GetComponent<Blindfold>().fadeOutBlindFold();
     }
 
-
-    /********************************************/
-    /* Things to do at the end fo the experience*/
-    /********************************************/
-    IEnumerator startWrapUp(float wait)
-    {
-
-        yield return new WaitForSeconds(wait);
-        WrapUpScene();
-        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
-
-    }
-    void WrapUpScene()
-    {
-        Red.SetActive(false);
-        Blue.SetActive(false);
-        Car.SetActive(false);
-        SphereVideo.SetActive(false);
-        //Remove interactiveobjects
-        Destroy(InteractiveObjects);
-        //reset skybox
-        RenderSettings.skybox = VanitySkybox;
-        RenderSettings.skybox.SetFloat("_Blend", 1.0f);
-        //show titles
-        Titles.SetActive(true);
-        //roll closing credits
-        Titles.GetComponent<TitlesController>().RollClosingCredits();
-    }
-
-
-    //initiate memory space
-    void EnterMemorySpace()
-    {
-        //set blindfold to white, and fade it in
-        //Color bColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        //GetComponent<Blindfold>().fadeColor = bColor;
-        //FADE DOESN"T WORK HERE!!!????
-        //GetComponent<Blindfold>().fadeInBlindFold();
-        //GetComponent<MemorySpaces>().enterMemorySpace();
-        //GetComponent<SoundManager>().initVoiceover();
-    }
 }
