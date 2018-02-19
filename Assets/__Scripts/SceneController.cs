@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 
+
 public class SceneController : MonoBehaviour {
 
     /************************************************/
@@ -63,6 +64,14 @@ public class SceneController : MonoBehaviour {
     //Where to skip to in the video and project timeline in seconds
     public float SkipTo = 0f;
 
+    public bool LeapMotion;
+    public bool OculusTouch;
+    public GameObject OVR;
+    public GameObject LM;
+    private float originalCamera_x = 0.151f;
+    private float originalCamera_y = 0.715f;
+    private float originalCamera_z = 0.286f;
+
 
     //Vanity card game object
     private GameObject Fancy;
@@ -110,6 +119,15 @@ public class SceneController : MonoBehaviour {
 
     void Awake()
     {
+        //choose controller
+        if (LeapMotion)
+        {
+            Destroy(OVR);
+        }
+        else
+        {
+            Destroy(LM);
+        }
         //Listen for the title sequence completion event to be fired
         //once it's fired, start the scene
         OpenningSequenceComplete = new UnityAction(StartScene);
@@ -218,7 +236,8 @@ public class SceneController : MonoBehaviour {
         //Activate Interactive Objects
         InteractiveObjects.SetActive(true);
         //recenter the headset
-        OVRManager.display.RecenterPose();
+        resetHeadsetPosition();
+
         //Remove user blindfold more gracefully (fade it out)
         StartCoroutine(removeBlindfold());
     }
@@ -319,7 +338,7 @@ public class SceneController : MonoBehaviour {
         //Hit space to reposition the player in backseat
         if (Input.GetKeyDown("space"))
         {
-            OVRManager.display.RecenterPose();
+            resetHeadsetPosition();
         }
         
         //is our 360 video running? if it is, check to see if it's loaded yet,
@@ -435,6 +454,18 @@ public class SceneController : MonoBehaviour {
     {
         //s=second to start player from in the background track
         NonDialogTrack.time = s;
+    }
+
+    void resetHeadsetPosition()
+    {
+        if (OculusTouch)
+        {
+            OVRManager.display.RecenterPose();
+        }
+        else
+        {
+            LM.transform.position = new Vector3(originalCamera_x, originalCamera_y, originalCamera_z);
+        }
     }
 
     //******************* COROUTINES *************************/
