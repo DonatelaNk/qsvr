@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
+using Leap.Unity.Interaction;
 
 public class MemorySpaces : MonoBehaviour {
 
@@ -14,7 +15,10 @@ public class MemorySpaces : MonoBehaviour {
     public Material[] PictureSet1;
     public Material[] PictureSet2;
     public Material[] PictureSet3;
-    public Rigidbody Diary;  
+    public Rigidbody Diary;
+
+    //leapmotion interaction manager must be added to instantiated game objects at runtime
+    private InteractionBehaviour LMInteractionBehaviour;
 
     /*
     Logic for each memory space goes into this function
@@ -41,6 +45,13 @@ public class MemorySpaces : MonoBehaviour {
                 polaroidInstance.transform.parent = m_parent;
                 //assign our photo from the array to the front of polaroid which is the first child in prefab
                 polaroidInstance.transform.GetChild(0).GetComponent<Renderer>().material = photo;
+                //if using Leapmotion, add interaction manager
+                if (GetComponent<SceneController>().LeapMotion)
+                {
+                    LMInteractionBehaviour = polaroidInstance.gameObject.AddComponent<InteractionBehaviour>();
+                    LMInteractionBehaviour.allowMultiGrasp = true;
+       
+                }
             }
         }
 
@@ -50,6 +61,14 @@ public class MemorySpaces : MonoBehaviour {
             //Instantiate the diary
             Rigidbody diaryInstance;
             diaryInstance = Instantiate(Diary, m_parent.position, m_parent.rotation) as Rigidbody;
+            //if using Leapmotion, add interaction manager
+            if (GetComponent<SceneController>().LeapMotion)
+            {
+                diaryInstance.gameObject.AddComponent<InteractionBehaviour>();
+                diaryInstance.transform.GetChild(5).gameObject.AddComponent<InteractionBehaviour>();
+                diaryInstance.transform.GetChild(6).gameObject.AddComponent<InteractionBehaviour>();
+            }
+               
             GetComponent<SoundManager>().initVoiceover();
             //TODO: This is temp
             StartCoroutine(ExitMemorySpace(25.5f, "ExitMemorySpaceTwo"));

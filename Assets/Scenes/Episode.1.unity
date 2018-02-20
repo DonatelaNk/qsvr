@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 5287289}
   - component: {fileID: 5287288}
   - component: {fileID: 5287287}
+  - component: {fileID: 5287291}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -219,6 +220,18 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 5287285}
   m_Enabled: 1
+--- !u!114 &5287291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 5287285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 24323388bc2e6bd409b1576bf90b13db, type: 2}
 --- !u!1 &48875505 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 198420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
@@ -1850,7 +1863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VideoLocation: 2
-  m_VideoPath: Blue_180104/Blue_FullBody_Audio.mp4
+  m_VideoPath: Blue_FixedMatte/Blue_Graded.mp4
   m_AutoOpen: 0
   m_AutoStart: 0
   m_Loop: 0
@@ -1975,21 +1988,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f60fb03837c4c8c8a84185411fe2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poster: {fileID: 2800000, guid: 4cddea43b4435b44f9fecc8a10e4d36c, type: 3}
   _metadata:
     _versionMajor: 0
     _versionMinor: 3
     format: perpixel
     textureWidth: 2048
     textureHeight: 4096
-    boundsCenter: {x: 0, y: 0, z: 1.3447598}
-    boundsSize: {x: 4.347464, y: 2.4573457, z: 1.3827345}
+    boundsCenter: {x: 0, y: 0, z: 1.2773583}
+    boundsSize: {x: 3.920776, y: 2.2072318, z: 1.1908708}
     perspectives:
     - depthImageSize: {x: 3840, y: 2160}
-      depthPrincipalPoint: {x: 1928.0103, y: 1144.0543}
-      depthFocalLength: {x: 1798.4573, y: 1789.7501}
-      farClip: 2.036127
-      nearClip: 0.65339255
+      depthPrincipalPoint: {x: 1938.4863, y: 1096.7903}
+      depthFocalLength: {x: 1834.2103, y: 1832.7184}
+      farClip: 1.8727937
+      nearClip: 0.681923
       extrinsics:
         e00: 1
         e01: 0
@@ -2024,13 +2036,14 @@ MonoBehaviour:
         e31: 0
         e32: 0
         e33: 0
-      crop: {x: 0.3939925, y: 0.15412462, z: 0.38548657, w: 0.69675076}
+      crop: {x: 0.40184042, y: 0.12948456, z: 0.38899747, w: 0.7058376}
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _depthPackingEpsilon: 0.0005
-  _depthSaturationThreshold: 0.9
-  _depthBrightnessThreshold: 0.8
-  _meshDensity: 1
+  _depthSaturationThreshold: 0.8
+  _depthBrightnessThreshold: 0.76
+  _internalEdgeThreshold: 0.85
+  _meshDensity: 0
   _shader: {fileID: 4800000, guid: 5daae16e80ae7462ba75f45061a74157, type: 3}
 --- !u!114 &615939674
 MonoBehaviour:
@@ -2046,17 +2059,18 @@ MonoBehaviour:
   _player: {fileID: 615939672}
   _renderer: {fileID: 615939673}
   _depthPackingEpsilon: 0.0005
-  _edgeCleanup1: 0.9
-  _edgeCleanup2: 0.8
+  _depthLuminanceFilter: 0.76
+  _depthSaturationFilter: 0.8
+  _triangleSizeLimit: 0.85
   _collider: {fileID: 615939675}
   _playerType: 3
   _renderType: 0
-  _metaDataFile: {fileID: 4900000, guid: d3bc20ddfa9841c428a936b94d79c612, type: 3}
+  _metaDataFile: {fileID: 4900000, guid: 54e8dc5c62ddd1c4f9972f61c6d38069, type: 3}
   _dynamicMetadataFile: 0
   _metaDataFilePath: 
   _poster: {fileID: 2800000, guid: 4cddea43b4435b44f9fecc8a10e4d36c, type: 3}
   _videoClip: {fileID: 0}
-  _moviePath: Blue_180104/Blue_FullBody_Audio.mp4
+  _moviePath: Blue_FixedMatte/Blue_Graded.mp4
   _fileLocation: 2
   _metaData:
     _versionMajor: 0
@@ -2064,14 +2078,14 @@ MonoBehaviour:
     format: perpixel
     textureWidth: 2048
     textureHeight: 4096
-    boundsCenter: {x: 0, y: 0, z: 1.3447598}
-    boundsSize: {x: 4.347464, y: 2.4573457, z: 1.3827345}
+    boundsCenter: {x: 0, y: 0, z: 1.2773583}
+    boundsSize: {x: 3.920776, y: 2.2072318, z: 1.1908708}
     perspectives:
     - depthImageSize: {x: 3840, y: 2160}
-      depthPrincipalPoint: {x: 1928.0103, y: 1144.0543}
-      depthFocalLength: {x: 1798.4573, y: 1789.7501}
-      farClip: 2.036127
-      nearClip: 0.65339255
+      depthPrincipalPoint: {x: 1938.4863, y: 1096.7903}
+      depthFocalLength: {x: 1834.2103, y: 1832.7184}
+      farClip: 1.8727937
+      nearClip: 0.681923
       extrinsics:
         e00: 1
         e01: 0
@@ -2106,7 +2120,7 @@ MonoBehaviour:
         e31: 0
         e32: 0
         e33: 0
-      crop: {x: 0.3939925, y: 0.15412462, z: 0.38548657, w: 0.69675076}
+      crop: {x: 0.40184042, y: 0.12948456, z: 0.38899747, w: 0.7058376}
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _needToResetPlayerType: 0
@@ -2131,8 +2145,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 4.347464, y: 2.4573457, z: 1.3827345}
-  m_Center: {x: 0, y: 0, z: 1.3447598}
+  m_Size: {x: 3.920776, y: 2.2072318, z: 1.1908708}
+  m_Center: {x: 0, y: 0, z: 1.2773583}
 --- !u!4 &615939676
 Transform:
   m_ObjectHideFlags: 0
@@ -2337,6 +2351,36 @@ MonoBehaviour:
   - {fileID: 1879807583}
   - {fileID: 153256919}
   - {fileID: 672516305}
+--- !u!114 &712747234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 712747232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10fa40360571247a7ca806d6859557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _manager: {fileID: 1804362160}
+  _ignoreHoverMode: 0
+  _isIgnoringAllHoverState: 0
+  _ignorePrimaryHover: 0
+  _ignoreContact: 0
+  _ignoreGrasping: 0
+  _contactForceMode: 0
+  _allowMultiGrasp: 1
+  _moveObjectWhenGrasped: 1
+  graspedMovementType: 0
+  graspHoldWarpingEnabled__curIgnored: 1
+  _overrideInteractionLayer: 0
+  _interactionLayer:
+    layerIndex: 0
+  _overrideNoContactLayer: 0
+  _noContactLayer:
+    layerIndex: 0
+  _eventTable:
+    _entries: []
 --- !u!1 &731140992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2870,6 +2914,7 @@ GameObject:
   - component: {fileID: 947651569}
   - component: {fileID: 947651570}
   - component: {fileID: 947651567}
+  - component: {fileID: 947651571}
   m_Layer: 0
   m_Name: Tom
   m_TagString: Untagged
@@ -2976,6 +3021,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &947651571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 947651564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10fa40360571247a7ca806d6859557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _manager: {fileID: 1804362160}
+  _ignoreHoverMode: 0
+  _isIgnoringAllHoverState: 0
+  _ignorePrimaryHover: 0
+  _ignoreContact: 0
+  _ignoreGrasping: 0
+  _contactForceMode: 0
+  _allowMultiGrasp: 1
+  _moveObjectWhenGrasped: 1
+  graspedMovementType: 0
+  graspHoldWarpingEnabled__curIgnored: 1
+  _overrideInteractionLayer: 0
+  _interactionLayer:
+    layerIndex: 0
+  _overrideNoContactLayer: 0
+  _noContactLayer:
+    layerIndex: 0
+  _eventTable:
+    _entries: []
 --- !u!1 &950999045
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,6 +3229,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &962057113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 962057109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10fa40360571247a7ca806d6859557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _manager: {fileID: 1804362160}
+  _ignoreHoverMode: 0
+  _isIgnoringAllHoverState: 0
+  _ignorePrimaryHover: 0
+  _ignoreContact: 0
+  _ignoreGrasping: 0
+  _contactForceMode: 0
+  _allowMultiGrasp: 1
+  _moveObjectWhenGrasped: 1
+  graspedMovementType: 0
+  graspHoldWarpingEnabled__curIgnored: 1
+  _overrideInteractionLayer: 0
+  _interactionLayer:
+    layerIndex: 0
+  _overrideNoContactLayer: 0
+  _noContactLayer:
+    layerIndex: 0
+  _eventTable:
+    _entries: []
 --- !u!1 &964450600
 GameObject:
   m_ObjectHideFlags: 0
@@ -3539,6 +3644,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1111953144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1111953140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f10fa40360571247a7ca806d6859557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _manager: {fileID: 1804362160}
+  _ignoreHoverMode: 0
+  _isIgnoringAllHoverState: 0
+  _ignorePrimaryHover: 0
+  _ignoreContact: 0
+  _ignoreGrasping: 0
+  _contactForceMode: 0
+  _allowMultiGrasp: 1
+  _moveObjectWhenGrasped: 1
+  graspedMovementType: 0
+  graspHoldWarpingEnabled__curIgnored: 1
+  _overrideInteractionLayer: 0
+  _interactionLayer:
+    layerIndex: 0
+  _overrideNoContactLayer: 0
+  _noContactLayer:
+    layerIndex: 0
+  _eventTable:
+    _entries: []
 --- !u!1 &1137601463
 GameObject:
   m_ObjectHideFlags: 0
@@ -3708,17 +3843,11 @@ MonoBehaviour:
   Blindfold: {fileID: 398958021}
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
-  PreludeDelay: 80.54
-  SkipIntro: 1
-  SkipTo: 200
+  StartAt: 2
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
   LM: {fileID: 159619466}
-  SebastianVoiceovers:
-  - {fileID: 829875825}
-  - {fileID: 1256263139}
-  NonDialogTrack: {fileID: 1177024676}
 --- !u!4 &1173825486
 Transform:
   m_ObjectHideFlags: 0
@@ -3793,6 +3922,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e038ab6187de2874cb2838ae3d164976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SebastianVoiceovers: []
+  Prelude: {fileID: 1177024676}
+  Car01: {fileID: 0}
+  MemorySpace01: {fileID: 0}
+  Car02: {fileID: 0}
+  MemorySpace02: {fileID: 0}
+  Car03: {fileID: 0}
 --- !u!1 &1177024674
 GameObject:
   m_ObjectHideFlags: 0
@@ -3832,7 +3968,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6a03186f111ea7b45bdc8f1a8c67446e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3889,7 +4025,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -4272,7 +4408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f60fb03837c4c8c8a84185411fe2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poster: {fileID: 2800000, guid: ef346b29722531d4f94c9277fe2a50e4, type: 3}
   _metadata:
     _versionMajor: 0
     _versionMinor: 3
@@ -4325,8 +4460,9 @@ MonoBehaviour:
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _depthPackingEpsilon: 0.0005
-  _depthSaturationThreshold: 0.8
-  _depthBrightnessThreshold: 0.8
+  _depthSaturationThreshold: 0.5
+  _depthBrightnessThreshold: 0.5
+  _internalEdgeThreshold: 0
   _meshDensity: 1
   _shader: {fileID: 4800000, guid: 5daae16e80ae7462ba75f45061a74157, type: 3}
 --- !u!114 &1320535733
@@ -4343,8 +4479,9 @@ MonoBehaviour:
   _player: {fileID: 1320535731}
   _renderer: {fileID: 1320535732}
   _depthPackingEpsilon: 0.0005
-  _edgeCleanup1: 0.8
-  _edgeCleanup2: 0.8
+  _depthLuminanceFilter: 0.5
+  _depthSaturationFilter: 0.5
+  _triangleSizeLimit: 0
   _collider: {fileID: 1320535734}
   _playerType: 3
   _renderType: 0
@@ -5686,7 +5823,7 @@ MonoBehaviour:
   _ignoreContact: 0
   _ignoreGrasping: 0
   _contactForceMode: 0
-  _allowMultiGrasp: 0
+  _allowMultiGrasp: 1
   _moveObjectWhenGrasped: 1
   graspedMovementType: 0
   graspHoldWarpingEnabled__curIgnored: 1
@@ -5766,6 +5903,22 @@ Prefab:
     - target: {fileID: 4822923098130148, guid: 33edf201cbc6fe645ad9078697cd2aea, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1782540128818682, guid: 33edf201cbc6fe645ad9078697cd2aea, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1739234805131538, guid: 33edf201cbc6fe645ad9078697cd2aea, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929393175973778, guid: 33edf201cbc6fe645ad9078697cd2aea, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1282056070140124, guid: 33edf201cbc6fe645ad9078697cd2aea, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 33edf201cbc6fe645ad9078697cd2aea, type: 2}
