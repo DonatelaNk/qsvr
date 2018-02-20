@@ -33,6 +33,9 @@ public class MemorySpaces : MonoBehaviour {
             //TODO: This is temp
             StartCoroutine(ExitMemorySpace(25.5f, "ExitMemorySpaceOne"));
 
+            //Trigger Memory space 1 audio
+            GetComponent<SoundManager>().MemorySpaceOne();
+
             //Populate the box with a random set of potographs
             //Instantiate a polaroid prefab and assign materials from our random array set ( 1of 3)
             //TODO: Pick a random set
@@ -87,9 +90,9 @@ public class MemorySpaces : MonoBehaviour {
 
     public void PauseVideos()
     {
-        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();   
-        GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Pause();
-        GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
+        //GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();   
+        //GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Pause();
+        //GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
     }
 
     IEnumerator SetupMemorySpace(float wait, float memberSpaceNumber)

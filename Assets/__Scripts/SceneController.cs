@@ -7,18 +7,6 @@ using RenderHeads.Media.AVProVideo;
 
 public class SceneController : MonoBehaviour {
 
-    /************************************************/
-    /******* cheatsheet for skipping around *********/
-    /* Enter these seconds as the `Skip To` variable value to skip around the story
-    /* See the `Scene Controller` script attached to the `SceneManager` gameobject
-    /* First Memory Space:  230
-     * Violent Outburst:    350
-     * Second Memory Space: 435
-     * End:                 600
-     * 
-
-    /******* //END **********************************/
-
     //Direction light (sun)
     public Light Sun;
     //skybox for vanity card and opening title sequence
@@ -46,26 +34,22 @@ public class SceneController : MonoBehaviour {
     //Interactive Objects
     public GameObject InteractiveObjects;
 
-    //User blindfold (A sphere around user's head with inside/visible shader)
-    public GameObject Blindfold;
-    
-
     //Cady
     public GameObject Car;
 
-    //time in seconds to wait for the vanity card animation to complete
+    //time in seconds to wait for the vanity card onscreen
     public float VanityCardDelay;
 
     //Debug vars
     //Where to skip to in the video and project timeline in seconds
-    private float SkipTo = 0f;
+    private float SkipTo = 0;
     private float Car01 = 0f;
     private float Memory01 = 231.0f;
     private float Car02 = 261.0f;
     private float Memory02 = 440.0f;
-    private float Car03 = 470.0f;
+    private float Car03 = 470.5f;
 
-    // Set our slipping options
+    // Set our skipping options
     public enum EnumeratedSkipPoints
     {
         Prelude, CarOne, FirstMemorySpace, CarTwo, SecondMemorySpace, CarThree
@@ -76,9 +60,9 @@ public class SceneController : MonoBehaviour {
     public bool OculusTouch;
     public GameObject OVR;
     public GameObject LM;
-    private float originalCamera_x = 0.151f;
-    private float originalCamera_y = 0.715f;
-    private float originalCamera_z = 0.286f;
+    private float originalCamera_x;
+    private float originalCamera_y;
+    private float originalCamera_z;
 
 
     //Vanity card game object
@@ -100,11 +84,6 @@ public class SceneController : MonoBehaviour {
     MediaPlayer mediaplayerBlue;
     IMediaControl controlBlue;
     bool videoBlueLoaded = false;
-
-    //Audio
-    //Assign whatever the non dialogue track we're listing to
-    AudioSource CurrentNonDialogTrack;
-    bool NonDialogTrackSkipped = false;
 
     //Are we done?
     bool finished = false;
@@ -132,6 +111,11 @@ public class SceneController : MonoBehaviour {
         {
             //Destroy(OVR);
             OVR.SetActive(false);
+            //remember where the LMRig is positioned
+            originalCamera_x = LM.transform.GetChild(0).transform.position.x;
+            originalCamera_y = LM.transform.GetChild(0).transform.position.y;
+            originalCamera_z = LM.transform.GetChild(0).transform.position.z;
+            Debug.Log("originalCamera_x: " + originalCamera_x);
         }
         else
         {
@@ -211,7 +195,6 @@ public class SceneController : MonoBehaviour {
             Car.SetActive(false);
 
             //Trigger the prelude sound track
-            CurrentNonDialogTrack = GetComponent<SoundManager>().Prelude;
             GetComponent<SoundManager>().StartPrelude();
 
         }
@@ -249,42 +232,39 @@ public class SceneController : MonoBehaviour {
         //recenter the headset
         resetHeadsetPosition();
 
-        //trigger first car Audio
-        GetComponent<SoundManager>().StartCar01();
+        //Start Audio
+        CueAudio();
 
-
-        //Remove user blindfold more gracefully (fade it out)
+        //Remove user blindfold gracefully (fade it out)
         StartCoroutine(removeBlindfold());
     }
 
     //360 video is ready to play
     void SphereVideoIsLoadedAndReady()
     {
-        control360.Play();
-        if (StartAt!=EnumeratedSkipPoints.Prelude) { Skip360Video(); }
+        Cue360Video();
         EventManager.StopListening("SphereVideoIsLoaded", SphereVideoIsLoadedAndReady);
     }
 
     //Red (Ed/Driver) video is ready to play
     void RedVideoIsLoadedAndReady()
     {
-        controlRed.Play();
-        if (StartAt != EnumeratedSkipPoints.Prelude) { SkipRedVideo(); }
+        CueRedVideo();
         EventManager.StopListening("RedVideoIsLoaded", RedVideoIsLoadedAndReady);
     }
 
     //Blue (MH/Passenger) video is ready to play
     void BlueVideoIsLoadedAndReady()
     {
-        controlBlue.Play();
-        if (StartAt != EnumeratedSkipPoints.Prelude) { SkipBlueVideo(); }
+        CueBlueVideo();
         EventManager.StopListening("BlueVideoIsLoadedAndReady", BlueVideoIsLoadedAndReady);
     }
 
     void StartEntryIntoMemorySpaceOne()
     {
-        Debug.Log("Now entering memory space 1");
+        Debug.Log("SceneController: Now entering memory space 1");
         GetComponent<MemorySpaces>().enterMemorySpace(1);
+        GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
         EventManager.StopListening("EnterMemorySpaceOne", StartEntryIntoMemorySpaceOne);
     }
     void StartExitFromMemorySpaceOne()
@@ -389,28 +369,13 @@ public class SceneController : MonoBehaviour {
             }
         }
 
-
-        //Check out background track
-        /*
-        if (CurrentNonDialogTrack.isPlaying && !NonDialogTrackSkipped)
-        {
-            NonDialogTrackSkipped = true;
-            //Now check if we need to fast forward it
-            if (SkipTo > 0 || SkipIntro) {
-                skipAudio(SkipTo+PreludeDelay);
-                //incremement projectime by the prelude that we skipped
-                //so our times for various triggers remain correct
-                ProjectTime = ProjectTime + PreludeDelay;
-            }
-        }*/
-
-        if (video360Loaded)
+        if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
             //Debug.Log(control360.GetCurrentTimeMs());
             //Enter memory space 1 
             if (triggerMemorySpace && 
                 memorySpaceCounter == 0 && 
-                control360.GetCurrentTimeMs() > 231600 )
+                control360.GetCurrentTimeMs() > Memory01*1000 )
             {
                 triggerMemorySpace = false;
                 memorySpaceCounter = 1;
@@ -420,7 +385,7 @@ public class SceneController : MonoBehaviour {
             //Enter memory space 2
             if (triggerMemorySpace &&
                 memorySpaceCounter == 1 &&
-                control360.GetCurrentTimeMs() > 440000)
+                control360.GetCurrentTimeMs() > Memory02*1000)
             {
                 triggerMemorySpace = false;
                 memorySpaceCounter = 2;
@@ -432,7 +397,7 @@ public class SceneController : MonoBehaviour {
 
 
         //If the finished flag is not yet set and we've reached 720 seconds in the experience
-        //Wrap up the scene
+        //Wrap up the scene TODO: REPLCE HARDCODED TIMECODE
         if (!finished && control360.GetCurrentTimeMs() > 720000)
         {
             StartCoroutine(startWrapUp(8.0f));
@@ -444,18 +409,47 @@ public class SceneController : MonoBehaviour {
 
     //********** FUNCTIONS TO SKIP AROUND TIMELINE************/
     //*******************************************************//
+    void Cue360Video() { CueVideo(control360); }
+    void CueRedVideo() { CueVideo(controlRed); }
+    void CueBlueVideo() { CueVideo(controlBlue); }
 
-    void Skip360Video() { Skip(control360); }
-    void SkipRedVideo() { Skip(controlRed); }
-    void SkipBlueVideo() { Skip(controlBlue); }
+    void CueVideo(IMediaControl control)
+    {
+        //Skip to specific point in video
+        SkipTo = evalDestination();
+        //control.Pause();
+        if (SkipTo > 0) { control.SeekFast(SkipTo); }    
+        control.Play();
+    }
 
-    void Skip(IMediaControl control)
+    void CueAudio() //this function is only called once from StartScene
+    {
+        if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
+        {
+            GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
+        } else if (StartAt == EnumeratedSkipPoints.CarTwo)
+        {
+            GetComponent<SoundManager>().StartCar02();
+        } else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace) {
+            GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
+        } else if (StartAt == EnumeratedSkipPoints.CarThree) {
+            GetComponent<SoundManager>().StartCar03();
+        } else
+        {
+            //otherwise, we're either skipping to Car 1 or this needs to be
+            //triggered following the prelude
+            GetComponent<SoundManager>().StartCar01();
+        }
+    }
+
+    private float evalDestination()
     {
         //See where we're skiping
-        if(StartAt == EnumeratedSkipPoints.FirstMemorySpace)
+        if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
         {
             SkipTo = Memory01 * 1000;
-        } else if(StartAt == EnumeratedSkipPoints.CarTwo)
+        }
+        else if (StartAt == EnumeratedSkipPoints.CarTwo)
         {
             SkipTo = Car02 * 1000;
         }
@@ -467,20 +461,16 @@ public class SceneController : MonoBehaviour {
         {
             SkipTo = Car03 * 1000;
         }
-
-
-            //Skip to specific point in video
-            control.Pause();
-        control.SeekFast(SkipTo);
-        control.Play();
+        return SkipTo;
     }
+
 
     void resetHeadsetPosition()
     {
         if (OculusTouch){
             OVRManager.display.RecenterPose();
         }else{
-            LM.transform.position = new Vector3(originalCamera_x, originalCamera_y, originalCamera_z);
+            //LM.transform.GetChild(0).transform.position = new Vector3(originalCamera_x, originalCamera_y, originalCamera_z);
         }
     }
 
