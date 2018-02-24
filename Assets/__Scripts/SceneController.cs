@@ -7,6 +7,19 @@ using RenderHeads.Media.AVProVideo;
 
 public class SceneController : MonoBehaviour {
 
+    //Sound trigger times
+    private float SkipTo = 0;
+    private float Car01StartTime = 0f;
+    private float RadioStartTime = 56.0f; //based on RED clip
+    private float Memory01StartTime = 210.0f; //Based on the 360 video
+    private float Car02StartTime = 261.0f; //Based on RED clip
+    private float Memory02StartTime = 440.0f; //Bassed on 360 clip
+    private float Car03StartTime = 600.0f; //470.5f; Based RED Clip
+    private float FinaleStartTime = 720.0f; // Based RED Clip
+
+
+
+
     //Direction light (sun)
     public Light Sun;
     //skybox for vanity card and opening title sequence
@@ -29,8 +42,6 @@ public class SceneController : MonoBehaviour {
     public GameObject Red;
     public GameObject Blue;
 
-
-
     //Interactive Objects
     public GameObject InteractiveObjects;
 
@@ -39,15 +50,6 @@ public class SceneController : MonoBehaviour {
 
     //time in seconds to wait for the vanity card onscreen
     public float VanityCardDelay;
-
-    //Debug vars
-    //Where to skip to in the video and project timeline in seconds
-    private float SkipTo = 0;
-    private float Car01 = 0f;
-    private float Memory01 = 231.0f;
-    private float Car02 = 261.0f;
-    private float Memory02 = 440.0f;
-    private float Car03 = 470.5f;
 
     // Set our skipping options
     public enum EnumeratedSkipPoints
@@ -84,6 +86,13 @@ public class SceneController : MonoBehaviour {
     MediaPlayer mediaplayerBlue;
     IMediaControl controlBlue;
     bool videoBlueLoaded = false;
+
+    //Radio
+    private bool radioTriggered = false;
+
+    //CarScene 2 and 3 trigger bools
+    private bool CarScene02Triggered = false;
+    private bool CarScene03Triggered = false;
 
     //Are we done?
     bool finished = false;
@@ -270,6 +279,8 @@ public class SceneController : MonoBehaviour {
     void StartExitFromMemorySpaceOne()
     {
         triggerMemorySpace = true; //reset this var for 2nd memory sapce entry
+        //trigger any sounds for the exit
+        GetComponent<SoundManager>().StartExitFromMemorySpaceOne();
         EventManager.StopListening("ExitMemorySpaceOne", StartExitFromMemorySpaceOne);
     }
 
@@ -277,6 +288,7 @@ public class SceneController : MonoBehaviour {
     {
         Debug.Log("Now entering memory space 2");
         GetComponent<MemorySpaces>().enterMemorySpace(2);
+        GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
         EventManager.StopListening("EnterMemorySpaceTwo", StartEntryIntoMemorySpaceTwo);
     }
     void StartExitFromMemorySpaceTwo()
@@ -372,10 +384,30 @@ public class SceneController : MonoBehaviour {
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
             //Debug.Log(control360.GetCurrentTimeMs());
+
+            if (!radioTriggered && controlRed.GetCurrentTimeMs() > RadioStartTime * 1000)
+            {
+                radioTriggered = true;
+                GetComponent<SoundManager>().StartRadio();
+            }
+
+            //Trigger the Car Scene 2 sounds
+            if (!CarScene02Triggered && controlRed.GetCurrentTimeMs() > Car02StartTime * 1000)
+            {
+                CarScene02Triggered = true;
+                GetComponent<SoundManager>().StartCar02();
+            }
+
+            //Trigger the Car Scene 2 sounds
+            if (!CarScene03Triggered && controlRed.GetCurrentTimeMs() > Car03StartTime * 1000)
+            {
+                CarScene03Triggered = true;
+                GetComponent<SoundManager>().StartCar03();
+            }
             //Enter memory space 1 
             if (triggerMemorySpace && 
                 memorySpaceCounter == 0 && 
-                control360.GetCurrentTimeMs() > Memory01*1000 )
+                control360.GetCurrentTimeMs() > Memory01StartTime*1000 )
             {
                 triggerMemorySpace = false;
                 memorySpaceCounter = 1;
@@ -385,7 +417,7 @@ public class SceneController : MonoBehaviour {
             //Enter memory space 2
             if (triggerMemorySpace &&
                 memorySpaceCounter == 1 &&
-                control360.GetCurrentTimeMs() > Memory02*1000)
+                control360.GetCurrentTimeMs() > Memory02StartTime*1000)
             {
                 triggerMemorySpace = false;
                 memorySpaceCounter = 2;
@@ -393,16 +425,18 @@ public class SceneController : MonoBehaviour {
             }
         }
 
-        
 
 
-        //If the finished flag is not yet set and we've reached 720 seconds in the experience
-        //Wrap up the scene TODO: REPLCE HARDCODED TIMECODE
-        if (!finished && control360.GetCurrentTimeMs() > 720000)
+
+        //If the finished flag is not yet set and we've reached FinaleStartTime seconds in the experience
+        //Wrap up the scene
+        if (!finished && control360.GetCurrentTimeMs() > FinaleStartTime*1000)
         {
+            finished = true;
             StartCoroutine(startWrapUp(8.0f));
             this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
-            finished = true;
+            //start any finale music/sound
+            GetComponent<SoundManager>().StartFinale();
         }
     }
 
@@ -447,19 +481,19 @@ public class SceneController : MonoBehaviour {
         //See where we're skiping
         if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
         {
-            SkipTo = Memory01 * 1000;
+            SkipTo = Memory01StartTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.CarTwo)
         {
-            SkipTo = Car02 * 1000;
+            SkipTo = Car02StartTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
-            SkipTo = Memory02 * 1000;
+            SkipTo = Memory02StartTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.CarThree)
         {
-            SkipTo = Car03 * 1000;
+            SkipTo = Car03StartTime * 1000;
         }
         return SkipTo;
     }

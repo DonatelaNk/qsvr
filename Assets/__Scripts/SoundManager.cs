@@ -6,6 +6,8 @@ public class SoundManager : MonoBehaviour {
 
     float delay = 3.0f;
     //AudioSources
+    public GameObject RadioSpeakers;
+
     public AudioSource SebastianAudioSource;
     public AudioClip[] SebastianVoiceovers;
 
@@ -71,17 +73,28 @@ public class SoundManager : MonoBehaviour {
     {
         Debug.Log("SoundManager: Starting CarScene 1");
         //Start the car soundtrack
-        CarAudioSource.clip = CarScene01FOA;
-        CarAudioSource.Play();
-        //start ED and MH Dialog
-        EdAudioSource.clip = EdCarScene01DX;
-        EdAudioSource.Play();
-        //Add the sound effects clip (audio source added to same game objects, see onstart)
-        EdPFXSource.clip = EdCarScene01PFX;
+        initSceneSound(CarAudioSource, CarScene01FOA);
 
-        //TODO: Add Mary Helen
-        //MhAudioSource.clip = MhCarScene01DX;
-        //MhAudioSource.Play();
+        //start ED Dialog 
+        initSceneSound(EdAudioSource, EdCarScene01DX);
+        //Add the sound effects clip for Ed (audio source added to same game objects, see onstart)
+        initSceneSound(EdPFXSource, EdCarScene01PFX);
+
+        //Add Mary Helen Dialogue
+        initSceneSound(MhAudioSource, MhCarScene01DX);
+        //Add MH sound effects clip (audio source added to same game objects, see onstart)
+        initSceneSound(MhPFXSource, MhCarScene01PFX);
+
+    }
+
+    public void StartRadio()
+    {
+        //Loop through all the children of the Radio game object and play
+        //Array to hold all child obj
+        foreach (Transform speaker in RadioSpeakers.transform)
+        {
+            speaker.GetComponent<AudioSource>().Play();
+        }
     }
     public void StartEntryIntoMemorySpaceOne()
     {
@@ -126,11 +139,18 @@ public class SoundManager : MonoBehaviour {
 
     }
 
+    //this function takes the audioclip and audiosource and start playing it
+    void initSceneSound(AudioSource objAudioSource, AudioClip objAudioClip)
+    {
+        objAudioSource.clip = objAudioClip;
+        objAudioSource.Play();
+    }
+
 
 
     // Update is called once per frame
     void Update () {
-       
+        //Debug.Log("prelude state: " + PreludeAudioSource.clip.loadState);
     }
 
     public void initVoiceover()

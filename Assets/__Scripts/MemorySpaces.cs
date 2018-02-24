@@ -61,9 +61,14 @@ public class MemorySpaces : MonoBehaviour {
         //Second memory space logic
         if (memberSpaceNumber == 2)
         {
+            //Trigger Memory space 2 audio
+            GetComponent<SoundManager>().MemorySpaceTwo();
+
             //Instantiate the diary
             Rigidbody diaryInstance;
             diaryInstance = Instantiate(Diary, m_parent.position, m_parent.rotation) as Rigidbody;
+            //make a child of the memory space object
+            diaryInstance.transform.parent = m_parent;
             //if using Leapmotion, add interaction manager
             if (GetComponent<SceneController>().LeapMotion)
             {
@@ -105,7 +110,7 @@ public class MemorySpaces : MonoBehaviour {
     IEnumerator ExitMemorySpace(float wait, string triggerLabel)
     {
         yield return new WaitForSeconds(wait);
-        //destroy photographs from memory space 1
+        //destroy objects available in memory space
         foreach (Transform child in m_parent.transform)
         {
             GameObject.Destroy(child.gameObject);
