@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
+using System.Linq;
+using Leap.Unity;
 
 
 public class SceneController : MonoBehaviour {
@@ -504,7 +506,9 @@ public class SceneController : MonoBehaviour {
         if (OculusTouch){
             OVRManager.display.RecenterPose();
         }else{
-            //LM.transform.GetChild(0).transform.position = new Vector3(originalCamera_x, originalCamera_y, originalCamera_z);
+            //LM
+            
+
         }
     }
 

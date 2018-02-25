@@ -7,19 +7,19 @@ public class SpriteFader : MonoBehaviour
 {
     public float fadeSpeed = 2.0f;
     public float fadeDelay = 0;
-    public bool fadeOnLoad = false;
-    public bool fadeOutLoad = false;
+    public bool fadeinOnload = false;
+    public bool fadeoutOnload = false;
 
     IEnumerator FadeInCoroutine;
     IEnumerator FadeOutCoroutine;
 
     private void Start()
     {
-        if (fadeOnLoad)
+        if (fadeinOnload)
         {
             FadeInSprite();
         }
-        if (fadeOutLoad)
+        if (fadeoutOnload)
         {
             FadeOutSprite();
         }

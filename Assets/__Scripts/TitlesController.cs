@@ -87,15 +87,12 @@ public class TitlesController : MonoBehaviour {
             {
                 QSVR_Title.GetComponent<SpriteFader>().FadeInSprite();
             }
-            else
-            {
-                string Title = titles[CurrentCrewArrayPos, 0];
-                string Name = titles[CurrentCrewArrayPos, 1];
-                string Subtitle = titles[CurrentCrewArrayPos, 2];
-                //Fade in next crew name
-                FadeInCoroutine = FadeIn(Title, Name, Subtitle); // Create the FadeIn IEnumerator object
-                StartCoroutine(FadeInCoroutine);
-            }
+            string Title = titles[CurrentCrewArrayPos, 0];
+            string Name = titles[CurrentCrewArrayPos, 1];
+            string Subtitle = titles[CurrentCrewArrayPos, 2];
+            //Fade in next crew name
+            FadeInCoroutine = FadeIn(Title, Name, Subtitle); // Create the FadeIn IEnumerator object
+            StartCoroutine(FadeInCoroutine);
             //also init the fadeout sequence
             FadeOutCoroutine = FadeOut(WaitTime + delay); // Create the FadeIn IEnumerator object
             StartCoroutine(FadeOutCoroutine);
