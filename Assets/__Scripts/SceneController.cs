@@ -13,11 +13,11 @@ public class SceneController : MonoBehaviour {
     private float SkipTo = 0;
     private float Car01StartTime = 0f;
     private float RadioStartTime = 56.0f; //based on RED clip
-    private float Memory01StartTime = 210.0f; //Based on the 360 video
-    private float Car02StartTime = 261.0f; //Based on RED clip
+    private float Memory01StartTime = 230; //Based on the 360 video
+    private float Car02StartTime = 258.0f; //Based on RED clip
     private float Memory02StartTime = 440.0f; //Bassed on 360 clip
-    private float Car03StartTime = 600.0f; //470.5f; Based RED Clip
-    private float FinaleStartTime = 720.0f; // Based RED Clip
+    private float Car03StartTime = 473.0f; // Based RED Clip
+    private float FinaleStartTime = 638.0f; // Based RED Clip
 
 
 
@@ -218,6 +218,26 @@ public class SceneController : MonoBehaviour {
             EventManager.TriggerEvent("TitlesAreDone");          
         }
 
+        //this is sloppy, cancel out some stuff based on where we skipped to
+        //See where we're skiping
+        if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
+        {
+            radioTriggered = true;
+        }
+        else if (StartAt == EnumeratedSkipPoints.CarTwo)
+        {
+            radioTriggered = true;
+        }
+        else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+        {
+            radioTriggered = true;
+        }
+        else if (StartAt == EnumeratedSkipPoints.CarThree)
+        {
+            radioTriggered = true;
+        }
+
+
     }
 
 
@@ -385,7 +405,8 @@ public class SceneController : MonoBehaviour {
 
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
-            //Debug.Log(control360.GetCurrentTimeMs());
+            Debug.Log("control360: " + control360.GetCurrentTimeMs()/1000);
+            Debug.Log("controlRed: " + controlRed.GetCurrentTimeMs()/1000);
 
             if (!radioTriggered && controlRed.GetCurrentTimeMs() > RadioStartTime * 1000)
             {

@@ -2715,7 +2715,7 @@ MonoBehaviour:
   _collider: {fileID: 615939675}
   _playerType: 3
   _renderType: 0
-  _metaDataFile: {fileID: 4900000, guid: 54e8dc5c62ddd1c4f9972f61c6d38069, type: 3}
+  _metaDataFile: {fileID: 4900000, guid: d3bc20ddfa9841c428a936b94d79c612, type: 3}
   _dynamicMetadataFile: 0
   _metaDataFilePath: 
   _poster: {fileID: 2800000, guid: 4cddea43b4435b44f9fecc8a10e4d36c, type: 3}
@@ -4561,7 +4561,7 @@ MonoBehaviour:
   InteractiveObjects: {fileID: 988423553}
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
-  StartAt: 0
+  StartAt: 1
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -4653,18 +4653,18 @@ MonoBehaviour:
   CarScene03FOA: {fileID: 8300000, guid: e1f9bca6ffdc24d4cbe0baefec4d8b55, type: 3}
   EdAudioSource: {fileID: 141197276}
   EdCarScene01DX: {fileID: 8300000, guid: 32edf9cadfb68cb428c2d5c176012502, type: 3}
-  EdCarScene02DX: {fileID: 0}
-  EdCarScene03DX: {fileID: 0}
+  EdCarScene02DX: {fileID: 8300000, guid: 2a25a55668812274f9cb27129bbb1c53, type: 3}
+  EdCarScene03DX: {fileID: 8300000, guid: 1e3f06b69d898b640b849cb101dbf8a5, type: 3}
   EdCarScene01PFX: {fileID: 8300000, guid: 96fef33e00c0ea9429b5abd526948435, type: 3}
-  EdCarScene02PFX: {fileID: 0}
-  EdCarScene03PFX: {fileID: 0}
+  EdCarScene02PFX: {fileID: 8300000, guid: c7d68c7257e1a704db73f75aa5dc15d3, type: 3}
+  EdCarScene03PFX: {fileID: 8300000, guid: a645735d643d2f446a64e184d3a7f2c4, type: 3}
   MhAudioSource: {fileID: 1281280868}
   MhCarScene01DX: {fileID: 8300000, guid: b476754d6246ba0438f6eb884a78a481, type: 3}
-  MhCarScene02DX: {fileID: 0}
-  MhCarScene03DX: {fileID: 0}
+  MhCarScene02DX: {fileID: 8300000, guid: 5b931f9e29b9d93418b0f20dd8b45124, type: 3}
+  MhCarScene03DX: {fileID: 8300000, guid: dc1f2def1a8185f4d9c8f30e02ce0a89, type: 3}
   MhCarScene01PFX: {fileID: 8300000, guid: b45ed9d50aa973f43be2c1285362d8ec, type: 3}
-  MhCarScene02PFX: {fileID: 0}
-  MhCarScene03PFX: {fileID: 0}
+  MhCarScene02PFX: {fileID: 8300000, guid: 597d83dcb381e8b4b94f6f7ba79319fe, type: 3}
+  MhCarScene03PFX: {fileID: 8300000, guid: 285aed2eb2411d849b1f0f842f951392, type: 3}
   MemorySpace: {fileID: 62204474}
   MemorySpaceEnter: {fileID: 0}
   MemorySpaceExit: {fileID: 0}
@@ -5201,10 +5201,10 @@ MonoBehaviour:
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _depthPackingEpsilon: 0.0005
-  _depthSaturationThreshold: 0.5
-  _depthBrightnessThreshold: 0.5
-  _internalEdgeThreshold: 0
-  _meshDensity: 1
+  _depthSaturationThreshold: 0.8
+  _depthBrightnessThreshold: 0.76
+  _internalEdgeThreshold: 0.85
+  _meshDensity: 0
   _shader: {fileID: 4800000, guid: 5daae16e80ae7462ba75f45061a74157, type: 3}
 --- !u!114 &1320535733
 MonoBehaviour:
@@ -5220,9 +5220,9 @@ MonoBehaviour:
   _player: {fileID: 1320535731}
   _renderer: {fileID: 1320535732}
   _depthPackingEpsilon: 0.0005
-  _depthLuminanceFilter: 0.5
-  _depthSaturationFilter: 0.5
-  _triangleSizeLimit: 0
+  _depthLuminanceFilter: 0.76
+  _depthSaturationFilter: 0.8
+  _triangleSizeLimit: 0.85
   _collider: {fileID: 1320535734}
   _playerType: 3
   _renderType: 0
