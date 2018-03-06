@@ -13,8 +13,8 @@ public class SceneController : MonoBehaviour {
     private float SkipTo = 0;
     private float Car01StartTime = 0f;
     private float RadioStartTime = 56.0f; //based on RED clip
-    private float Memory01StartTime = 210.0f; //Based on the 360 video
-    private float Car02StartTime = 261.0f; //Based on RED clip
+    private float Memory01StartTime = 227.0f; //Based on the 360 video
+    private float Car02StartTime = 258.0f; //Based on RED clip
     private float Memory02StartTime = 440.0f; //Bassed on 360 clip
     private float Car03StartTime = 600.0f; //470.5f; Based RED Clip
     private float FinaleStartTime = 720.0f; // Based RED Clip
@@ -386,7 +386,8 @@ public class SceneController : MonoBehaviour {
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
             //Debug.Log(control360.GetCurrentTimeMs());
-
+				
+			//Trigger Radio
             if (!radioTriggered && controlRed.GetCurrentTimeMs() > RadioStartTime * 1000)
             {
                 radioTriggered = true;
@@ -400,7 +401,7 @@ public class SceneController : MonoBehaviour {
                 GetComponent<SoundManager>().StartCar02();
             }
 
-            //Trigger the Car Scene 2 sounds
+            //Trigger the Car Scene 3 sounds
             if (!CarScene03Triggered && controlRed.GetCurrentTimeMs() > Car03StartTime * 1000)
             {
                 CarScene03Triggered = true;

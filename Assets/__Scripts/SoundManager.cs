@@ -7,6 +7,8 @@ public class SoundManager : MonoBehaviour {
     float delay = 3.0f;
     //AudioSources
     public GameObject RadioSpeakers;
+	public AudioSource RadioDial;
+	public AudioClip RadioDialKnob;
 
     public AudioSource SebastianAudioSource;
     public AudioClip[] SebastianVoiceovers;
@@ -24,7 +26,10 @@ public class SoundManager : MonoBehaviour {
     public AudioClip EdCarScene02DX;
     public AudioClip EdCarScene03DX;
 
-    private AudioSource EdPFXSource;
+	public AudioSource EdYellsAudioSource;
+	public AudioClip EdCarScene02YellDX;
+
+	public AudioSource EdPFXSource;
     public AudioClip EdCarScene01PFX;
     public AudioClip EdCarScene02PFX;
     public AudioClip EdCarScene03PFX;
@@ -35,7 +40,7 @@ public class SoundManager : MonoBehaviour {
     public AudioClip MhCarScene03DX;
 
 
-    private AudioSource MhPFXSource;
+	public AudioSource MhPFXSource;
     public AudioClip MhCarScene01PFX;
     public AudioClip MhCarScene02PFX;
     public AudioClip MhCarScene03PFX;
@@ -87,9 +92,17 @@ public class SoundManager : MonoBehaviour {
 
     }
 
+	public void StartMemoryBox()
+	{
+
+	}
+
     public void StartRadio()
     {
-        //Loop through all the children of the Radio game object and play
+        //Radio Dial
+		initSceneSound(RadioDial, RadioDialKnob);
+
+		//Loop through all the children of the Radio game object and play
         //Array to hold all child obj
         foreach (Transform speaker in RadioSpeakers.transform)
         {
@@ -98,7 +111,8 @@ public class SoundManager : MonoBehaviour {
     }
     public void StartEntryIntoMemorySpaceOne()
     {
-       
+       //test Memory transition sounds
+		initSceneSound(MemorySpace, MemorySpaceEnter);
     }
 
     public void MemorySpaceOne()
@@ -112,7 +126,21 @@ public class SoundManager : MonoBehaviour {
 
     public void StartCar02()
     {
+		Debug.Log("SoundManager: Starting CarScene 2");
+		//Start the car 02 FOA
+		initSceneSound(CarAudioSource, CarScene02FOA);
 
+		//start ED Dialog 
+		initSceneSound(EdAudioSource, EdCarScene02DX);
+		//ED Yells Clip
+		initSceneSound(EdYellsAudioSource, EdCarScene02YellDX);
+		//Add the sound effects clip for Ed (audio source added to same game objects, see onstart)
+		initSceneSound(EdPFXSource, EdCarScene02PFX);
+
+		//Add Mary Helen Dialogue
+		initSceneSound(MhAudioSource, MhCarScene02DX);
+		//Add MH sound effects clip (audio source added to same game objects, see onstart)
+		initSceneSound(MhPFXSource, MhCarScene02PFX);
     }
 
     public void StartEntryIntoMemorySpaceTwo()
@@ -131,7 +159,19 @@ public class SoundManager : MonoBehaviour {
 
     public void StartCar03()
     {
+		Debug.Log("SoundManager: Starting CarScene 3");
+		//Start the car 03 FOA
+		initSceneSound(CarAudioSource, CarScene03FOA);
 
+		//start ED Dialog 
+		initSceneSound(EdAudioSource, EdCarScene03DX);
+		//Add the sound effects clip for Ed (audio source added to same game objects, see onstart)
+		initSceneSound(EdPFXSource, EdCarScene03PFX);
+
+		//Add Mary Helen Dialogue
+		initSceneSound(MhAudioSource, MhCarScene03DX);
+		//Add MH sound effects clip (audio source added to same game objects, see onstart)
+		initSceneSound(MhPFXSource, MhCarScene03PFX);
     }
 
     public void StartFinale()
