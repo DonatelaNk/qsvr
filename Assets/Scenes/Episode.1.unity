@@ -2390,15 +2390,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.151
+      value: 0.266
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.715
+      value: 0.653
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.286
+      value: 0.171
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalRotation.x
@@ -4561,7 +4561,7 @@ MonoBehaviour:
   InteractiveObjects: {fileID: 988423553}
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
-  StartAt: 1
+  StartAt: 3
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -5024,7 +5024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_VideoLocation: 2
-  m_VideoPath: Red.mp4
+  m_VideoPath: Ed_180305_denoised_depth.mp4
   m_AutoOpen: 0
   m_AutoStart: 0
   m_Loop: 0
@@ -5155,14 +5155,14 @@ MonoBehaviour:
     format: perpixel
     textureWidth: 2048
     textureHeight: 4096
-    boundsCenter: {x: 0, y: 0, z: 1.3354266}
-    boundsSize: {x: 4.338382, y: 2.4367108, z: 1.2999146}
+    boundsCenter: {x: 0, y: 0, z: 1.3366967}
+    boundsSize: {x: 4.3653073, y: 2.4518337, z: 1.3220181}
     perspectives:
     - depthImageSize: {x: 3840, y: 2160}
       depthPrincipalPoint: {x: 1975.1447, y: 1052.3613}
       depthFocalLength: {x: 1757.3082, y: 1759.9254}
-      farClip: 1.9853839
-      nearClip: 0.6854692
+      farClip: 1.9977058
+      nearClip: 0.6756877
       extrinsics:
         e00: 1
         e01: 0
@@ -5197,13 +5197,13 @@ MonoBehaviour:
         e31: 0
         e32: 0
         e33: 0
-      crop: {x: 0.31406823, y: 0.11114502, z: 0.43510708, w: 0.7655491}
+      crop: {x: 0.31413597, y: 0.11066174, z: 0.43492854, w: 0.7652883}
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _depthPackingEpsilon: 0.0005
-  _depthSaturationThreshold: 0.8
-  _depthBrightnessThreshold: 0.76
-  _internalEdgeThreshold: 0.85
+  _depthSaturationThreshold: 0.614
+  _depthBrightnessThreshold: 0.476
+  _internalEdgeThreshold: 0.75
   _meshDensity: 0
   _shader: {fileID: 4800000, guid: 5daae16e80ae7462ba75f45061a74157, type: 3}
 --- !u!114 &1320535733
@@ -5220,18 +5220,18 @@ MonoBehaviour:
   _player: {fileID: 1320535731}
   _renderer: {fileID: 1320535732}
   _depthPackingEpsilon: 0.0005
-  _depthLuminanceFilter: 0.76
-  _depthSaturationFilter: 0.8
-  _triangleSizeLimit: 0.85
+  _depthLuminanceFilter: 0.476
+  _depthSaturationFilter: 0.614
+  _triangleSizeLimit: 0.75
   _collider: {fileID: 1320535734}
   _playerType: 3
   _renderType: 0
-  _metaDataFile: {fileID: 4900000, guid: 582ae84e03b29ca4bbf6699f4fba9111, type: 3}
+  _metaDataFile: {fileID: 4900000, guid: f6abdd72ce0f5dd4db7c6a8e2040f2b3, type: 3}
   _dynamicMetadataFile: 0
   _metaDataFilePath: 
   _poster: {fileID: 2800000, guid: ef346b29722531d4f94c9277fe2a50e4, type: 3}
   _videoClip: {fileID: 0}
-  _moviePath: Red.mp4
+  _moviePath: Ed_180305_denoised_depth.mp4
   _fileLocation: 2
   _metaData:
     _versionMajor: 0
@@ -5239,14 +5239,14 @@ MonoBehaviour:
     format: perpixel
     textureWidth: 2048
     textureHeight: 4096
-    boundsCenter: {x: 0, y: 0, z: 1.3354266}
-    boundsSize: {x: 4.338382, y: 2.4367108, z: 1.2999146}
+    boundsCenter: {x: 0, y: 0, z: 1.3366967}
+    boundsSize: {x: 4.3653073, y: 2.4518337, z: 1.3220181}
     perspectives:
     - depthImageSize: {x: 3840, y: 2160}
       depthPrincipalPoint: {x: 1975.1447, y: 1052.3613}
       depthFocalLength: {x: 1757.3082, y: 1759.9254}
-      farClip: 1.9853839
-      nearClip: 0.6854692
+      farClip: 1.9977058
+      nearClip: 0.6756877
       extrinsics:
         e00: 1
         e01: 0
@@ -5281,7 +5281,7 @@ MonoBehaviour:
         e31: 0
         e32: 0
         e33: 0
-      crop: {x: 0.31406823, y: 0.11114502, z: 0.43510708, w: 0.7655491}
+      crop: {x: 0.31413597, y: 0.11066174, z: 0.43492854, w: 0.7652883}
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _needToResetPlayerType: 0
@@ -5306,21 +5306,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 4.338382, y: 2.4367108, z: 1.2999146}
-  m_Center: {x: 0, y: 0, z: 1.3354266}
+  m_Size: {x: 4.3653073, y: 2.4518337, z: 1.3220181}
+  m_Center: {x: 0, y: 0, z: 1.3366967}
 --- !u!4 &1320535735
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1320535729}
-  m_LocalRotation: {x: -0.18922661, y: -0.022020213, z: 0.98167735, w: -0.0042445823}
-  m_LocalPosition: {x: 0.1, y: 1.004, z: -8.738}
-  m_LocalScale: {x: 1.05, y: 1.05, z: 0.9}
+  m_LocalRotation: {x: -0.13725422, y: -0.050056506, z: 0.9892496, w: 0.0063989502}
+  m_LocalPosition: {x: -0.022, y: 1.056, z: -8.68}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 0.8068869}
   m_Children: []
   m_Father: {fileID: 2081666163}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2.5700002, y: -21.821001, z: 180.00002}
+  m_LocalEulerAnglesHint: {x: 5.583, y: -15.872001, z: 178.48001}
 --- !u!4 &1321582942 stripped
 Transform:
   m_PrefabParentObject: {fileID: 499162, guid: e9a6501da28be2b4986e8ba47c2e017c, type: 2}
