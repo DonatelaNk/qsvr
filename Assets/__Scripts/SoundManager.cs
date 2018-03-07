@@ -126,6 +126,7 @@ public class SoundManager : MonoBehaviour {
 
     public void StartCar02()
     {
+
 		Debug.Log("SoundManager: Starting CarScene 2");
 		//Start the car 02 FOA
 		initSceneSound(CarAudioSource, CarScene02FOA);
@@ -141,6 +142,7 @@ public class SoundManager : MonoBehaviour {
 		initSceneSound(MhAudioSource, MhCarScene02DX);
 		//Add MH sound effects clip (audio source added to same game objects, see onstart)
 		initSceneSound(MhPFXSource, MhCarScene02PFX);
+
     }
 
     public void StartEntryIntoMemorySpaceTwo()
@@ -172,6 +174,7 @@ public class SoundManager : MonoBehaviour {
 		initSceneSound(MhAudioSource, MhCarScene03DX);
 		//Add MH sound effects clip (audio source added to same game objects, see onstart)
 		initSceneSound(MhPFXSource, MhCarScene03PFX);
+
     }
 
     public void StartFinale()

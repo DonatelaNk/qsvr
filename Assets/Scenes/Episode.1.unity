@@ -1082,7 +1082,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b4248b03c540194099bee2a86836e17, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 44a8733c2cbd4d84f994fc7faf1fcac2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1340,7 +1340,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 522220d035af6d54797092ae80fa0d1a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 924bfab765887ad468e0bc45e01a68c1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2593,15 +2593,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0.151
+      value: 0.266
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.715
+      value: 0.653
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.286
+      value: 0.171
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2918,7 +2918,7 @@ MonoBehaviour:
   _collider: {fileID: 615939675}
   _playerType: 3
   _renderType: 0
-  _metaDataFile: {fileID: 4900000, guid: 54e8dc5c62ddd1c4f9972f61c6d38069, type: 3}
+  _metaDataFile: {fileID: 4900000, guid: d3bc20ddfa9841c428a936b94d79c612, type: 3}
   _dynamicMetadataFile: 0
   _metaDataFilePath: 
   _poster: {fileID: 2800000, guid: 4cddea43b4435b44f9fecc8a10e4d36c, type: 3}
@@ -5198,35 +5198,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RadioSpeakers: {fileID: 629098512}
   RadioDial: {fileID: 651098804}
-  RadioDialKnob: {fileID: 8300000, guid: 225fbab774614304abc9a918ea63cea2, type: 3}
+  RadioDialKnob: {fileID: 0}
   SebastianAudioSource: {fileID: 12030159}
   SebastianVoiceovers:
   - {fileID: 0}
   - {fileID: 0}
   PreludeAudioSource: {fileID: 1177024676}
-  PreludeFOA: {fileID: 8300000, guid: 46d93981e706b604785fb4fcee7bfe80, type: 3}
+  PreludeFOA: {fileID: 8300000, guid: bbe089164c016be4098189a9efac8da0, type: 3}
   CarAudioSource: {fileID: 879208421}
-  CarScene01FOA: {fileID: 8300000, guid: 86c5fe97b1efd01438e4d4e863ed4210, type: 3}
-  CarScene02FOA: {fileID: 8300000, guid: dded3889f59a06f4fab8f720565f5581, type: 3}
-  CarScene03FOA: {fileID: 8300000, guid: 1b54e11b0338c83408e65b3ca0db61b7, type: 3}
+  CarScene01FOA: {fileID: 8300000, guid: ed5096d112385e94083f2885b3f2ab38, type: 3}
+  CarScene02FOA: {fileID: 8300000, guid: 1120b5173fbd0f946baa02138454e2e9, type: 3}
+  CarScene03FOA: {fileID: 8300000, guid: e1f9bca6ffdc24d4cbe0baefec4d8b55, type: 3}
   EdAudioSource: {fileID: 141197276}
-  EdCarScene01DX: {fileID: 8300000, guid: a315776a18d9dd849a2cddd8243483d9, type: 3}
-  EdCarScene02DX: {fileID: 8300000, guid: 21c41c8a721d97a488af68e260ecbcb5, type: 3}
-  EdCarScene03DX: {fileID: 8300000, guid: 207c3794c3b62d244b8e720aac30021a, type: 3}
+  EdCarScene01DX: {fileID: 8300000, guid: 32edf9cadfb68cb428c2d5c176012502, type: 3}
+  EdCarScene02DX: {fileID: 8300000, guid: 2a25a55668812274f9cb27129bbb1c53, type: 3}
+  EdCarScene03DX: {fileID: 8300000, guid: 1e3f06b69d898b640b849cb101dbf8a5, type: 3}
   EdYellsAudioSource: {fileID: 735492897}
   EdCarScene02YellDX: {fileID: 8300000, guid: 1c5076e48b16063408a6ff9eeb48bd1d, type: 3}
   EdPFXSource: {fileID: 1193381890}
-  EdCarScene01PFX: {fileID: 8300000, guid: 6797c353159f6a24087cf185425952b1, type: 3}
-  EdCarScene02PFX: {fileID: 8300000, guid: fdb1da2ff9dab3a47a12a828c131cd74, type: 3}
-  EdCarScene03PFX: {fileID: 8300000, guid: 9439725450b86ad42b4e89d433da6d88, type: 3}
+  EdCarScene01PFX: {fileID: 8300000, guid: 96fef33e00c0ea9429b5abd526948435, type: 3}
+  EdCarScene02PFX: {fileID: 8300000, guid: c7d68c7257e1a704db73f75aa5dc15d3, type: 3}
+  EdCarScene03PFX: {fileID: 8300000, guid: a645735d643d2f446a64e184d3a7f2c4, type: 3}
   MhAudioSource: {fileID: 1281280868}
-  MhCarScene01DX: {fileID: 8300000, guid: 7842bcb6bef71d246a9ad1bf95f06fb0, type: 3}
-  MhCarScene02DX: {fileID: 8300000, guid: 95a4dfa473c65e94ba37eabcf1f35510, type: 3}
-  MhCarScene03DX: {fileID: 8300000, guid: 3e0ba8388343a4340b4a251825f912fc, type: 3}
+  MhCarScene01DX: {fileID: 8300000, guid: b476754d6246ba0438f6eb884a78a481, type: 3}
+  MhCarScene02DX: {fileID: 8300000, guid: 5b931f9e29b9d93418b0f20dd8b45124, type: 3}
+  MhCarScene03DX: {fileID: 8300000, guid: dc1f2def1a8185f4d9c8f30e02ce0a89, type: 3}
   MhPFXSource: {fileID: 177849555}
-  MhCarScene01PFX: {fileID: 8300000, guid: fdd978b057db3e9418debea9d6adca74, type: 3}
-  MhCarScene02PFX: {fileID: 8300000, guid: 7ea5ca43e5fcfd1499a1a299a28d5381, type: 3}
-  MhCarScene03PFX: {fileID: 8300000, guid: 11ce4c147a078414795bacb0b9918617, type: 3}
+  MhCarScene01PFX: {fileID: 8300000, guid: b45ed9d50aa973f43be2c1285362d8ec, type: 3}
+  MhCarScene02PFX: {fileID: 8300000, guid: 597d83dcb381e8b4b94f6f7ba79319fe, type: 3}
+  MhCarScene03PFX: {fileID: 8300000, guid: 285aed2eb2411d849b1f0f842f951392, type: 3}
   MemorySpace: {fileID: 62204474}
   MemorySpaceEnter: {fileID: 8300000, guid: 19c2d69f74a6ef941b24394920bbae30, type: 3}
   MemorySpaceExit: {fileID: 0}
@@ -5901,14 +5901,14 @@ MonoBehaviour:
     format: perpixel
     textureWidth: 2048
     textureHeight: 4096
-    boundsCenter: {x: 0, y: 0, z: 1.3354266}
-    boundsSize: {x: 4.338382, y: 2.4367108, z: 1.2999146}
+    boundsCenter: {x: 0, y: 0, z: 1.3366967}
+    boundsSize: {x: 4.3653073, y: 2.4518337, z: 1.3220181}
     perspectives:
     - depthImageSize: {x: 3840, y: 2160}
       depthPrincipalPoint: {x: 1975.1447, y: 1052.3613}
       depthFocalLength: {x: 1757.3082, y: 1759.9254}
-      farClip: 1.9853839
-      nearClip: 0.6854692
+      farClip: 1.9977058
+      nearClip: 0.6756877
       extrinsics:
         e00: 1
         e01: 0
@@ -5943,14 +5943,14 @@ MonoBehaviour:
         e31: 0
         e32: 0
         e33: 0
-      crop: {x: 0.31406823, y: 0.11114502, z: 0.43510708, w: 0.7655491}
+      crop: {x: 0.31413597, y: 0.11066174, z: 0.43492854, w: 0.7652883}
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _depthPackingEpsilon: 0.0005
-  _depthSaturationThreshold: 0.5
-  _depthBrightnessThreshold: 0.5
-  _internalEdgeThreshold: 0
-  _meshDensity: 1
+  _depthSaturationThreshold: 0.614
+  _depthBrightnessThreshold: 0.476
+  _internalEdgeThreshold: 0.75
+  _meshDensity: 0
   _shader: {fileID: 4800000, guid: 5daae16e80ae7462ba75f45061a74157, type: 3}
 --- !u!114 &1320535733
 MonoBehaviour:
@@ -5966,13 +5966,13 @@ MonoBehaviour:
   _player: {fileID: 1320535731}
   _renderer: {fileID: 1320535732}
   _depthPackingEpsilon: 0.0005
-  _depthLuminanceFilter: 0.5
-  _depthSaturationFilter: 0.5
-  _triangleSizeLimit: 0
+  _depthLuminanceFilter: 0.476
+  _depthSaturationFilter: 0.614
+  _triangleSizeLimit: 0.75
   _collider: {fileID: 1320535734}
   _playerType: 3
   _renderType: 0
-  _metaDataFile: {fileID: 4900000, guid: 582ae84e03b29ca4bbf6699f4fba9111, type: 3}
+  _metaDataFile: {fileID: 4900000, guid: f6abdd72ce0f5dd4db7c6a8e2040f2b3, type: 3}
   _dynamicMetadataFile: 0
   _metaDataFilePath: 
   _poster: {fileID: 2800000, guid: ef346b29722531d4f94c9277fe2a50e4, type: 3}
@@ -5985,14 +5985,14 @@ MonoBehaviour:
     format: perpixel
     textureWidth: 2048
     textureHeight: 4096
-    boundsCenter: {x: 0, y: 0, z: 1.3354266}
-    boundsSize: {x: 4.338382, y: 2.4367108, z: 1.2999146}
+    boundsCenter: {x: 0, y: 0, z: 1.3366967}
+    boundsSize: {x: 4.3653073, y: 2.4518337, z: 1.3220181}
     perspectives:
     - depthImageSize: {x: 3840, y: 2160}
       depthPrincipalPoint: {x: 1975.1447, y: 1052.3613}
       depthFocalLength: {x: 1757.3082, y: 1759.9254}
-      farClip: 1.9853839
-      nearClip: 0.6854692
+      farClip: 1.9977058
+      nearClip: 0.6756877
       extrinsics:
         e00: 1
         e01: 0
@@ -6027,7 +6027,7 @@ MonoBehaviour:
         e31: 0
         e32: 0
         e33: 0
-      crop: {x: 0.31406823, y: 0.11114502, z: 0.43510708, w: 0.7655491}
+      crop: {x: 0.31413597, y: 0.11066174, z: 0.43492854, w: 0.7652883}
       cameraNormal: {x: 0, y: 0, z: 0}
       cameraCenter: {x: 0, y: 0, z: 0}
   _needToResetPlayerType: 0
@@ -6052,21 +6052,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 4.338382, y: 2.4367108, z: 1.2999146}
-  m_Center: {x: 0, y: 0, z: 1.3354266}
+  m_Size: {x: 4.3653073, y: 2.4518337, z: 1.3220181}
+  m_Center: {x: 0, y: 0, z: 1.3366967}
 --- !u!4 &1320535735
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1320535729}
-  m_LocalRotation: {x: -0.18922661, y: -0.022020213, z: 0.98167735, w: -0.0042445823}
-  m_LocalPosition: {x: 0.1, y: 1.004, z: -8.738}
-  m_LocalScale: {x: 1.05, y: 1.05, z: 0.9}
+  m_LocalRotation: {x: -0.13725422, y: -0.050056506, z: 0.9892496, w: 0.0063989502}
+  m_LocalPosition: {x: -0.022, y: 1.056, z: -8.68}
+  m_LocalScale: {x: 1.05, y: 1.05, z: 0.8068869}
   m_Children: []
   m_Father: {fileID: 2081666163}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2.5700002, y: -21.821001, z: 180.00002}
+  m_LocalEulerAnglesHint: {x: 5.583, y: -15.872001, z: 178.48001}
 --- !u!4 &1321582942 stripped
 Transform:
   m_PrefabParentObject: {fileID: 499162, guid: e9a6501da28be2b4986e8ba47c2e017c, type: 2}
@@ -7259,7 +7259,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 522220d035af6d54797092ae80fa0d1a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 924bfab765887ad468e0bc45e01a68c1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7441,7 +7441,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b4248b03c540194099bee2a86836e17, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 924bfab765887ad468e0bc45e01a68c1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
