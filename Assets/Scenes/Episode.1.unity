@@ -5198,7 +5198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RadioSpeakers: {fileID: 629098512}
   RadioDial: {fileID: 651098804}
-  RadioDialKnob: {fileID: 0}
+  RadioDialKnob: {fileID: 8300000, guid: 7a37251e19d02a5449c62282f18869af, type: 3}
   SebastianAudioSource: {fileID: 12030159}
   SebastianVoiceovers:
   - {fileID: 0}
@@ -5214,14 +5214,14 @@ MonoBehaviour:
   EdCarScene02DX: {fileID: 8300000, guid: 2a25a55668812274f9cb27129bbb1c53, type: 3}
   EdCarScene03DX: {fileID: 8300000, guid: 1e3f06b69d898b640b849cb101dbf8a5, type: 3}
   EdYellsAudioSource: {fileID: 735492897}
-  EdCarScene02YellDX: {fileID: 8300000, guid: 1c5076e48b16063408a6ff9eeb48bd1d, type: 3}
+  EdCarScene02YellDX: {fileID: 8300000, guid: d6d91eb2b7eacef47916db59fa4d13be, type: 3}
   EdPFXSource: {fileID: 1193381890}
   EdCarScene01PFX: {fileID: 8300000, guid: 96fef33e00c0ea9429b5abd526948435, type: 3}
   EdCarScene02PFX: {fileID: 8300000, guid: c7d68c7257e1a704db73f75aa5dc15d3, type: 3}
   EdCarScene03PFX: {fileID: 8300000, guid: a645735d643d2f446a64e184d3a7f2c4, type: 3}
   MhAudioSource: {fileID: 1281280868}
   MhCarScene01DX: {fileID: 8300000, guid: b476754d6246ba0438f6eb884a78a481, type: 3}
-  MhCarScene02DX: {fileID: 8300000, guid: 5b931f9e29b9d93418b0f20dd8b45124, type: 3}
+  MhCarScene02DX: {fileID: 8300000, guid: aa2e2b8a45479bc4ea808b9b570b910e, type: 3}
   MhCarScene03DX: {fileID: 8300000, guid: dc1f2def1a8185f4d9c8f30e02ce0a89, type: 3}
   MhPFXSource: {fileID: 177849555}
   MhCarScene01PFX: {fileID: 8300000, guid: b45ed9d50aa973f43be2c1285362d8ec, type: 3}
