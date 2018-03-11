@@ -61,9 +61,9 @@ public class SoundManager : MonoBehaviour {
     void Awake()
     {
         //Attach the PFX audio to same Ed gameobject
-        EdPFXSource = EdAudioSource.gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+        //EdPFXSource = EdAudioSource.gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
         //Attach the PFX audio to same MH gameobject
-        MhPFXSource = MhAudioSource.gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+        //MhPFXSource = MhAudioSource.gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
 
     }
 
@@ -135,12 +135,12 @@ public class SoundManager : MonoBehaviour {
 		initSceneSound(EdAudioSource, EdCarScene02DX);
 		//ED Yells Clip
 		initSceneSound(EdYellsAudioSource, EdCarScene02YellDX);
-		//Add the sound effects clip for Ed (audio source added to same game objects, see onstart)
+		//Add the sound effects clip for Ed
 		initSceneSound(EdPFXSource, EdCarScene02PFX);
 
 		//Add Mary Helen Dialogue
 		initSceneSound(MhAudioSource, MhCarScene02DX);
-		//Add MH sound effects clip (audio source added to same game objects, see onstart)
+		//Add MH sound effects clip
 		initSceneSound(MhPFXSource, MhCarScene02PFX);
 
     }
@@ -167,12 +167,12 @@ public class SoundManager : MonoBehaviour {
 
 		//start ED Dialog 
 		initSceneSound(EdAudioSource, EdCarScene03DX);
-		//Add the sound effects clip for Ed (audio source added to same game objects, see onstart)
+		//Add the sound effects clip for Ed)
 		initSceneSound(EdPFXSource, EdCarScene03PFX);
 
 		//Add Mary Helen Dialogue
 		initSceneSound(MhAudioSource, MhCarScene03DX);
-		//Add MH sound effects clip (audio source added to same game objects, see onstart)
+		//Add MH sound effects clip
 		initSceneSound(MhPFXSource, MhCarScene03PFX);
 
     }
@@ -182,7 +182,7 @@ public class SoundManager : MonoBehaviour {
 
     }
 
-    //this function takes the audioclip and audiosource and start playing it
+    //this function takes the audioclip and audiosource and starts playing it
     void initSceneSound(AudioSource objAudioSource, AudioClip objAudioClip)
     {
         objAudioSource.clip = objAudioClip;

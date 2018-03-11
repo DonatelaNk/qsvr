@@ -8,6 +8,10 @@ public class MemorySpaces : MonoBehaviour {
 
     //Corutine setup memory space
     IEnumerator setupMemorySpaceCorutine;
+    IEnumerator addFogCoroutine;
+    IEnumerator removeFogCoroutine;
+
+    public float fogDensity = 0.3f;
 
     //Intantiate the photograph prefabs used in Memory Space 1
     public Rigidbody polaroid;
@@ -20,6 +24,10 @@ public class MemorySpaces : MonoBehaviour {
     //leapmotion interaction manager must be added to instantiated game objects at runtime
     private InteractionBehaviour LMInteractionBehaviour;
 
+    void Awake()
+    {
+        
+    }
     /*
     Logic for each memory space goes into this function
     */
@@ -35,6 +43,7 @@ public class MemorySpaces : MonoBehaviour {
 
             //Trigger Memory space 1 audio
             GetComponent<SoundManager>().MemorySpaceOne();
+
 
             //Populate the box with a random set of potographs
             //Instantiate a polaroid prefab and assign materials from our random array set ( 1of 3)
@@ -100,9 +109,22 @@ public class MemorySpaces : MonoBehaviour {
         //GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
     }
 
+    public void setMemorySpaceMood()
+    {
+        //Reveal memory dust
+        GetComponent<SceneController>().MemoryDust.active = true;
+        //Start fod
+        RenderSettings.fog = true;
+        RenderSettings.fogDensity = 0.0f;
+        addFogCoroutine = startFog();
+        StartCoroutine(addFogCoroutine);
+    }
+
     IEnumerator SetupMemorySpace(float wait, float memberSpaceNumber)
     {
         yield return new WaitForSeconds(wait);
+        setMemorySpaceMood();
+        PauseVideos();
         MemorySpaceIsReady(memberSpaceNumber);
         StopCoroutine(setupMemorySpaceCorutine);
     }
@@ -110,11 +132,38 @@ public class MemorySpaces : MonoBehaviour {
     IEnumerator ExitMemorySpace(float wait, string triggerLabel)
     {
         yield return new WaitForSeconds(wait);
+        //remove momory dust
+        GetComponent<SceneController>().MemoryDust.active = false;
+        removeFogCoroutine = endFog();
+        StartCoroutine(removeFogCoroutine);
         //destroy objects available in memory space
         foreach (Transform child in m_parent.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
         EventManager.TriggerEvent(triggerLabel);
+    }
+
+    IEnumerator startFog()
+    {
+       
+        for (float f = 0f; f <= fogDensity; f += 0.001f)
+        {
+            //change skybox blend
+            RenderSettings.fogDensity = f;
+            yield return null;
+        }
+        StopCoroutine(addFogCoroutine);
+    }
+    IEnumerator endFog()
+    {
+
+        for (float f = fogDensity; f >= 0; f -= 0.001f)
+        {
+            //change skybox blend
+            RenderSettings.fogDensity = f;
+            yield return null;
+        }
+        StopCoroutine(removeFogCoroutine);
     }
 }

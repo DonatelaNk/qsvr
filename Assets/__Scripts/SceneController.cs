@@ -30,6 +30,7 @@ public class SceneController : MonoBehaviour {
     public Material StorySkybox;
     //variable that tells our script to trigger the memory spaces
     bool triggerMemorySpace = true;
+    public GameObject MemoryDust;
     int memorySpaceCounter = 0;
 
     //Skybox for the memory spaces
@@ -89,6 +90,10 @@ public class SceneController : MonoBehaviour {
     IMediaControl controlBlue;
     bool videoBlueLoaded = false;
 
+    //var to make sure all three videos and scene 1 sounds start in sync
+    //it hold everything from starting until all videos and sounds are ready to play
+    bool sync = false;
+
     //Radio
     private bool radioTriggered = false;
 
@@ -117,6 +122,8 @@ public class SceneController : MonoBehaviour {
 
     void Awake()
     {
+        //hide memory dust
+        MemoryDust.active = false;
         //choose controller
         if (LeapMotion)
         {
@@ -376,7 +383,12 @@ public class SceneController : MonoBehaviour {
             if (control360.CanPlay())
             {
                 video360Loaded = true;
-                EventManager.TriggerEvent("SphereVideoIsLoaded");
+                if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
+                    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+                {
+                    EventManager.TriggerEvent("SphereVideoIsLoaded");
+                }
+
             }
         }
        
@@ -389,7 +401,11 @@ public class SceneController : MonoBehaviour {
             if (controlRed.CanPlay())
             {
                 videoRedLoaded = true;
-                EventManager.TriggerEvent("RedVideoIsLoaded");
+                if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
+                    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+                {
+                    EventManager.TriggerEvent("RedVideoIsLoaded");
+                }
             }
         }
         if (Blue.activeSelf && !videoBlueLoaded)
@@ -399,9 +415,34 @@ public class SceneController : MonoBehaviour {
             if (controlBlue.CanPlay())
             {
                 videoBlueLoaded = true;
-                EventManager.TriggerEvent("BlueVideoIsLoaded");
+                if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
+                    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+                {
+                    EventManager.TriggerEvent("BlueVideoIsLoaded");
+                }
             }
         }
+
+        //make sure that the ED and MH dialogue for scene 01 have both loaded
+        //we get out of sync here if they are not ready but videos are
+        //Debug.Log("MhAudioSource state: " + GetComponent<SoundManager>().MhAudioSource.clip.loadState);
+        if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf
+            )
+        {
+            if (StartAt != EnumeratedSkipPoints.FirstMemorySpace && StartAt != EnumeratedSkipPoints.SecondMemorySpace &&
+            GetComponent<SoundManager>().MhAudioSource.clip.isReadyToPlay &&
+            GetComponent<SoundManager>().EdAudioSource.clip.isReadyToPlay &&
+            GetComponent<SoundManager>().EdPFXSource.clip.isReadyToPlay &&
+            GetComponent<SoundManager>().MhPFXSource.clip.isReadyToPlay &&
+            video360Loaded && videoBlueLoaded && videoRedLoaded)
+            {
+                sync = true;
+                EventManager.TriggerEvent("BlueVideoIsLoaded");
+                EventManager.TriggerEvent("RedVideoIsLoaded");
+                EventManager.TriggerEvent("SphereVideoIsLoaded");
+            }
+        }
+        
 
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
