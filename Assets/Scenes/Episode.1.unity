@@ -2183,6 +2183,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &532155062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 532155063}
+  m_Layer: 0
+  m_Name: Lighting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &532155063
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 532155062}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &533902161
 Prefab:
   m_ObjectHideFlags: 0
@@ -5378,7 +5406,7 @@ MonoBehaviour:
   InteractiveObjects: {fileID: 988423553}
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
-  StartAt: 2
+  StartAt: 5
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -5483,7 +5511,7 @@ MonoBehaviour:
   EdCarScene03PFX: {fileID: 8300000, guid: a645735d643d2f446a64e184d3a7f2c4, type: 3}
   MhAudioSource: {fileID: 1281280868}
   MhCarScene01DX: {fileID: 8300000, guid: b476754d6246ba0438f6eb884a78a481, type: 3}
-  MhCarScene02DX: {fileID: 8300000, guid: aa2e2b8a45479bc4ea808b9b570b910e, type: 3}
+  MhCarScene02DX: {fileID: 8300000, guid: 5b931f9e29b9d93418b0f20dd8b45124, type: 3}
   MhCarScene03DX: {fileID: 8300000, guid: dc1f2def1a8185f4d9c8f30e02ce0a89, type: 3}
   MhPFXSource: {fileID: 177849555}
   MhCarScene01PFX: {fileID: 8300000, guid: b45ed9d50aa973f43be2c1285362d8ec, type: 3}

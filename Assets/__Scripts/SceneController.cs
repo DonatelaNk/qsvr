@@ -15,7 +15,7 @@ public class SceneController : MonoBehaviour {
     private float RadioStartTime = 56.0f; //based on RED clip
     private float Memory01StartTime = 227.0f; //Based on the 360 video
     private float Car02StartTime = 258.0f; //Based on RED clip
-    private float Memory02StartTime = 440.0f; //Bassed on 360 clip
+    private float Memory02StartTime = 437.0f; //Bassed on 360 clip
     private float Car03StartTime = 473.0f; // Based RED Clip
     private float FinaleStartTime = 638.0f; // Based RED Clip
 
@@ -234,14 +234,20 @@ public class SceneController : MonoBehaviour {
         else if (StartAt == EnumeratedSkipPoints.CarTwo)
         {
             radioTriggered = true;
+            memorySpaceCounter = 1;
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
             radioTriggered = true;
+            CarScene02Triggered = true;
+            memorySpaceCounter = 1;
         }
         else if (StartAt == EnumeratedSkipPoints.CarThree)
         {
             radioTriggered = true;
+            CarScene02Triggered = true;
+            memorySpaceCounter = 1;
+            triggerMemorySpace = false;
         }
 
 
