@@ -1,0 +1,191 @@
+fileFormatVersion: 2
+guid: 3447ded1a34bbf14e97de164587bcc38
+timeCreated: 1514861485
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: car_outside_metal
+    100004: ceiling
+    100006: dash_engine_blocker
+    100008: dash_inside_blockers
+    100010: dashboard_main
+    100012: floor_Carpet_blocker
+    100014: floor_inside_blocker
+    100016: front_door_left
+    100018: front_door_right
+    100020: front_final
+    100022: front_final_MeshPart0
+    100024: front_final_MeshPart1
+    100026: front_window
+    100028: outside_blockers_main_final1
+    100030: rear_bench_final
+    100032: rear_door_lp1
+    100034: rear_door_lp2
+    100036: rear_window
+    100038: side_panel_carpet_connectors
+    100040: side_panel_left
+    100042: side_panel_right
+    100044: steering_column
+    100046: steering_wheel
+    400000: //RootNode
+    400002: car_outside_metal
+    400004: ceiling
+    400006: dash_engine_blocker
+    400008: dash_inside_blockers
+    400010: dashboard_main
+    400012: floor_Carpet_blocker
+    400014: floor_inside_blocker
+    400016: front_door_left
+    400018: front_door_right
+    400020: front_final
+    400022: front_final_MeshPart0
+    400024: front_final_MeshPart1
+    400026: front_window
+    400028: outside_blockers_main_final1
+    400030: rear_bench_final
+    400032: rear_door_lp1
+    400034: rear_door_lp2
+    400036: rear_window
+    400038: side_panel_carpet_connectors
+    400040: side_panel_left
+    400042: side_panel_right
+    400044: steering_column
+    400046: steering_wheel
+    2300000: car_outside_metal
+    2300002: ceiling
+    2300004: dash_engine_blocker
+    2300006: dash_inside_blockers
+    2300008: dashboard_main
+    2300010: floor_Carpet_blocker
+    2300012: floor_inside_blocker
+    2300014: front_door_left
+    2300016: front_door_right
+    2300018: front_final_MeshPart0
+    2300020: front_final_MeshPart1
+    2300022: front_window
+    2300024: outside_blockers_main_final1
+    2300026: rear_bench_final
+    2300028: rear_door_lp1
+    2300030: rear_door_lp2
+    2300032: rear_window
+    2300034: side_panel_carpet_connectors
+    2300036: side_panel_left
+    2300038: side_panel_right
+    2300040: steering_column
+    2300042: steering_wheel
+    3300000: car_outside_metal
+    3300002: ceiling
+    3300004: dash_engine_blocker
+    3300006: dash_inside_blockers
+    3300008: dashboard_main
+    3300010: floor_Carpet_blocker
+    3300012: floor_inside_blocker
+    3300014: front_door_left
+    3300016: front_door_right
+    3300018: front_final_MeshPart0
+    3300020: front_final_MeshPart1
+    3300022: front_window
+    3300024: outside_blockers_main_final1
+    3300026: rear_bench_final
+    3300028: rear_door_lp1
+    3300030: rear_door_lp2
+    3300032: rear_window
+    3300034: side_panel_carpet_connectors
+    3300036: side_panel_left
+    3300038: side_panel_right
+    3300040: steering_column
+    3300042: steering_wheel
+    4300000: car_outside_metal
+    4300002: rear_door_lp1
+    4300004: front_window
+    4300006: rear_window
+    4300008: dashboard_main
+    4300010: floor_inside_blocker
+    4300012: dash_engine_blocker
+    4300014: ceiling
+    4300016: side_panel_left
+    4300018: rear_door_lp2
+    4300020: front_door_left
+    4300022: dash_inside_blockers
+    4300024: front_final_MeshPart0
+    4300026: front_final_MeshPart1
+    4300028: rear_bench_final
+    4300030: side_panel_right
+    4300032: front_door_right
+    4300034: floor_Carpet_blocker
+    4300036: side_panel_carpet_connectors
+    4300038: outside_blockers_main_final1
+    4300040: steering_column
+    4300042: steering_wheel
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
