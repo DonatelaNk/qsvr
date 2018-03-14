@@ -21,6 +21,12 @@ public class SoundManager : MonoBehaviour {
     public AudioClip CarScene02FOA;
     public AudioClip CarScene03FOA;
 
+	public AudioSource EdRollsWindow;
+	public AudioClip EdWindow;
+
+	public AudioSource EdWindowWind;
+	public AudioClip WindowWind;
+
     public AudioSource EdAudioSource;
     public AudioClip EdCarScene01DX;
     public AudioClip EdCarScene02DX;
@@ -44,6 +50,16 @@ public class SoundManager : MonoBehaviour {
     public AudioClip MhCarScene01PFX;
     public AudioClip MhCarScene02PFX;
     public AudioClip MhCarScene03PFX;
+
+	public AudioSource Shifter;
+	public AudioClip ShiftKey;
+
+	public AudioSource Fly;
+	public AudioClip FlyBi;
+	public AudioSource FlyDash;
+	public AudioClip FlyHit;
+	public AudioSource FlyLand;
+	public AudioClip FlyMono;
 
     public AudioSource MemorySpace;
     public AudioClip MemorySpaceEnter;
@@ -92,11 +108,6 @@ public class SoundManager : MonoBehaviour {
 
     }
 
-	public void StartMemoryBox()
-	{
-
-	}
-
     public void StartRadio()
     {
         //Radio Dial
@@ -109,16 +120,24 @@ public class SoundManager : MonoBehaviour {
             speaker.GetComponent<AudioSource>().Play();
         }
     }
+
     public void StartEntryIntoMemorySpaceOne()
     {
        //test Memory transition sounds
 		initSceneSound(MemorySpace, MemorySpaceEnter);
     }
 
+	public void StartEdRollsWindow()
+	{
+		initSceneSound (EdRollsWindow, EdWindow);
+		initSceneSound (EdWindowWind, WindowWind);
+	}
+
     public void MemorySpaceOne()
     {
        
     }
+
     public void StartExitFromMemorySpaceOne()
     {
 
@@ -176,6 +195,22 @@ public class SoundManager : MonoBehaviour {
 		initSceneSound(MhPFXSource, MhCarScene03PFX);
 
     }
+
+	public void StartShiftKey()
+	{
+		initSceneSound(Shifter, ShiftKey);
+	}
+
+	public void StartFlyBi()
+	{
+		initSceneSound (Fly, FlyBi);
+	}
+
+	public void StartFlyHit()
+	{
+		initSceneSound (FlyLand, FlyMono);
+		initSceneSound (FlyDash, FlyHit);
+	}
 
     public void StartFinale()
     {

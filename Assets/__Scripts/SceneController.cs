@@ -13,10 +13,17 @@ public class SceneController : MonoBehaviour {
     private float SkipTo = 0;
     private float Car01StartTime = 0f;
     private float RadioStartTime = 56.0f; //based on RED clip
+	//Ed rolls the window down
+	private float EdRollsWindowTime = 229.5f;
     private float Memory01StartTime = 227.0f; //Based on the 360 video
     private float Car02StartTime = 258.0f; //Based on RED clip
     private float Memory02StartTime = 437.0f; //Bassed on 360 clip
     private float Car03StartTime = 473.0f; // Based RED Clip
+	//Shift into park and turn off engine
+	private float ShiftKeyStartTime = 552.0f;
+	//Fly and Hit
+	private float FlyBiStartTime = 612.25f;
+	private float FlyHitStartTime = 612.25f;
     private float FinaleStartTime = 638.0f; // Based RED Clip
 
 
@@ -57,7 +64,7 @@ public class SceneController : MonoBehaviour {
     // Set our skipping options
     public enum EnumeratedSkipPoints
     {
-        Prelude, CarOne, FirstMemorySpace, CarTwo, SecondMemorySpace, CarThree
+		Prelude, CarOne, FirstMemorySpace, CarTwo, SecondMemorySpace, CarThree
     }
     public EnumeratedSkipPoints StartAt;
 
@@ -97,9 +104,17 @@ public class SceneController : MonoBehaviour {
     //Radio
     private bool radioTriggered = false;
 
+	//Ed's Window
+	private bool EdRollsWindowTriggered = false;
+
     //CarScene 2 and 3 trigger bools
     private bool CarScene02Triggered = false;
     private bool CarScene03Triggered = false;
+
+	//Shift Keys Fly Hit
+	private bool ShiftKeyTriggered = false;
+	private bool FlyBiTriggered = false;
+	private bool FlyHitTriggered = false;
 
     //Are we done?
     bool finished = false;
@@ -474,6 +489,14 @@ public class SceneController : MonoBehaviour {
                 CarScene03Triggered = true;
                 GetComponent<SoundManager>().StartCar03();
             }
+
+			//Trigger Ed's Window
+			if (!EdRollsWindowTriggered && controlRed.GetCurrentTimeMs() > EdRollsWindowTime * 1000)
+			{
+				EdRollsWindowTriggered = true;
+				GetComponent<SoundManager>().StartEdRollsWindow();
+			}
+
             //Enter memory space 1 
             if (triggerMemorySpace && 
                 memorySpaceCounter == 0 && 
@@ -493,6 +516,28 @@ public class SceneController : MonoBehaviour {
                 memorySpaceCounter = 2;
                 EventManager.TriggerEvent("EnterMemorySpaceTwo");
             }
+
+
+			//Trigger Shift Key
+			if (!ShiftKeyTriggered && controlRed.GetCurrentTimeMs() > ShiftKeyStartTime * 1000)
+				{
+					ShiftKeyTriggered = true;
+					GetComponent<SoundManager>().StartShiftKey();
+				}
+
+			//Trigger Fly and Hit
+			if (!FlyBiTriggered && controlRed.GetCurrentTimeMs () > FlyBiStartTime * 1000) 
+			{
+				FlyBiTriggered = true;
+				GetComponent<SoundManager> ().StartFlyBi();
+			}
+
+			if (!FlyHitTriggered && controlRed.GetCurrentTimeMs () > FlyHitStartTime * 1000) 
+			{
+				FlyHitTriggered = true;
+				GetComponent<SoundManager> ().StartFlyHit();
+			}
+
         }
 
 
