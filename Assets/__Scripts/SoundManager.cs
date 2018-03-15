@@ -21,11 +21,18 @@ public class SoundManager : MonoBehaviour {
     public AudioClip CarScene02FOA;
     public AudioClip CarScene03FOA;
 
-	public AudioSource EdRollsWindow;
-	public AudioClip EdWindow;
-
+	//Ed's Window
+	public AudioSource EdWindow;
+	public AudioClip EdRollsWindow;
 	public AudioSource EdWindowWind;
 	public AudioClip WindowWind;
+	public AudioClip EdWindScene02;
+	public AudioClip EdWindScene03;
+
+	//Windows
+	public AudioSource RearWindow;
+	public AudioClip WindowsDownScene02SFX;
+	public AudioClip WindowsDownScene03SFX;
 
     public AudioSource EdAudioSource;
     public AudioClip EdCarScene01DX;
@@ -129,7 +136,7 @@ public class SoundManager : MonoBehaviour {
 
 	public void StartEdRollsWindow()
 	{
-		initSceneSound (EdRollsWindow, EdWindow);
+		initSceneSound (EdWindow, EdRollsWindow);
 		initSceneSound (EdWindowWind, WindowWind);
 	}
 
@@ -149,6 +156,10 @@ public class SoundManager : MonoBehaviour {
 		Debug.Log("SoundManager: Starting CarScene 2");
 		//Start the car 02 FOA
 		initSceneSound(CarAudioSource, CarScene02FOA);
+
+		//Start Wind SFX
+		initSceneSound(EdWindowWind, EdWindScene02);
+		initSceneSound(RearWindow, WindowsDownScene02SFX);
 
 		//start ED Dialog 
 		initSceneSound(EdAudioSource, EdCarScene02DX);
@@ -183,6 +194,10 @@ public class SoundManager : MonoBehaviour {
 		Debug.Log("SoundManager: Starting CarScene 3");
 		//Start the car 03 FOA
 		initSceneSound(CarAudioSource, CarScene03FOA);
+
+		//Start Wind SFX
+		initSceneSound(EdWindowWind, EdWindScene03);
+		initSceneSound(RearWindow, WindowsDownScene03SFX);
 
 		//start ED Dialog 
 		initSceneSound(EdAudioSource, EdCarScene03DX);

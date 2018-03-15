@@ -449,7 +449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &62204473
 Transform:
   m_ObjectHideFlags: 0
@@ -469,7 +469,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 62204472}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -1100,7 +1100,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 2.75
+  MaxDistance: 2.5
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1216,8 +1216,9 @@ AudioSource:
   m_GameObject: {fileID: 177958318}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b4248b03c540194099bee2a86836e17, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 86cf4ba5683c6e641bdba448c0c2f087, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1475,7 +1476,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 522220d035af6d54797092ae80fa0d1a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bc8347bee61538946a6336bb9eed4258, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1620,10 +1621,10 @@ AudioSource:
   m_GameObject: {fileID: 285843106}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243508357889116804, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+  OutputAudioMixerGroup: {fileID: 243493282874399302, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3458,6 +3459,116 @@ Transform:
   m_Father: {fileID: 2081666163}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 15.54, y: 5.55, z: 1.12}
+--- !u!1 &618105496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 618105497}
+  - component: {fileID: 618105498}
+  m_Layer: 0
+  m_Name: RearWindow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &618105497
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 618105496}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.765, z: -8.04}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 998203830}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &618105498
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 618105496}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243493282874399302, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.166
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 70
+  DopplerLevel: 1
+  MinDistance: 5
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &621686153
 GameObject:
   m_ObjectHideFlags: 0
@@ -5590,6 +5701,7 @@ Transform:
   - {fileID: 1335625903}
   - {fileID: 1756075287}
   - {fileID: 285843107}
+  - {fileID: 618105497}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5931,7 +6043,7 @@ MonoBehaviour:
   InteractiveObjects: {fileID: 988423553}
   Car: {fileID: 1830465173}
   VanityCardDelay: 12.5
-  StartAt: 0
+  StartAt: 5
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -6024,10 +6136,17 @@ MonoBehaviour:
   CarScene01FOA: {fileID: 8300000, guid: 46e237ca493cc5c4482302256c252a05, type: 3}
   CarScene02FOA: {fileID: 8300000, guid: 7ab8e2b7f0d2c104fb1588e0d4c1ae24, type: 3}
   CarScene03FOA: {fileID: 8300000, guid: 69733a0541a494c46a16c1a5f9529941, type: 3}
-  EdRollsWindow: {fileID: 1335625904}
-  EdWindow: {fileID: 8300000, guid: 7b65b990f711860468d447e321d70f57, type: 3}
+  EdWindow: {fileID: 1335625904}
+  EdRollsWindow: {fileID: 8300000, guid: 7b65b990f711860468d447e321d70f57, type: 3}
   EdWindowWind: {fileID: 285843109}
   WindowWind: {fileID: 8300000, guid: 66bb9908db3555c4496bbb5b2789f59d, type: 3}
+  EdWindScene02: {fileID: 8300000, guid: 70d993f376234bc46901e0a01c7b58f4, type: 3}
+  EdWindScene03: {fileID: 8300000, guid: c1c79f9d92d36ca488c7a5003d37ee72, type: 3}
+  RearWindow: {fileID: 618105498}
+  WindowsDownScene02SFX: {fileID: 8300000, guid: 271fb29d1613ec648906e0e0b88f6fc9,
+    type: 3}
+  WindowsDownScene03SFX: {fileID: 8300000, guid: 06f035883287e234cbaa0e81ee1fc4c3,
+    type: 3}
   EdAudioSource: {fileID: 141197276}
   EdCarScene01DX: {fileID: 8300000, guid: 1ccb3f1e0e64d6345a785a30eb9cc561, type: 3}
   EdCarScene02DX: {fileID: 8300000, guid: 7ab8c3d0edda06f4aa6df07deb493b47, type: 3}
@@ -6205,7 +6324,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1193381888}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.304, y: 0.183, z: -7.328}
+  m_LocalPosition: {x: -0.304, y: 0.183, z: -7.376}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 998203830}
@@ -6232,7 +6351,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 2.75
+  MaxDistance: 3
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -8327,7 +8446,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 522220d035af6d54797092ae80fa0d1a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bc8347bee61538946a6336bb9eed4258, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -8509,7 +8628,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b4248b03c540194099bee2a86836e17, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 86cf4ba5683c6e641bdba448c0c2f087, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
