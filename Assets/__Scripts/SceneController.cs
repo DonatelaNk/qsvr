@@ -10,24 +10,23 @@ using Leap.Unity;
 public class SceneController : MonoBehaviour {
 
     //Sound trigger times
-    private float SkipTo = 0;
-    private float Car01StartTime = 0f;
+    //MOVED to TriggerDictionary.cs
+    //Sound trigger times
+    float SkipTo = 0;
+    /*private float Car01StartTime = 0f;
     private float RadioStartTime = 56.0f; //based on RED clip
-	//Ed rolls the window down
-	private float EdRollsWindowTime = 229.5f;
+                                          //Ed rolls the window down
+    private float EdRollsWindowTime = 229.5f;
     private float Memory01StartTime = 227.0f; //Based on the 360 video
     private float Car02StartTime = 258.0f; //Based on RED clip
     private float Memory02StartTime = 437.0f; //Bassed on 360 clip
     private float Car03StartTime = 473.0f; // Based RED Clip
-	//Shift into park and turn off engine
-	private float ShiftKeyStartTime = 552.0f;
-	//Fly and Hit
-	private float FlyBiStartTime = 612.25f;
-	private float FlyHitStartTime = 612.25f;
-    private float FinaleStartTime = 638.0f; // Based RED Clip
-
-
-
+                                           //Shift into park and turn off engine
+    private float ShiftKeyStartTime = 552.0f;
+    //Fly and Hit
+    private float FlyBiStartTime = 612.25f;
+    private float FlyHitStartTime = 612.25f;
+    private float FinaleStartTime = 638.0f; // Based RED Clip */
 
     //Direction light (sun)
     public Light Sun;
@@ -101,23 +100,16 @@ public class SceneController : MonoBehaviour {
     //it hold everything from starting until all videos and sounds are ready to play
     bool sync = false;
 
-    //Radio
-    private bool radioTriggered = false;
-
-	//Ed's Window
-	private bool EdRollsWindowTriggered = false;
-
     //CarScene 2 and 3 trigger bools
-    private bool CarScene02Triggered = false;
-    private bool CarScene03Triggered = false;
+    // MOVED TO TriggersDictionary.cs
+    /* private bool CarScene03Triggered = false;
 
-	//Shift Keys Fly Hit
-	private bool ShiftKeyTriggered = false;
-	private bool FlyBiTriggered = false;
-	private bool FlyHitTriggered = false;
+     // MOVED TO TriggersDictionary.cs
+     //Shift Keys Fly Hit
+     private bool ShiftKeyTriggered = false;
+     private bool FlyBiTriggered = false;
+     private bool FlyHitTriggered = false; */
 
-    //Are we done?
-    bool finished = false;
 
     //Set up listeners
     private UnityAction OpenningSequenceComplete;
@@ -134,11 +126,13 @@ public class SceneController : MonoBehaviour {
     float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
     //*************** //END ***************************/
 
+    
+
 
     void Awake()
     {
         //hide memory dust
-        MemoryDust.active = false;
+        MemoryDust.SetActive(false);
         //choose controller
         if (LeapMotion)
         {
@@ -203,7 +197,6 @@ public class SceneController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-       
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
 
@@ -217,7 +210,7 @@ public class SceneController : MonoBehaviour {
             RenderSettings.skybox.SetFloat("_Blend", 0);
 
             //start the change skybox blend coroutine 
-            StartCoroutine(changeSkyboxBlend());
+            StartCoroutine(ChangeSkyboxBlend());
 
             //Hide our gameobjects till they are needed
 
@@ -240,9 +233,10 @@ public class SceneController : MonoBehaviour {
             EventManager.TriggerEvent("TitlesAreDone");          
         }
 
-        //this is sloppy, cancel out some stuff based on where we skipped to
+        //Cancel out some stuff based on where we skipped to
+        //Loop thru triggers and set to true the ones we need to skip over
         //See where we're skiping
-        if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
+        /*if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
         {
             radioTriggered = true;
         }
@@ -263,7 +257,7 @@ public class SceneController : MonoBehaviour {
             CarScene02Triggered = true;
             memorySpaceCounter = 1;
             triggerMemorySpace = false;
-        }
+        }*/
 
 
     }
@@ -289,13 +283,13 @@ public class SceneController : MonoBehaviour {
         //Activate Interactive Objects
         InteractiveObjects.SetActive(true);
         //recenter the headset
-        resetHeadsetPosition();
+        ResetHeadsetPosition();
 
         //Start Audio
-        CueAudio();
+        //CueAudio();
 
         //Remove user blindfold gracefully (fade it out)
-        StartCoroutine(removeBlindfold());
+        StartCoroutine(RemoveBlindfold());
     }
 
     //360 video is ready to play
@@ -322,7 +316,7 @@ public class SceneController : MonoBehaviour {
     void StartEntryIntoMemorySpaceOne()
     {
         Debug.Log("SceneController: Now entering memory space 1");
-        GetComponent<MemorySpaces>().enterMemorySpace(1);
+        GetComponent<MemorySpaces>().EnterMemorySpace(1);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
         EventManager.StopListening("EnterMemorySpaceOne", StartEntryIntoMemorySpaceOne);
     }
@@ -337,7 +331,7 @@ public class SceneController : MonoBehaviour {
     void StartEntryIntoMemorySpaceTwo()
     {
         Debug.Log("Now entering memory space 2");
-        GetComponent<MemorySpaces>().enterMemorySpace(2);
+        GetComponent<MemorySpaces>().EnterMemorySpace(2);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
         EventManager.StopListening("EnterMemorySpaceTwo", StartEntryIntoMemorySpaceTwo);
     }
@@ -349,7 +343,7 @@ public class SceneController : MonoBehaviour {
 
 
     //This function is called when the scene is fully faded at the end
-    IEnumerator startWrapUp(float wait)
+    IEnumerator StartWrapUp(float wait)
     {
         yield return new WaitForSeconds(wait);
         WrapUpScene();
@@ -389,7 +383,7 @@ public class SceneController : MonoBehaviour {
         //Hit space to reposition the player in backseat
         if (Input.GetKeyDown("space"))
         {
-            resetHeadsetPosition();
+            ResetHeadsetPosition();
         }
         
         //is our 360 video running? if it is, check to see if it's loaded yet,
@@ -404,11 +398,11 @@ public class SceneController : MonoBehaviour {
             if (control360.CanPlay())
             {
                 video360Loaded = true;
-                if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
-                    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
-                {
+                //if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
+                //    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+                //{
                     EventManager.TriggerEvent("SphereVideoIsLoaded");
-                }
+                //}
 
             }
         }
@@ -422,11 +416,11 @@ public class SceneController : MonoBehaviour {
             if (controlRed.CanPlay())
             {
                 videoRedLoaded = true;
-                if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
-                    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
-                {
+                //if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
+                //    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+                //{
                     EventManager.TriggerEvent("RedVideoIsLoaded");
-                }
+                //}
             }
         }
         if (Blue.activeSelf && !videoBlueLoaded)
@@ -436,25 +430,26 @@ public class SceneController : MonoBehaviour {
             if (controlBlue.CanPlay())
             {
                 videoBlueLoaded = true;
-                if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
-                    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
-                {
+                //if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
+                //    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
+                //{
                     EventManager.TriggerEvent("BlueVideoIsLoaded");
-                }
+                //}
             }
         }
 
         //make sure that the ED and MH dialogue for scene 01 have both loaded
         //we get out of sync here if they are not ready but videos are
         //Debug.Log("MhAudioSource state: " + GetComponent<SoundManager>().MhAudioSource.clip.loadState);
-        if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf
+        
+        /*if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf
             )
         {
-            if (StartAt != EnumeratedSkipPoints.FirstMemorySpace && StartAt != EnumeratedSkipPoints.SecondMemorySpace &&
-            GetComponent<SoundManager>().MhAudioSource.clip.isReadyToPlay &&
-            GetComponent<SoundManager>().EdAudioSource.clip.isReadyToPlay &&
-            GetComponent<SoundManager>().EdPFXSource.clip.isReadyToPlay &&
-            GetComponent<SoundManager>().MhPFXSource.clip.isReadyToPlay &&
+            if (
+            GetComponent<SoundManager>().MhAudioSource.clip != null &&
+            GetComponent<SoundManager>().EdAudioSource.clip !=null &&
+            GetComponent<SoundManager>().EdPFXSource.clip != null &&
+            GetComponent<SoundManager>().MhPFXSource.clip != null &&
             video360Loaded && videoBlueLoaded && videoRedLoaded)
             {
                 sync = true;
@@ -462,40 +457,13 @@ public class SceneController : MonoBehaviour {
                 EventManager.TriggerEvent("RedVideoIsLoaded");
                 EventManager.TriggerEvent("SphereVideoIsLoaded");
             }
-        }
+        }*/
         
-
+        /*
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
-				
-			//Trigger Radio
 
-            if (!radioTriggered && controlRed.GetCurrentTimeMs() > RadioStartTime * 1000)
-            {
-                radioTriggered = true;
-                GetComponent<SoundManager>().StartRadio();
-            }
-
-            //Trigger the Car Scene 2 sounds
-            if (!CarScene02Triggered && controlRed.GetCurrentTimeMs() > Car02StartTime * 1000)
-            {
-                CarScene02Triggered = true;
-                GetComponent<SoundManager>().StartCar02();
-            }
-
-            //Trigger the Car Scene 3 sounds
-            if (!CarScene03Triggered && controlRed.GetCurrentTimeMs() > Car03StartTime * 1000)
-            {
-                CarScene03Triggered = true;
-                GetComponent<SoundManager>().StartCar03();
-            }
-
-			//Trigger Ed's Window
-			if (!EdRollsWindowTriggered && controlRed.GetCurrentTimeMs() > EdRollsWindowTime * 1000)
-			{
-				EdRollsWindowTriggered = true;
-				GetComponent<SoundManager>().StartEdRollsWindow();
-			}
+		
 
             //Enter memory space 1 
             if (triggerMemorySpace && 
@@ -538,7 +506,7 @@ public class SceneController : MonoBehaviour {
 				GetComponent<SoundManager> ().StartFlyHit();
 			}
 
-        }
+        } 
 
 
 
@@ -548,13 +516,16 @@ public class SceneController : MonoBehaviour {
         if (!finished && control360.GetCurrentTimeMs() > FinaleStartTime*1000)
         {
             finished = true;
-            StartCoroutine(startWrapUp(8.0f));
-            this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
-            //start any finale music/sound
-            GetComponent<SoundManager>().StartFinale();
-        }
+            startFinale();
+        }*/
     }
-
+    public void StartFinale()
+    {
+        StartCoroutine(StartWrapUp(8.0f));
+        this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
+        //start any finale music/sound
+        GetComponent<SoundManager>().StartFinale();
+    }
 
     //********** FUNCTIONS TO SKIP AROUND TIMELINE************/
     //*******************************************************//
@@ -565,13 +536,14 @@ public class SceneController : MonoBehaviour {
     void CueVideo(IMediaControl control)
     {
         //Skip to specific point in video
-        SkipTo = evalDestination();
+        SkipTo = EvalDestination();
         //control.Pause();
         if (SkipTo > 0) { control.SeekFast(SkipTo); }    
         control.Play();
     }
 
-    void CueAudio() //this function is only called once from StartScene
+
+    /*void CueAudio() //this function is only called once from StartScene
     {
         if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
         {
@@ -589,32 +561,32 @@ public class SceneController : MonoBehaviour {
             //triggered following the prelude
             GetComponent<SoundManager>().StartCar01();
         }
-    }
+    }*/
 
-    private float evalDestination()
+    private float EvalDestination()
     {
         //See where we're skiping
         if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
         {
-            SkipTo = Memory01StartTime * 1000;
+            SkipTo = GetComponent<TriggerDictionary>().triggers["MemorySpace01Trigger"].triggerTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.CarTwo)
         {
-            SkipTo = Car02StartTime * 1000;
+            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02Trigger"].triggerTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
-            SkipTo = Memory02StartTime * 1000;
+            SkipTo = GetComponent<TriggerDictionary>().triggers["MemorySpace02Trigger"].triggerTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.CarThree)
         {
-            SkipTo = Car03StartTime * 1000;
+            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03Trigger"].triggerTime * 1000;
         }
         return SkipTo;
     }
 
 
-    void resetHeadsetPosition()
+    void ResetHeadsetPosition()
     {
         if (OculusTouch){
             OVRManager.display.RecenterPose();
@@ -628,7 +600,7 @@ public class SceneController : MonoBehaviour {
     //******************* COROUTINES *************************/
     //*******************************************************//
     //*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*//
-    IEnumerator changeSkyboxBlend() 
+    IEnumerator ChangeSkyboxBlend() 
     {
         yield return new WaitForSeconds(VanityCardDelay);
         for (float f = 0f; f <= 1; f += 0.01f)
@@ -644,7 +616,7 @@ public class SceneController : MonoBehaviour {
         }
     }
     //Courtine to remove the user blindfold with a 2 second delay
-    IEnumerator removeBlindfold()
+    IEnumerator RemoveBlindfold()
     {
         yield return new WaitForSeconds(4);
         GetComponent<Blindfold>().fadeOutBlindFold();
