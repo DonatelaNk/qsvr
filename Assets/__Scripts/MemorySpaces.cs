@@ -96,7 +96,7 @@ public class MemorySpaces : MonoBehaviour {
 
 
 
-    public void enterMemorySpace(float memberSpaceNumber)
+    public void EnterMemorySpace(float memberSpaceNumber)
     {
         setupMemorySpaceCorutine = SetupMemorySpace(4.5f, memberSpaceNumber); // create an IEnumerator object
         StartCoroutine(setupMemorySpaceCorutine);
@@ -109,21 +109,21 @@ public class MemorySpaces : MonoBehaviour {
         //GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
     }
 
-    public void setMemorySpaceMood()
+    public void SetMemorySpaceMood()
     {
         //Reveal memory dust
-        GetComponent<SceneController>().MemoryDust.active = true;
+        GetComponent<SceneController>().MemoryDust.SetActive(true);
         //Start fod
         RenderSettings.fog = true;
         RenderSettings.fogDensity = 0.0f;
-        addFogCoroutine = startFog();
+        addFogCoroutine = StartFog();
         StartCoroutine(addFogCoroutine);
     }
 
     IEnumerator SetupMemorySpace(float wait, float memberSpaceNumber)
     {
         yield return new WaitForSeconds(wait);
-        setMemorySpaceMood();
+        SetMemorySpaceMood();
         PauseVideos();
         MemorySpaceIsReady(memberSpaceNumber);
         StopCoroutine(setupMemorySpaceCorutine);
@@ -133,8 +133,8 @@ public class MemorySpaces : MonoBehaviour {
     {
         yield return new WaitForSeconds(wait);
         //remove momory dust
-        GetComponent<SceneController>().MemoryDust.active = false;
-        removeFogCoroutine = endFog();
+        GetComponent<SceneController>().MemoryDust.SetActive(false);
+        removeFogCoroutine = EndFog();
         StartCoroutine(removeFogCoroutine);
         //destroy objects available in memory space
         foreach (Transform child in m_parent.transform)
@@ -144,7 +144,7 @@ public class MemorySpaces : MonoBehaviour {
         EventManager.TriggerEvent(triggerLabel);
     }
 
-    IEnumerator startFog()
+    IEnumerator StartFog()
     {
        
         for (float f = 0f; f <= fogDensity; f += 0.001f)
@@ -155,7 +155,7 @@ public class MemorySpaces : MonoBehaviour {
         }
         StopCoroutine(addFogCoroutine);
     }
-    IEnumerator endFog()
+    IEnumerator EndFog()
     {
 
         for (float f = fogDensity; f >= 0; f -= 0.001f)
