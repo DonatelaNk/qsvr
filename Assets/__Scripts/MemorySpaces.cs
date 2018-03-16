@@ -86,7 +86,7 @@ public class MemorySpaces : MonoBehaviour {
                 diaryInstance.transform.GetChild(6).gameObject.AddComponent<InteractionBehaviour>();
             }
                
-            GetComponent<SoundManager>().initVoiceover();
+            GetComponent<SoundManager>().InitVoiceover();
             //TODO: This is temp
             StartCoroutine(ExitMemorySpace(25.5f, "ExitMemorySpaceTwo"));
         }

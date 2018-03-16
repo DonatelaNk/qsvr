@@ -64,7 +64,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("FlyHitTrigger", FlyHitTrigger);
 
         //Trigger finale
-        Trigger FinaletTrigger = new Trigger("Scene03", false, 638.0f, SoundManager.StartFinale);
+        Trigger FinaletTrigger = new Trigger("Scene03", false, 638.0f, SceneController.StartFinale);
         triggers.Add("FinaletTrigger", FinaletTrigger);
 
 
