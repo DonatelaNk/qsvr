@@ -8,9 +8,13 @@ public class TriggerDictionary : MonoBehaviour {
     public Dictionary<string, Trigger> triggers;
     private List<string> triggersList;
     private float videoPosition;
+    private SoundManager SoundManager;
+    private SceneController SceneController;
 
     // Use this for initialization
     void Start () {
+        SoundManager = GetComponent<SoundManager>();
+        SceneController = GetComponent<SceneController>();
         //Declare our triggers dictionary
         triggers = new Dictionary<string, Trigger>();
 
@@ -20,15 +24,15 @@ public class TriggerDictionary : MonoBehaviour {
         //3. Time in seconds when the trigger should be fired
         //4. Function that should be called
 
-        Trigger CarScene01Trigger = new Trigger("Scene01", false, 0, GetComponent<SoundManager>().StartCar01);
+        Trigger CarScene01Trigger = new Trigger("Scene01", false, 0.01f, SoundManager.StartCar01);
         triggers.Add("CarScene01Trigger", CarScene01Trigger);
 
         //Trigger Radio
-        Trigger radioTrigger = new Trigger("Scene01", false, 56.0f, GetComponent<SoundManager>().StartRadio);
+        Trigger radioTrigger = new Trigger("Scene01", false, 56.0f, SoundManager.StartRadio);
         triggers.Add("radioTrigger", radioTrigger);
 
         //Trigger Ed rolling down the window
-        Trigger EdRollsWindowTrigger = new Trigger("Scene01", false, 229.5f, GetComponent<SoundManager>().StartEdRollsWindow);
+        Trigger EdRollsWindowTrigger = new Trigger("Scene01", false, 229.5f, SoundManager.StartEdRollsWindow);
         triggers.Add("EdRollsWindowTrigger", EdRollsWindowTrigger);
 
         //Trigger Memory Space 1
@@ -36,7 +40,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("MemorySpace01Trigger", MemorySpace01Trigger);
 
         //Trigger CarScene 2 sounds
-        Trigger CarScene02Trigger = new Trigger("Scene02", false, 258.0f, GetComponent<SoundManager>().StartCar02);
+        Trigger CarScene02Trigger = new Trigger("Scene02", false, 258.0f, SoundManager.StartCar02);
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
 
         //Trigger Memory Space 2
@@ -44,23 +48,23 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("MemorySpace02Trigger", MemorySpace02Trigger);
 
         //Trigger CarScene 3 sounds
-        Trigger CarScene03Trigger = new Trigger("Scene03", false, 473.0f, GetComponent<SoundManager>().StartCar03);
+        Trigger CarScene03Trigger = new Trigger("Scene03", false, 473.0f, SoundManager.StartCar03);
         triggers.Add("CarScene03Trigger", CarScene03Trigger);
 
         //Trigger ShiftKey
-        Trigger ShiftKeyTrigger = new Trigger("Scene03", false, 552.0f, GetComponent<SoundManager>().StartShiftKey);
+        Trigger ShiftKeyTrigger = new Trigger("Scene03", false, 552.0f, SoundManager.StartShiftKey);
         triggers.Add("ShiftKeyTrigger", ShiftKeyTrigger);
 
         //Trigger fly flyby
-        Trigger FlybyTrigger = new Trigger("Scene03", false, 612.25f, GetComponent<SoundManager>().StartFlyBi);
+        Trigger FlybyTrigger = new Trigger("Scene03", false, 612.25f, SoundManager.StartFlyBi);
         triggers.Add("FlybyTrigger", FlybyTrigger);
 
         //Trigger fly hit
-        Trigger FlyHitTrigger = new Trigger("Scene03", false, 612.25f, GetComponent<SoundManager>().StartFlyHit);
+        Trigger FlyHitTrigger = new Trigger("Scene03", false, 612.25f, SoundManager.StartFlyHit);
         triggers.Add("FlyHitTrigger", FlyHitTrigger);
 
         //Trigger finale
-        Trigger FinaletTrigger = new Trigger("Scene03", false, 638.0f, GetComponent<SceneController>().StartFinale);
+        Trigger FinaletTrigger = new Trigger("Scene03", false, 638.0f, SoundManager.StartFinale);
         triggers.Add("FinaletTrigger", FinaletTrigger);
 
 
@@ -71,8 +75,8 @@ public class TriggerDictionary : MonoBehaviour {
         triggersList = new List<string>(triggers.Keys);
 
 
-        //Depending on if we skipped using the StartAt dropdown, set some triggers to true
-        if (GetComponent<SceneController>().StartAt == SceneController.EnumeratedSkipPoints.FirstMemorySpace)
+        //Depending on if we skipped using the StartAt dropdown, set some triggers to true, so we dont trigger these sounds
+        if (SceneController.StartAt == SceneController.EnumeratedSkipPoints.FirstMemorySpace)
         {
             foreach (string trigger in triggersList)
             {
@@ -82,7 +86,7 @@ public class TriggerDictionary : MonoBehaviour {
                 }
             }
         }
-        if (GetComponent<SceneController>().StartAt == SceneController.EnumeratedSkipPoints.CarTwo)
+        if (SceneController.StartAt == SceneController.EnumeratedSkipPoints.CarTwo)
         {
             foreach (string trigger in triggersList)
             {
@@ -93,7 +97,7 @@ public class TriggerDictionary : MonoBehaviour {
                 }
             }
         }
-        if (GetComponent<SceneController>().StartAt == SceneController.EnumeratedSkipPoints.SecondMemorySpace)
+        if (SceneController.StartAt == SceneController.EnumeratedSkipPoints.SecondMemorySpace)
         {
             foreach (string trigger in triggersList)
             {
@@ -105,7 +109,7 @@ public class TriggerDictionary : MonoBehaviour {
                 }
             }
         }
-        if (GetComponent<SceneController>().StartAt == SceneController.EnumeratedSkipPoints.CarThree)
+        if (SceneController.StartAt == SceneController.EnumeratedSkipPoints.CarThree)
         {
             foreach (string trigger in triggersList)
             {
@@ -124,7 +128,8 @@ public class TriggerDictionary : MonoBehaviour {
 	void Update () {
         
         //get current video frame just once per udpate
-        videoPosition = GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.GetCurrentTimeMs();
+        videoPosition = SceneController.VideoPlayer.GetComponent<MediaPlayer>().Control.GetCurrentTimeMs();
+        Debug.Log(videoPosition);
         
         //loop through triggers list to see if anything needs to be triggered
         foreach (string trigger in triggersList)
@@ -132,7 +137,7 @@ public class TriggerDictionary : MonoBehaviour {
             //if this trigger is false, see if we should trigger it now
             if (!triggers[trigger].triggerStatus)
             {
-                if (videoPosition > triggers[trigger].triggerTime * 1000)
+                if (videoPosition >= triggers[trigger].triggerTime * 1000)
                 {
                     //update this trigger's bool value, set it to true indicating that it has been triggered
                     triggers[trigger].triggerStatus = true;

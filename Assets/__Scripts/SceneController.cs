@@ -394,14 +394,13 @@ public class SceneController : MonoBehaviour {
             //Get player controls
             mediaplayer360 = VideoPlayer.GetComponent<MediaPlayer>();
             control360 = mediaplayer360.Control;
-            //if the video is already playing, skip to the desired position
             if (control360.CanPlay())
             {
                 video360Loaded = true;
                 //if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
                 //    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
                 //{
-                    EventManager.TriggerEvent("SphereVideoIsLoaded");
+                   EventManager.TriggerEvent("SphereVideoIsLoaded");
                 //}
 
             }
@@ -433,32 +432,12 @@ public class SceneController : MonoBehaviour {
                 //if (StartAt == EnumeratedSkipPoints.FirstMemorySpace ||
                 //    StartAt == EnumeratedSkipPoints.SecondMemorySpace)
                 //{
-                    EventManager.TriggerEvent("BlueVideoIsLoaded");
+                   EventManager.TriggerEvent("BlueVideoIsLoaded");
                 //}
             }
         }
 
-        //make sure that the ED and MH dialogue for scene 01 have both loaded
-        //we get out of sync here if they are not ready but videos are
-        //Debug.Log("MhAudioSource state: " + GetComponent<SoundManager>().MhAudioSource.clip.loadState);
-        
-        /*if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf
-            )
-        {
-            if (
-            GetComponent<SoundManager>().MhAudioSource.clip != null &&
-            GetComponent<SoundManager>().EdAudioSource.clip !=null &&
-            GetComponent<SoundManager>().EdPFXSource.clip != null &&
-            GetComponent<SoundManager>().MhPFXSource.clip != null &&
-            video360Loaded && videoBlueLoaded && videoRedLoaded)
-            {
-                sync = true;
-                EventManager.TriggerEvent("BlueVideoIsLoaded");
-                EventManager.TriggerEvent("RedVideoIsLoaded");
-                EventManager.TriggerEvent("SphereVideoIsLoaded");
-            }
-        }*/
-        
+        WaitForVideoAudioSync();
         /*
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
@@ -537,9 +516,60 @@ public class SceneController : MonoBehaviour {
     {
         //Skip to specific point in video
         SkipTo = EvalDestination();
-        //control.Pause();
-        if (SkipTo > 0) { control.SeekFast(SkipTo); }    
-        control.Play();
+        control.Seek(SkipTo);
+        //control.Play();     
+    }
+
+    public void WaitForVideoAudioSync()
+    {
+        //Debug.Log("360 BUFFERING: " + control360.GetBufferingProgress());
+        //make sure that the ED and MH dialogues and PFX have both loaded
+        //we get out of sync here if they are not ready but videos are
+        if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf)
+        {
+            AudioClip MH_DX_Clip = GetComponent<SoundManager>().MhAudioSource.clip;
+            AudioClip MH_PFX_Clip = GetComponent<SoundManager>().MhPFXSource.clip;
+            AudioClip ED_DX_Clip = GetComponent<SoundManager>().EdAudioSource.clip;
+            AudioClip ED_PFX_Clip = GetComponent<SoundManager>().EdPFXSource.clip;
+
+            //Debug.Log("MH_DX_Clip.loadState: " + MH_DX_Clip.loadState);
+
+            if (
+            (StartAt == EnumeratedSkipPoints.FirstMemorySpace || 
+            StartAt == EnumeratedSkipPoints.SecondMemorySpace) || 
+            
+            (MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
+            MH_PFX_Clip != null && MH_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
+            ED_DX_Clip != null && ED_DX_Clip.loadState == AudioDataLoadState.Loaded &&
+            ED_PFX_Clip != null && ED_PFX_Clip.loadState == AudioDataLoadState.Loaded) &&
+
+            (video360Loaded && videoBlueLoaded && videoRedLoaded))
+            {
+                //if done buffering
+                if (control360.GetBufferingProgress() >= 1 &&
+                    controlRed.GetBufferingProgress() >= 1 &&
+                    controlBlue.GetBufferingProgress() >= 1)
+                {
+                    sync = true;
+                    //start video playback
+                    control360.Play();
+                    controlRed.Play();
+                    controlBlue.Play();
+
+                    GetComponent<SoundManager>().MhAudioSource.Stop();
+                    GetComponent<SoundManager>().MhPFXSource.Stop();
+                    GetComponent<SoundManager>().EdAudioSource.Stop();
+                    GetComponent<SoundManager>().EdPFXSource.Stop();
+
+                    GetComponent<SoundManager>().MhAudioSource.Play();
+                    GetComponent<SoundManager>().MhPFXSource.Play();
+                    GetComponent<SoundManager>().EdAudioSource.Play();
+                    GetComponent<SoundManager>().EdPFXSource.Play();
+                    Debug.Log("PLAY Audio/Video in sync");
+                }
+                
+            }
+        }
     }
 
 
@@ -581,6 +611,9 @@ public class SceneController : MonoBehaviour {
         else if (StartAt == EnumeratedSkipPoints.CarThree)
         {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03Trigger"].triggerTime * 1000;
+        } else
+        {
+            SkipTo = 0;
         }
         return SkipTo;
     }
