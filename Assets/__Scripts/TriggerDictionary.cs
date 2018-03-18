@@ -129,7 +129,7 @@ public class TriggerDictionary : MonoBehaviour {
         
         //get current video frame just once per udpate
         videoPosition = SceneController.VideoPlayer.GetComponent<MediaPlayer>().Control.GetCurrentTimeMs();
-        Debug.Log(videoPosition);
+        //Debug.Log(videoPosition);
         
         //loop through triggers list to see if anything needs to be triggered
         foreach (string trigger in triggersList)
