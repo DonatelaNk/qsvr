@@ -71,9 +71,7 @@ public class SceneController : MonoBehaviour {
     public bool OculusTouch;
     public GameObject OVR;
     public GameObject LM;
-    private float originalCamera_x;
-    private float originalCamera_y;
-    private float originalCamera_z;
+    private Vector3 originalCameraPosition;
 
 
     //Vanity card game object
@@ -139,10 +137,7 @@ public class SceneController : MonoBehaviour {
             //Destroy(OVR);
             OVR.SetActive(false);
             //remember where the LMRig is positioned
-            originalCamera_x = LM.transform.GetChild(0).transform.position.x;
-            originalCamera_y = LM.transform.GetChild(0).transform.position.y;
-            originalCamera_z = LM.transform.GetChild(0).transform.position.z;
-            Debug.Log("originalCamera_x: " + originalCamera_x);
+            originalCameraPosition = LM.transform.position;
         }
         else
         {
@@ -625,8 +620,7 @@ public class SceneController : MonoBehaviour {
             OVRManager.display.RecenterPose();
         }else{
             //LM
-            
-
+            LM.transform.position = new Vector3(originalCameraPosition.x, originalCameraPosition.y, originalCameraPosition.z);
         }
     }
 
