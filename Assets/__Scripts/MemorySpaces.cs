@@ -19,7 +19,7 @@ public class MemorySpaces : MonoBehaviour {
     public Material[] PictureSet1;
     public Material[] PictureSet2;
     public Material[] PictureSet3;
-    public Rigidbody Diary;
+    public GameObject Diary;
     public float MemoryMaxTime;
 
     //max time to wait for the user being inactive before existing the memory space
@@ -45,6 +45,7 @@ public class MemorySpaces : MonoBehaviour {
     void Start()
     {
         CountDownUserIdleTime = MaxUserIdleTime;
+        Diary.SetActive(false);
     }
 
     void Update()
@@ -128,7 +129,7 @@ public class MemorySpaces : MonoBehaviour {
             GetComponent<SoundManager>().MemorySpaceTwo();
 
             //Instantiate the diary
-            Rigidbody diaryInstance;
+            /*Rigidbody diaryInstance;
             diaryInstance = Instantiate(Diary, m_parent.position, m_parent.rotation) as Rigidbody;
             //make a child of the memory space object
             diaryInstance.transform.parent = m_parent;
@@ -138,7 +139,8 @@ public class MemorySpaces : MonoBehaviour {
                 diaryInstance.gameObject.AddComponent<InteractionBehaviour>();
                 diaryInstance.transform.GetChild(5).gameObject.AddComponent<InteractionBehaviour>();
                 diaryInstance.transform.GetChild(6).gameObject.AddComponent<InteractionBehaviour>();
-            }
+            }*/
+            Diary.SetActive(true);
                
             GetComponent<SoundManager>().InitVoiceover();
 

@@ -25,7 +25,10 @@ public class PageTurnController : MonoBehaviour
 	public Collider rightPageCollider;
 	public Collider leftPageCollider;
 
-	[Header("Events")]
+    public Collider pageTurnRightHandleCollider;
+    public Collider pageTurnLeftHandleCollider;
+
+    [Header("Events")]
 	public PageSetHandler onPageSet;
 
 	[Serializable]
@@ -64,16 +67,25 @@ public class PageTurnController : MonoBehaviour
 		if (megaBookBuilder == null || pageTurnRightHandle == null || pageTurnLeftHandle == null)
 			return;
 
-		// Lock the axis of the grabbables to the book
-		pageTurnRightHandle.transform.rotation = transform.rotation;
-		pageTurnLeftHandle.transform.rotation = transform.rotation;
+        // Lock the axis of the grabbables to the book
+        pageTurnRightHandle.transform.rotation = transform.rotation;
+        pageTurnLeftHandle.transform.rotation = transform.rotation;
 
-		// Set book colliders enabled based on the current page
-		if (rightPageCollider)
-			rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
+        // Set book colliders enabled based on the current page
+        //if (rightPageCollider)
+        //rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
 
-		if (leftPageCollider)
-			leftPageCollider.enabled = currentPage >= 0;
+        //if (leftPageCollider)
+        //leftPageCollider.enabled = currentPage >= 0;
+
+
+        if (currentPage >= 0)
+        {
+            leftPageCollider.enabled = true;
+        } else
+        {
+            leftPageCollider.enabled = false;
+        }
 
 
 		// Reset to page 0 if the book isn't currently grabbed
@@ -87,13 +99,35 @@ public class PageTurnController : MonoBehaviour
 					StopCoroutine(setPageCoroutine);
 
 				setPageCoroutine = StartCoroutine(DoSetPage(-1, 0.25f));
-			}
-		}
+                
+
+            }
+           
+        }
 		else
 			closeBookCurrentTime = closeBookDelay;
 
-		// Page turning
-		if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
+
+        if (bookGrabbable.isGrabbed)
+        {
+            
+
+            if (pageTurnRightHandleCollider.enabled == false)
+            {
+                pageTurnRightHandleCollider.enabled = true;
+                pageTurnLeftHandleCollider.enabled = true;
+            }
+        } else
+        {
+            if (pageTurnRightHandleCollider.enabled == true)
+            {
+                pageTurnRightHandleCollider.enabled = false;
+                pageTurnLeftHandleCollider.enabled = false;
+            }
+        }
+
+        // Page turning
+        if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
 		{
 			SetPageTurn(pageTurnRightHandle, pageTurnLeftHandle);
 		}

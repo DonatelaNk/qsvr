@@ -379,6 +379,7 @@ public class SceneController : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
             ResetHeadsetPosition();
+            //control360.Play();
         }
         
         //is our 360 video running? if it is, check to see if it's loaded yet,
@@ -622,6 +623,7 @@ public class SceneController : MonoBehaviour {
             //LM
             LM.transform.position = new Vector3(originalCameraPosition.x, originalCameraPosition.y, originalCameraPosition.z);
         }
+        
     }
 
     //******************* COROUTINES *************************/
