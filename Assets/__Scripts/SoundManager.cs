@@ -12,7 +12,6 @@ public class SoundManager : MonoBehaviour {
     public AudioClip[] SebastianVoiceovers;
 
     public AudioSource PreludeAudioSource;
-    public AudioClip PreludeFOA;
 
     public AudioSource CarAudioSource;
     public AudioClip CarScene01FOA;
@@ -89,7 +88,6 @@ public class SoundManager : MonoBehaviour {
     public void StartPrelude()
     {
         Debug.Log("SoundManager: Starting Prelude");
-        PreludeAudioSource.clip = PreludeFOA;
         PreludeAudioSource.Play();
     }
     public void StartCar01()
