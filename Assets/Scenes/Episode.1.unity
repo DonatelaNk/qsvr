@@ -9553,9 +9553,9 @@ MonoBehaviour:
   InteractiveObjects: {fileID: 988423553}
   Car: {fileID: 1355048970}
   VanityCardDelay: 12.5
-  StartAt: 1
-  LeapMotion: 1
-  OculusTouch: 0
+  StartAt: 0
+  LeapMotion: 0
+  OculusTouch: 1
   OVR: {fileID: 425612495}
   LM: {fileID: 159619466}
 --- !u!4 &1173825486
