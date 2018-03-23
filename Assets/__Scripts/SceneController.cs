@@ -562,6 +562,9 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().EdAudioSource.Play();
                     GetComponent<SoundManager>().EdPFXSource.Play();
                     Debug.Log("PLAY Audio/Video in sync");
+
+                    //recenter the headset
+                    ResetHeadsetPosition();
                 }
                 
             }
