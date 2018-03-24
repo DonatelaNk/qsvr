@@ -285,6 +285,8 @@ public class SceneController : MonoBehaviour {
         Blue.SetActive(true);
         //Activate Interactive Objects
         InteractiveObjects.SetActive(true);
+        //add a random set of objects to box
+        GetComponent<Objects>().GetRandomObjectSet();
         //recenter the headset
         ResetHeadsetPosition();
 
@@ -321,6 +323,8 @@ public class SceneController : MonoBehaviour {
         Debug.Log("SceneController: Now entering memory space 1");
         GetComponent<MemorySpaces>().EnterMemorySpace(1);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
+        //Destroy interactive objects set
+        GetComponent<Objects>().DestroyObjectSet();
         EventManager.StopListening("EnterMemorySpaceOne", StartEntryIntoMemorySpaceOne);
     }
     void StartExitFromMemorySpaceOne()
@@ -328,6 +332,7 @@ public class SceneController : MonoBehaviour {
         triggerMemorySpace = true; //reset this var for 2nd memory sapce entry
         //trigger any sounds for the exit
         GetComponent<SoundManager>().StartExitFromMemorySpaceOne();
+        GetComponent<Objects>().GetRandomObjectSet();
         EventManager.StopListening("ExitMemorySpaceOne", StartExitFromMemorySpaceOne);
     }
 
@@ -336,10 +341,13 @@ public class SceneController : MonoBehaviour {
         Debug.Log("Now entering memory space 2");
         GetComponent<MemorySpaces>().EnterMemorySpace(2);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
+        //Destroy interactive objects set
+        GetComponent<Objects>().DestroyObjectSet();
         EventManager.StopListening("EnterMemorySpaceTwo", StartEntryIntoMemorySpaceTwo);
     }
     void StartExitFromMemorySpaceTwo()
     {
+        GetComponent<Objects>().GetRandomObjectSet();
         EventManager.StopListening("ExitMemorySpaceTwo", StartExitFromMemorySpaceTwo);
     }
 

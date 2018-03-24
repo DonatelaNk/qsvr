@@ -10,6 +10,7 @@ public class TriggerDictionary : MonoBehaviour {
     private float videoPosition;
     private SoundManager SoundManager;
     private SceneController SceneController;
+    private Objects Objects;
 
     // Use this for initialization
     void Start () {

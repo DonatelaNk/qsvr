@@ -50,11 +50,11 @@ public class MemorySpaces : MonoBehaviour {
 
     void Update()
     {
-       /* if (MemorySpaceActive)
+        if (MemorySpaceActive)
         {
             LoopActorVideos();
             WatchUserIdleTime();
-        } */
+        } 
     }
     /*
     Logic for each memory space goes into this function
@@ -98,7 +98,7 @@ public class MemorySpaces : MonoBehaviour {
                 if (hitColliders.Length == 0)
                 {
                 }   */
-                Vector3 instancePosition = new Vector3(m_parent.position.x, m_parent.position.y + 0.06f, m_parent.position.z);
+                Vector3 instancePosition = new Vector3(m_parent.position.x, m_parent.position.y + 0.00974f, m_parent.position.z);
                 polaroidInstance = Instantiate(polaroid, instancePosition, m_parent.rotation) as Rigidbody;
                 //parent it
                 polaroidInstance.transform.parent = m_parent;
@@ -113,7 +113,7 @@ public class MemorySpaces : MonoBehaviour {
                 }
 
                 //add a script to prevent very thin colliders (like paper and photos) from going though each other
-                polaroidInstance.gameObject.AddComponent<DontGoThroughThings>();
+                //polaroidInstance.gameObject.AddComponent<DontGoThroughThings>();
 
             }
         }
