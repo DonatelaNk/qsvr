@@ -6,62 +6,71 @@ public class SoundManager : MonoBehaviour {
 
     float delay = 3.0f;
     //AudioSources
-    public GameObject Radio;
-
-    public AudioSource SebastianAudioSource;
-    public AudioClip[] SebastianVoiceovers;
-
     public AudioSource PreludeAudioSource;
 
+    [Header("Car Sounds")]
+    public GameObject Radio;
     public AudioSource CarAudioSource;
     public AudioClip CarScene01FOA;
     public AudioClip CarScene02FOA;
     public AudioClip CarScene03FOA;
+    public AudioSource ShifterAudioSource;
 
-	//Ed's Window
-	public AudioSource EdWindow;
+    //Windows
+    [Header("Car Windows")]
+    public AudioSource RearWindow;
+    public AudioClip WindowsDownScene02SFX;
+    public AudioClip WindowsDownScene03SFX;
+
+    [Header("Fly Sounds")]
+    public AudioSource FlyAudioSource;
+    public AudioSource FlyDashAudioSource;
+    public AudioSource FlyLandAudioSource;
+
+    [Header("Sebastian Sounds")]
+    public AudioSource SebastianAudioSource;
+    public AudioClip[] SebastianVoiceovers;
+
+
+    [Header("Ed Sounds")]
+    //Ed's Window
+    public AudioSource EdWindow;
 	public AudioClip EdRollsWindow;
 	public AudioSource EdWindowWind;
 	public AudioClip WindowWind;
 	public AudioClip EdWindScene02;
 	public AudioClip EdWindScene03;
 
-	//Windows
-	public AudioSource RearWindow;
-	public AudioClip WindowsDownScene02SFX;
-	public AudioClip WindowsDownScene03SFX;
-
+    [Header("Ed Dialogue")]
     public AudioSource EdAudioSource;
     public AudioClip EdCarScene01DX;
     public AudioClip EdCarScene02DX;
     public AudioClip EdCarScene03DX;
 
-	public AudioSource EdYellsAudioSource;
+    [Header("Ed PFX")]
+    public AudioSource EdYellsAudioSource;
 	//public AudioClip EdCarScene02YellDX; //Assigned directly in scene
-
 	public AudioSource EdPFXSource;
     public AudioClip EdCarScene01PFX;
     public AudioClip EdCarScene02PFX;
     public AudioClip EdCarScene03PFX;
 
+    [Header("Mary-Helen Dialogue")]
     public AudioSource MhAudioSource;
     public AudioClip MhCarScene01DX;
     public AudioClip MhCarScene02DX;
     public AudioClip MhCarScene03DX;
 
-
-	public AudioSource MhPFXSource;
+    [Header("Mary-Helen PFX")]
+    public AudioSource MhPFXSource;
     public AudioClip MhCarScene01PFX;
     public AudioClip MhCarScene02PFX;
     public AudioClip MhCarScene03PFX;
 
 
-    //Audio sources for hardcoded sounds (assiedn directly to gameobjects)
-	public AudioSource ShifterAudioSource;
-	public AudioSource FlyAudioSource;
-	public AudioSource FlyDashAudioSource;
-	public AudioSource FlyLandAudioSource;
 
+
+    [Header("Memory Spaces Sounds")]
     public AudioSource MemorySpace;
     public AudioClip MemorySpaceEnter;
     public AudioClip MemorySpaceExit;

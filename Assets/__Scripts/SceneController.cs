@@ -28,6 +28,7 @@ public class SceneController : MonoBehaviour {
     private float FlyHitStartTime = 612.25f;
     private float FinaleStartTime = 638.0f; // Based RED Clip */
 
+    [Header("Scene setup")]
     //Direction light (sun)
     public Light Sun;
     //skybox for vanity card and opening title sequence
@@ -42,6 +43,7 @@ public class SceneController : MonoBehaviour {
     //Skybox for the memory spaces
     //public Material MemorySkybox;
 
+    [Header("Videos")]
     //360 video gameobject reference
     public GameObject SphereVideo;
     //AVPRO video player
@@ -51,12 +53,16 @@ public class SceneController : MonoBehaviour {
     public GameObject Red;
     public GameObject Blue;
 
+    [Header("Car")]
     //Interactive Objects
     public GameObject InteractiveObjects;
 
     //Cady
     public GameObject Car;
+    //Car lights
+    public GameObject CarLights;
 
+    [Header("Debug Tools & Settings")]
     //time in seconds to wait for the vanity card onscreen
     public float VanityCardDelay;
 
@@ -214,6 +220,7 @@ public class SceneController : MonoBehaviour {
             Blue.SetActive(false);
             InteractiveObjects.SetActive(false);
             Car.SetActive(false);
+            CarLights.SetActive(false);
 
             //Trigger the prelude sound track
             GetComponent<SoundManager>().StartPrelude();
@@ -272,6 +279,7 @@ public class SceneController : MonoBehaviour {
         SphereVideo.SetActive(true);  
         //Activate car
         Car.SetActive(true);
+        CarLights.SetActive(true);
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
@@ -381,7 +389,13 @@ public class SceneController : MonoBehaviour {
             ResetHeadsetPosition();
             //control360.Play();
         }
-        
+
+        //Hit Escape to exit (build mode only)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         //is our 360 video running? if it is, check to see if it's loaded yet,
         //only do this once
         if (VideoPlayer.activeSelf && !video360Loaded)

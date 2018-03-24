@@ -5,22 +5,52 @@ using System.Linq;
 
 public class Objects : MonoBehaviour {
 
-    public int MaxNumber = 6;
-    public Transform ObjectContainer;
-    public Rigidbody[] InteractiveObjects;
-    public Rigidbody[] InteractiveObjectsSet1;
-    public Rigidbody[] InteractiveObjectsSet2;
-    public Rigidbody[] InteractiveObjectsSet3;
-    private List<int> RandIndexes;
+    public GameObject ObjectsSets;
+    private GameObject currentSet;
     
-  
+
     // Use this for initialization
     void Start () {
-        RandIndexes = new List<int>();
-       // GetRandomObjectSet();
+       
+        GetRandomObjectSet();
     }
-	
+
+    private void Update()
+    {
+        if(Input.GetKeyDown("space"))
+        {
+            GetRandomObjectSet();
+        }
+
+        //Hit Escape to exit (build mode only)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            DestroyObjectSet();
+        }
+    }
+
     public void GetRandomObjectSet()
+    {
+        List<GameObject> sets = new List<GameObject>();
+        foreach (Transform child in ObjectsSets.transform)
+        {
+            sets.Add(child.gameObject);
+        }
+        int currentRandIndex = Random.Range(0, sets.Count);
+        currentSet = sets[currentRandIndex];
+        currentSet.SetActive(true);
+    }
+
+    public void DestroyObjectSet()
+    {
+        Destroy(currentSet);
+      
+    }
+
+
+    /* NOT USED // Object auto generation */
+
+    /*public void GetRandomObjectSet()
     {
         GetRandIndexList();
         for (int i = 1; i < RandIndexes.Count; i++)
@@ -33,10 +63,10 @@ public class Objects : MonoBehaviour {
             //Assign parent
             obj.transform.parent = ObjectContainer;
         }
-    }
+    }*/
 
 
-    public void GetRandIndexList()
+    /*public void GetRandIndexList()
     {
         while (RandIndexes.Count < MaxNumber)
         {
@@ -51,5 +81,5 @@ public class Objects : MonoBehaviour {
             }
         }
 
-    }
+    }*/
 }
