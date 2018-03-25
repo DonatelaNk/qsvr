@@ -8,23 +8,31 @@ public class MemorySpaces : MonoBehaviour {
 
     //Corutine setup memory space
     IEnumerator setupMemorySpaceCorutine;
+    IEnumerator exitMemorySpaceCoroutine;
     IEnumerator addFogCoroutine;
     IEnumerator removeFogCoroutine;
 
-    public float fogDensity = 0.3f;
+    [Header("Settings")]
 
+    public float fogDensity = 0.3f;
+    public float MemoryMaxTime;
+    public Transform m_parent;
+    //max time to wait for the user being inactive before existing the memory space
+    public float MaxUserIdleTime = 15.0f; //15 seconds
+    private float CountDownUserIdleTime;
+    private string currentMemorySpaceTrigger;
+
+    [Header("Memory Space 1")]
     //Intantiate the photograph prefabs used in Memory Space 1
     public Rigidbody polaroid;
-    public Transform m_parent;
+   
     public Material[] PictureSet1;
     public Material[] PictureSet2;
     public Material[] PictureSet3;
-    public GameObject Diary;
-    public float MemoryMaxTime;
+    
 
-    //max time to wait for the user being inactive before existing the memory space
-    private float MaxUserIdleTime = 5.0f; //5 seconds
-    private float CountDownUserIdleTime;
+    [Header("Memory Space 2")]
+    public GameObject Diary;
 
     private GameObject Box;
 
@@ -46,6 +54,7 @@ public class MemorySpaces : MonoBehaviour {
     {
         CountDownUserIdleTime = MaxUserIdleTime;
         Diary.SetActive(false);
+        
     }
 
     void Update()
@@ -54,6 +63,27 @@ public class MemorySpaces : MonoBehaviour {
         {
             LoopActorVideos();
             WatchUserIdleTime();
+
+            //keep an eye on objects in memory space, if they are being interacted with
+            //reset the countdown clock
+            foreach (Transform child in m_parent.transform)
+            {
+                if (GetComponent<SceneController>().LeapMotion)
+                {
+                    if (child.gameObject.GetComponent<InteractionBehaviour>().isGrasped)
+                    {
+                        CountDownUserIdleTime = MaxUserIdleTime;
+                    }
+                }
+                else
+                {
+                    if (child.gameObject.GetComponent<OVRGrabbable>().isGrabbed)
+                    {
+                        CountDownUserIdleTime = MaxUserIdleTime;
+                    }
+                }
+            }
+
         } 
     }
     /*
@@ -66,10 +96,12 @@ public class MemorySpaces : MonoBehaviour {
         if (memorySpaceNumber == 1)
         {
             PauseVideos();
-            //TODO: This is temp
-            StartCoroutine(ExitMemorySpace(MemoryMaxTime, "ExitMemorySpaceOne"));
+            currentMemorySpaceTrigger = "ExitMemorySpaceOne";
+            exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
+            StartCoroutine(exitMemorySpaceCoroutine);
             CounterMemoryMaxTime = MemoryMaxTime;
             CounterMaxActorLoop = MaxActorLoop;
+            
             MemorySpaceActive = true;
 
             //Trigger Memory space 1 audio
@@ -87,17 +119,6 @@ public class MemorySpaces : MonoBehaviour {
             foreach (Material photo in randomSet)
             {
                 Rigidbody polaroidInstance;
-                //generate a unique position to prevent things instantiating over each other and causing a raucous
-                /*float x = Random.Range(-5f, 5f);
-                float y = Random.Range(-4f, 4f);
-                Vector3 spawnLocation = new Vector3(x, y, 1f);
-
-                //Detect Overlap
-                Collider[] hitColliders = Physics.OverlapSphere(spawnLocation, 1.33f);
-
-                if (hitColliders.Length == 0)
-                {
-                }   */
                 Vector3 instancePosition = new Vector3(m_parent.position.x, m_parent.position.y + 0.00974f, m_parent.position.z);
                 polaroidInstance = Instantiate(polaroid, instancePosition, m_parent.rotation) as Rigidbody;
                 //parent it
@@ -122,38 +143,21 @@ public class MemorySpaces : MonoBehaviour {
         if (memorySpaceNumber == 2)
         {
             PauseVideos();
-            StartCoroutine(ExitMemorySpace(MemoryMaxTime, "ExitMemorySpaceTwo"));
-            CounterMemoryMaxTime = MemoryMaxTime;
+            currentMemorySpaceTrigger = "ExitMemorySpaceTwo";
+            exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
+            StartCoroutine(exitMemorySpaceCoroutine);
             MemorySpaceActive = true;
             //Trigger Memory space 2 audio
             GetComponent<SoundManager>().MemorySpaceTwo();
-
-            //Instantiate the diary
-            /*Rigidbody diaryInstance;
-            diaryInstance = Instantiate(Diary, m_parent.position, m_parent.rotation) as Rigidbody;
-            //make a child of the memory space object
-            diaryInstance.transform.parent = m_parent;
-            //if using Leapmotion, add interaction manager
-            if (GetComponent<SceneController>().LeapMotion)
-            {
-                diaryInstance.gameObject.AddComponent<InteractionBehaviour>();
-                diaryInstance.transform.GetChild(5).gameObject.AddComponent<InteractionBehaviour>();
-                diaryInstance.transform.GetChild(6).gameObject.AddComponent<InteractionBehaviour>();
-            }*/
             Diary.SetActive(true);
             //make it a child of the memory room parent
             Diary.transform.parent = m_parent;
-
-
             GetComponent<SoundManager>().InitVoiceover();
 
 
         }
     }
     //~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
-
-
-
 
     public void EnterMemorySpace(float memberSpaceNumber)
     {
@@ -200,6 +204,17 @@ public class MemorySpaces : MonoBehaviour {
             CounterMaxActorLoop = MaxActorLoop;
         }
     }
+    public void WatchUserIdleTime()
+    {
+        CountDownUserIdleTime -= Time.deltaTime;
+        if (CountDownUserIdleTime <= 0)
+        {
+            //break the memory space corutine;
+            Debug.Log("break the memory space corutine and exit");
+            StopCoroutine(exitMemorySpaceCoroutine);
+            ExitMemorySpaceNow();
+        }
+    }
 
     public void SetMemorySpaceMood()
     {
@@ -215,18 +230,27 @@ public class MemorySpaces : MonoBehaviour {
         StartCoroutine(addFogCoroutine);
     }
 
-    public void WatchUserIdleTime()
-    {
-        CountDownUserIdleTime -= Time.deltaTime;
-        if (CountDownUserIdleTime <=0)
-        {
-            //break the memory space corutine anex and;
-            //Debug.Log("break the memory space corutine and exit");
-        }
-    }
+   
     public void ResetUserIdleTime()
     {
         CountDownUserIdleTime = MaxUserIdleTime;
+    }
+
+    private void ExitMemorySpaceNow()
+    {
+        
+        //remove momory dust
+        GetComponent<SceneController>().MemoryDust.SetActive(false);
+        removeFogCoroutine = EndFog();
+        StartCoroutine(removeFogCoroutine);
+        ResumeVideos();
+        MemorySpaceActive = false;
+        //destroy objects available in memory space
+        foreach (Transform child in m_parent.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        EventManager.TriggerEvent(currentMemorySpaceTrigger);
     }
 
     IEnumerator SetupMemorySpace(float wait, float memberSpaceNumber)
@@ -240,19 +264,13 @@ public class MemorySpaces : MonoBehaviour {
 
     IEnumerator ExitMemorySpace(float wait, string triggerLabel)
     {
-        yield return new WaitForSeconds(wait);
-        //remove momory dust
-        GetComponent<SceneController>().MemoryDust.SetActive(false);
-        removeFogCoroutine = EndFog();
-        StartCoroutine(removeFogCoroutine);
-        ResumeVideos();
-        MemorySpaceActive = false;
-        //destroy objects available in memory space
-        foreach (Transform child in m_parent.transform)
+        while (true)
         {
-            GameObject.Destroy(child.gameObject);
+            yield return new WaitForSeconds(wait);
+            ExitMemorySpaceNow();
         }
-        EventManager.TriggerEvent(triggerLabel);    
+
+            
     }
 
     IEnumerator StartFog()

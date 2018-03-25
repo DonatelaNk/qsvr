@@ -10212,8 +10212,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogDensity: 0.03
-  polaroid: {fileID: 54633588328411768, guid: d49061592ac06fd4a81ebee4b936f270, type: 2}
+  MemoryMaxTime: 120
   m_parent: {fileID: 964450601}
+  MaxUserIdleTime: 30
+  polaroid: {fileID: 54633588328411768, guid: d49061592ac06fd4a81ebee4b936f270, type: 2}
   PictureSet1:
   - {fileID: 2100000, guid: 6b421617ff2222a42bb7d4e28ea6c556, type: 2}
   - {fileID: 2100000, guid: 9032fb486cc411f4995bcf35500d007f, type: 2}
@@ -10226,7 +10228,6 @@ MonoBehaviour:
   PictureSet2: []
   PictureSet3: []
   Diary: {fileID: 294697732}
-  MemoryMaxTime: 60
 --- !u!114 &1173825490
 MonoBehaviour:
   m_ObjectHideFlags: 0
