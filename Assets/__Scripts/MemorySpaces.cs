@@ -141,7 +141,10 @@ public class MemorySpaces : MonoBehaviour {
                 diaryInstance.transform.GetChild(6).gameObject.AddComponent<InteractionBehaviour>();
             }*/
             Diary.SetActive(true);
-               
+            //make it a child of the memory room parent
+            Diary.transform.parent = m_parent;
+
+
             GetComponent<SoundManager>().InitVoiceover();
 
 

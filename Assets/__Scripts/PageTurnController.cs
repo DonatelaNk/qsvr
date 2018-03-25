@@ -28,11 +28,26 @@ public class PageTurnController : MonoBehaviour
     public Collider pageTurnRightHandleCollider;
     public Collider pageTurnLeftHandleCollider;
 
-    [Header("Events")]
+    [Header("Page Audio")]
+	public bool playFirstPageAudio = true;
+
+	public AudioSource pageAudioSource;
+
+	public List<PageTextureAudioType> pageTextureAudioList;
+
+	[Header("Events")]
 	public PageSetHandler onPageSet;
 
 	[Serializable]
-	public class PageSetHandler : UnityEvent<int> { }
+	public class PageSetHandler : UnityEvent<string> { }
+
+
+	[Serializable]
+	public class PageTextureAudioType
+	{
+		public Texture2D texture;
+		public AudioClip audioClip;
+	}
 
 
 	private OVRGrabbable bookGrabbable;
@@ -60,6 +75,9 @@ public class PageTurnController : MonoBehaviour
 		currentPage = (int)megaBookBuilder.page;
 
 		closeBookCurrentTime = closeBookDelay;
+		
+
+		RandomizeFirstPage();
 	}
 
 	private void LateUpdate()
@@ -67,30 +85,33 @@ public class PageTurnController : MonoBehaviour
 		if (megaBookBuilder == null || pageTurnRightHandle == null || pageTurnLeftHandle == null)
 			return;
 
-        // Lock the axis of the grabbables to the book
-        pageTurnRightHandle.transform.rotation = transform.rotation;
-        pageTurnLeftHandle.transform.rotation = transform.rotation;
+		// Lock the axis of the grabbables to the book
+		pageTurnRightHandle.transform.rotation = transform.rotation;
+		pageTurnLeftHandle.transform.rotation = transform.rotation;
 
         // Set book colliders enabled based on the current page
-        //if (rightPageCollider)
-        //rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
+        /*if (rightPageCollider)
+			rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
 
-        //if (leftPageCollider)
-        //leftPageCollider.enabled = currentPage >= 0;
-
+		if (leftPageCollider)
+			leftPageCollider.enabled = currentPage >= 0;*/
 
         if (currentPage >= 0)
         {
             leftPageCollider.enabled = true;
-        } else
+        }
+        else
         {
             leftPageCollider.enabled = false;
         }
 
 
-		// Reset to page 0 if the book isn't currently grabbed
-		if (!bookGrabbable.isGrabbed)
+        // Reset to page 0 if the book isn't currently grabbed
+        if (!bookGrabbable.isGrabbed)
 		{
+			if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.ovrGrabbable.isGrabbed)
+				closeBookCurrentTime = closeBookDelay;
+
 			closeBookCurrentTime -= Time.deltaTime;
 
 			if (closeBookWhenNotHeld && megaBookBuilder.page > -1 && closeBookCurrentTime <= 0)
@@ -99,35 +120,24 @@ public class PageTurnController : MonoBehaviour
 					StopCoroutine(setPageCoroutine);
 
 				setPageCoroutine = StartCoroutine(DoSetPage(-1, 0.25f));
-                
-
-            }
-           
-        }
+			}
+		}
 		else
+		{
+			// Open the book to the first page if it's closed
+			if (megaBookBuilder.page < 0)
+			{
+				if (setPageCoroutine != null)
+					StopCoroutine(setPageCoroutine);
+
+				setPageCoroutine = StartCoroutine(DoSetPage(0, 0.5f));
+			}
+
 			closeBookCurrentTime = closeBookDelay;
+		}
 
-
-        if (bookGrabbable.isGrabbed)
-        {
-            
-
-            if (pageTurnRightHandleCollider.enabled == false)
-            {
-                pageTurnRightHandleCollider.enabled = true;
-                pageTurnLeftHandleCollider.enabled = true;
-            }
-        } else
-        {
-            if (pageTurnRightHandleCollider.enabled == true)
-            {
-                pageTurnRightHandleCollider.enabled = false;
-                pageTurnLeftHandleCollider.enabled = false;
-            }
-        }
-
-        // Page turning
-        if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
+		// Page turning
+		if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
 		{
 			SetPageTurn(pageTurnRightHandle, pageTurnLeftHandle);
 		}
@@ -150,6 +160,18 @@ public class PageTurnController : MonoBehaviour
 		UpdateHandleStates();
 	}
 
+
+	private void RandomizeFirstPage()
+	{
+		int randomPage = UnityEngine.Random.Range(0, megaBookBuilder.pages.Count);
+		int randomSide = UnityEngine.Random.Range(0, 2);
+
+		Texture2D firstPageTexture= megaBookBuilder.GetPageTexture(0, true);
+		Texture2D randomPageTexture = megaBookBuilder.GetPageTexture(randomPage, Convert.ToBoolean(randomSide));
+
+		megaBookBuilder.SetPageTexture(randomPageTexture, 0, true);
+		megaBookBuilder.SetPageTexture(firstPageTexture, randomPage, Convert.ToBoolean(randomSide));
+	}
 
 	private void UpdateHandleStates()
 	{
@@ -236,7 +258,10 @@ public class PageTurnController : MonoBehaviour
 				megaBookBuilder.page = pageToSet;
 
 				if (onPageSet != null)
-					onPageSet.Invoke(pageToSet);
+				{
+					foreach (string textureName in GetTextureNamesFromPageNumber(pageToSet))
+						onPageSet.Invoke(textureName);
+				}
 			}
 		}
 	}
@@ -261,9 +286,43 @@ public class PageTurnController : MonoBehaviour
 
 		megaBookBuilder.page = currentPage = (int)pageToSet;
 
+		// If this is the first page, play audio
+		if (playFirstPageAudio && pageToSet == 0 && pageAudioSource != null)
+		{
+			PageTextureAudioType pageTextureAudioType = pageTextureAudioList.Find(p => p.texture == megaBookBuilder.GetPageTexture(0, true));
+
+			if (pageTextureAudioType != null && pageTextureAudioType.audioClip)
+			{
+				pageAudioSource.clip = pageTextureAudioType.audioClip;
+				pageAudioSource.Play();
+			}
+		}
+
 		if (onPageSet != null)
-			onPageSet.Invoke((int)pageToSet);
+		{
+			foreach (string textureName in GetTextureNamesFromPageNumber((int)pageToSet))
+				onPageSet.Invoke(textureName);
+		}
 
 		setPageCoroutine = null;
+	}
+
+	private List<string> GetTextureNamesFromPageNumber(int page)
+	{
+		List<string> textureNames = new List<string>();
+		
+		Texture2D leftPageTexture = page - 1 >= 0 && page - 1 < megaBookBuilder.pages.Count ? megaBookBuilder.GetPageTexture(page - 1, false) : null;
+		Texture2D rightPageTexture = page >= 0 && page < megaBookBuilder.pages.Count ? megaBookBuilder.GetPageTexture(page, true) : null;
+
+		string leftPageTextureName = leftPageTexture != null ? leftPageTexture.name : "";
+		string rightPageTextureName = rightPageTexture != null ? rightPageTexture.name : "";
+
+		if (leftPageTextureName != "")
+			textureNames.Add(leftPageTextureName);
+
+		if (rightPageTextureName != "")
+			textureNames.Add(rightPageTextureName);
+
+		return textureNames;
 	}
 }
