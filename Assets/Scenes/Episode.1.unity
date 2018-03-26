@@ -10225,8 +10225,28 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e0544d886083fdb419b7833a7c5bcab0, type: 2}
   - {fileID: 2100000, guid: 84b509395d142c6448e45feffe304609, type: 2}
   - {fileID: 2100000, guid: f5da5ccf7e0562643819201254fa3d84, type: 2}
-  PictureSet2: []
-  PictureSet3: []
+  - {fileID: 2100000, guid: 94f18c982294f184e9d4a8e45a737867, type: 2}
+  PictureSet2:
+  - {fileID: 2100000, guid: 4bd73d6d4ed2705458d53828426e6d3a, type: 2}
+  - {fileID: 2100000, guid: fa8f478e98e76ac4ebb11e59077d0535, type: 2}
+  - {fileID: 2100000, guid: 6e5f3e084b222ee4cbf875ffd298e5b3, type: 2}
+  - {fileID: 2100000, guid: 92df496d15672b042ae38409ff896c41, type: 2}
+  - {fileID: 2100000, guid: a7ea900840fa94d48b41126f75a58b0c, type: 2}
+  - {fileID: 2100000, guid: 0345f9a6d538b9442918a64095bada44, type: 2}
+  - {fileID: 2100000, guid: 990d918954e758d4796ea2f41db42d5d, type: 2}
+  - {fileID: 2100000, guid: eb3f7f615a0a4c94fbd3686f8ee31158, type: 2}
+  - {fileID: 2100000, guid: 0fa1dda868573b6429f90947cc86b18f, type: 2}
+  PictureSet3:
+  - {fileID: 2100000, guid: bba173e99d3e48943bf0b41f0b47289a, type: 2}
+  - {fileID: 2100000, guid: 4c88255cd78fb4f4d9e41783f75aaae4, type: 2}
+  - {fileID: 2100000, guid: 80da7487adff67d449a3f6e34d28292e, type: 2}
+  - {fileID: 2100000, guid: 88bf2d6cedb9bc941b9aa8ebbb424fb8, type: 2}
+  - {fileID: 2100000, guid: 8304464778c915a4ea205c3b82e0d506, type: 2}
+  - {fileID: 2100000, guid: e80b524eb9d16f445ab794870b935ca4, type: 2}
+  - {fileID: 2100000, guid: bbaab22b8e6d6f045852127429744ada, type: 2}
+  - {fileID: 2100000, guid: e69925687411fba41aff4b6fc0065c51, type: 2}
+  - {fileID: 2100000, guid: ac93a245969281a4db694c0afd7e75d3, type: 2}
+  - {fileID: 2100000, guid: f7fe2e31cc17a3842a3626fb95802699, type: 2}
   Diary: {fileID: 294697732}
 --- !u!114 &1173825490
 MonoBehaviour:

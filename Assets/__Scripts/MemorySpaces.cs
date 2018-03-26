@@ -29,7 +29,7 @@ public class MemorySpaces : MonoBehaviour {
     public Material[] PictureSet1;
     public Material[] PictureSet2;
     public Material[] PictureSet3;
-    
+    private Material[] randomSet;
 
     [Header("Memory Space 2")]
     public GameObject Diary;
@@ -54,7 +54,6 @@ public class MemorySpaces : MonoBehaviour {
     {
         CountDownUserIdleTime = MaxUserIdleTime;
         Diary.SetActive(false);
-        
     }
 
     void Update()
@@ -114,8 +113,20 @@ public class MemorySpaces : MonoBehaviour {
 
             //Populate the box with a random set of potographs
             //Instantiate a polaroid prefab and assign materials from our random array set ( 1of 3)
-            //TODO: Pick a random set
-            Material[] randomSet = PictureSet1;
+            int randSetNum = Random.Range(1, 3);
+            switch (randSetNum)
+            {
+                case 1:
+                    randomSet = PictureSet1;
+                    break;
+                case 2:
+                    randomSet = PictureSet2;
+                    break;
+                case 3:
+                    randomSet = PictureSet3;
+                    break;
+            }
+            
             foreach (Material photo in randomSet)
             {
                 Rigidbody polaroidInstance;
