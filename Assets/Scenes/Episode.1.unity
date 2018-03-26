@@ -10157,7 +10157,7 @@ MonoBehaviour:
   Car: {fileID: 1355048970}
   CarLights: {fileID: 1559040749}
   VanityCardDelay: 12.5
-  StartAt: 2
+  StartAt: 1
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
