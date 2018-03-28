@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 54633588328411768}
   - component: {fileID: 114188827568942808}
   - component: {fileID: 65348327840238632}
+  - component: {fileID: 65184954077886272}
+  - component: {fileID: 114109081209544754}
   m_Layer: 0
   m_Name: Polaroid
   m_TagString: Untagged
@@ -83,7 +85,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1322352819552630}
   m_LocalRotation: {x: -0, y: -0, z: 0.7735044, w: 0.633791}
-  m_LocalPosition: {x: -0.1265, y: 0.93543804, z: -8.642668}
+  m_LocalPosition: {x: -0.1265, y: 0.93543804, z: -80.2}
   m_LocalScale: {x: 1.4333336, y: 1.4333338, z: 1.4333333}
   m_Children:
   - {fileID: 4804719983588900}
@@ -201,6 +203,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65184954077886272
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1322352819552630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.113572545, y: 0.1212636, z: 0.13142076}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65348327840238632
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -213,6 +227,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1016, y: 0.009736913, z: 0.1226467}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114109081209544754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1322352819552630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b1fd6f05c808e4c800bfe323ce76c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114188827568942808
 MonoBehaviour:
   m_ObjectHideFlags: 1

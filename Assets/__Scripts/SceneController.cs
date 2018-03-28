@@ -644,7 +644,7 @@ public class SceneController : MonoBehaviour {
     {
         if (OculusTouch){
             OVRManager.display.RecenterPose();
-        }else{
+        }else if(LeapMotion){
             //LM
             LM.transform.position = new Vector3(originalCameraPosition.x, originalCameraPosition.y, originalCameraPosition.z);
         }
