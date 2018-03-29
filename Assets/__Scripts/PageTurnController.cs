@@ -29,8 +29,9 @@ public class PageTurnController : MonoBehaviour
     public Collider pageTurnRightHandleCollider;
     public Collider pageTurnLeftHandleCollider;
 
+
     [Header("Page Audio")]
-	public bool playFirstPageAudio = true;
+	public bool AutoplayRandMonologue = true;
 
 	public AudioSource pageAudioSource;
 
@@ -51,7 +52,8 @@ public class PageTurnController : MonoBehaviour
 	}
 
 
-	private OVRGrabbable bookGrabbable;
+
+    private OVRGrabbable bookGrabbable;
     private InteractionBehaviour bookGrasped;
 	private Vector3 pageTurnRightStartPositionLocal;
 	private Vector3 pageTurnLeftStartPositionLocal;
@@ -60,6 +62,7 @@ public class PageTurnController : MonoBehaviour
 	private float closeBookCurrentTime;
 
 	private Coroutine setPageCoroutine;
+
 
 
 	private void Start()
@@ -81,7 +84,7 @@ public class PageTurnController : MonoBehaviour
 		closeBookCurrentTime = closeBookDelay;
 		
 
-		RandomizeFirstPage();
+		//RandomizeFirstPage();
 	}
 
 	private void LateUpdate()
@@ -130,13 +133,13 @@ public class PageTurnController : MonoBehaviour
 		}
 		else
 		{
-			// Open the book to the first page if it's closed
+			// Open the book to a randomized page (if closed)
 			if (megaBookBuilder.page < 0)
 			{
 				if (setPageCoroutine != null)
 					StopCoroutine(setPageCoroutine);
-
-				setPageCoroutine = StartCoroutine(DoSetPage(0, 0.5f));
+                int randomPage = UnityEngine.Random.Range(0, pageTextureAudioList.Count);
+                setPageCoroutine = StartCoroutine(DoSetPage(randomPage, 0.5f));
 			}
 
 			closeBookCurrentTime = closeBookDelay;
@@ -169,15 +172,21 @@ public class PageTurnController : MonoBehaviour
 
 	private void RandomizeFirstPage()
 	{
-		int randomPage = UnityEngine.Random.Range(0, megaBookBuilder.pages.Count);
+        /*int randomPage = UnityEngine.Random.Range(0, megaBookBuilder.pages.Count);
 		int randomSide = UnityEngine.Random.Range(0, 2);
 
 		Texture2D firstPageTexture= megaBookBuilder.GetPageTexture(0, true);
 		Texture2D randomPageTexture = megaBookBuilder.GetPageTexture(randomPage, Convert.ToBoolean(randomSide));
 
 		megaBookBuilder.SetPageTexture(randomPageTexture, 0, true);
-		megaBookBuilder.SetPageTexture(firstPageTexture, randomPage, Convert.ToBoolean(randomSide));
-	}
+		megaBookBuilder.SetPageTexture(firstPageTexture, randomPage, Convert.ToBoolean(randomSide));*/
+        
+        int randomPage = UnityEngine.Random.Range(0, pageTextureAudioList.Count);
+        //randomPage = randomPage * 2 + 1; //make sure it's always an odd number
+        Debug.Log("Random page :" + randomPage);
+        megaBookBuilder.page = randomPage;
+
+    }
 
 	private void UpdateHandleStates()
 	{
@@ -293,9 +302,9 @@ public class PageTurnController : MonoBehaviour
 		megaBookBuilder.page = currentPage = (int)pageToSet;
 
 		// If this is the first page, play audio
-		if (playFirstPageAudio && pageToSet == 0 && pageAudioSource != null)
+		if (AutoplayRandMonologue && pageToSet == 0 && pageAudioSource != null)
 		{
-			PageTextureAudioType pageTextureAudioType = pageTextureAudioList.Find(p => p.texture == megaBookBuilder.GetPageTexture(0, true));
+			PageTextureAudioType pageTextureAudioType = pageTextureAudioList.Find(p => p.texture == megaBookBuilder.GetPageTexture(currentPage, true));
 
 			if (pageTextureAudioType != null && pageTextureAudioType.audioClip)
 			{

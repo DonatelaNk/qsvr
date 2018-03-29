@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 using Leap.Unity.Interaction;
+
 
 public class MemorySpaces : MonoBehaviour {
 
@@ -26,10 +28,21 @@ public class MemorySpaces : MonoBehaviour {
     //Intantiate the photograph prefabs used in Memory Space 1
     public Rigidbody polaroid;
    
-    public Material[] PictureSet1;
+    /*public Material[] PictureSet1;
     public Material[] PictureSet2;
-    public Material[] PictureSet3;
-    private Material[] randomSet;
+    public Material[] PictureSet3;*/
+
+    public List<PictureSetPair> PictureSet1;
+    public List<PictureSetPair> PictureSet2;
+    public List<PictureSetPair> PictureSet3;
+    [Serializable]
+    public class PictureSetPair
+    {
+        public Texture2D texture;
+        public AudioClip audioClip;
+    }
+    private List<PictureSetPair> randomSet;
+
 
     [Header("Memory Space 2")]
     public GameObject Diary;
@@ -113,7 +126,7 @@ public class MemorySpaces : MonoBehaviour {
 
             //Populate the box with a random set of potographs
             //Instantiate a polaroid prefab and assign materials from our random array set ( 1of 3)
-            int randSetNum = Random.Range(1, 3);
+            int randSetNum = UnityEngine.Random.Range(1, 3);
             switch (randSetNum)
             {
                 case 1:
@@ -127,7 +140,7 @@ public class MemorySpaces : MonoBehaviour {
                     break;
             }
             
-            foreach (Material photo in randomSet)
+            foreach (PictureSetPair photo in randomSet)
             {
                 Rigidbody polaroidInstance;
                 Vector3 instancePosition = new Vector3(m_parent.position.x, m_parent.position.y + 0.00974f, m_parent.position.z);
@@ -135,7 +148,15 @@ public class MemorySpaces : MonoBehaviour {
                 //parent it
                 polaroidInstance.transform.parent = m_parent;
                 //assign our photo from the array to the front of polaroid which is the first child in prefab
-                polaroidInstance.transform.GetChild(0).GetComponent<Renderer>().material = photo;
+                polaroidInstance.transform.GetChild(0).GetComponent<Renderer>().material.mainTexture = photo.texture;
+
+                if (photo.audioClip!=null)
+                {
+                    //Attach audio if exists
+                    polaroidInstance.GetComponent<AudioSource>().clip = photo.audioClip;
+                    polaroidInstance.GetComponent<AudioSource>().Play();
+                }
+
                 //if using Leapmotion, add interaction manager
                 if (GetComponent<SceneController>().LeapMotion)
                 {

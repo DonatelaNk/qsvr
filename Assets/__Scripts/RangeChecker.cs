@@ -22,7 +22,7 @@ public class RangeChecker : MonoBehaviour {
     //With percentage i.e. between 0 and 1
     public bool GetDistance(Vector3 me, Vector3 head)
     {
-       Debug.Log(me.y - head.y);
+       //Debug.Log(me.y - head.y);
        if ((me.y-head.y) < -0.3f)
         {
             outofbounds = true;

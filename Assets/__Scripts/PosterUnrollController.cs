@@ -54,7 +54,7 @@ public class PosterUnrollController : MonoBehaviour
         RandomizePosterTexture();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (megaBend == null || posterUnrollHandle == null)
             return;
