@@ -4979,7 +4979,7 @@ Prefab:
       objectReference: {fileID: 1865100264}
     - target: {fileID: 11498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_VideoPath
-      value: QueerSkinsNinthCut.mp4
+      value: QueerskinsTenthCut.mp4
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -28778,7 +28778,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1148761991}
-  m_LocalRotation: {x: 0.8552997, y: -0.10023459, z: 0.16360581, w: 0.4812987}
+  m_LocalRotation: {x: 0.85529983, y: -0.100234605, z: 0.16360582, w: 0.48129877}
   m_LocalPosition: {x: -0.037071, y: -0.0108, z: -0.0545}
   m_LocalScale: {x: 1, y: 0.45228457, z: 1}
   m_Children: []

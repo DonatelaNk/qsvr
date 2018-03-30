@@ -45,7 +45,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
 
         //Trigger Memory Space 2
-        Trigger MemorySpace02Trigger = new Trigger("Memory02", false, 437.0f, EnterMemorySpaceTwo);
+        Trigger MemorySpace02Trigger = new Trigger("Memory02", false, 440.11f, EnterMemorySpaceTwo);
         triggers.Add("MemorySpace02Trigger", MemorySpace02Trigger);
 
         //Trigger CarScene 3 sounds

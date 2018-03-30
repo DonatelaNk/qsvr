@@ -290,9 +290,6 @@ public class SceneController : MonoBehaviour {
         //recenter the headset
         ResetHeadsetPosition();
 
-        //Start Audio
-        //CueAudio();
-
         //Remove user blindfold gracefully (fade it out)
         StartCoroutine(RemoveBlindfold());
     }
@@ -323,6 +320,18 @@ public class SceneController : MonoBehaviour {
         Debug.Log("SceneController: Now entering memory space 1");
         GetComponent<MemorySpaces>().EnterMemorySpace(1);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
+
+        //remove audio
+        GetComponent<SoundManager>().MhAudioSource.clip = null;
+        GetComponent<SoundManager>().MhPFXSource.clip = null;
+        GetComponent<SoundManager>().EdAudioSource.clip = null;
+        GetComponent<SoundManager>().EdPFXSource.clip = null;
+        //Preload the next scene's sound, but do not play
+        GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene02DX;
+        GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene02PFX;
+        GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene02DX;
+        GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene02PFX;
+
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
         EventManager.StopListening("EnterMemorySpaceOne", StartEntryIntoMemorySpaceOne);
@@ -341,6 +350,18 @@ public class SceneController : MonoBehaviour {
         Debug.Log("Now entering memory space 2");
         GetComponent<MemorySpaces>().EnterMemorySpace(2);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
+
+        //remove audio
+        GetComponent<SoundManager>().MhAudioSource.clip = null;
+        GetComponent<SoundManager>().MhPFXSource.clip = null;
+        GetComponent<SoundManager>().EdAudioSource.clip = null;
+        GetComponent<SoundManager>().EdPFXSource.clip = null;
+        //Preload the next scene's sound, but do not play
+        GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene03DX;
+        GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene03PFX;
+        GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene03DX;
+        GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene03PFX;
+
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
         EventManager.StopListening("EnterMemorySpaceTwo", StartEntryIntoMemorySpaceTwo);
@@ -584,9 +605,6 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().EdAudioSource.Play();
                     GetComponent<SoundManager>().EdPFXSource.Play();
                     Debug.Log("PLAY Audio/Video in sync");
-
-                    //recenter the headset
-                    ResetHeadsetPosition();
                 }
                 
             }

@@ -23,6 +23,7 @@ public class MemorySpaces : MonoBehaviour {
     public float MaxUserIdleTime = 15.0f; //15 seconds
     private float CountDownUserIdleTime;
     private string currentMemorySpaceTrigger;
+    private string currentVideoResetTrigger;
 
     [Header("Memory Space 1")]
     //Intantiate the photograph prefabs used in Memory Space 1
@@ -109,6 +110,7 @@ public class MemorySpaces : MonoBehaviour {
         {
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceOne";
+            currentVideoResetTrigger = "CarScene02Trigger";
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
             CounterMemoryMaxTime = MemoryMaxTime;
@@ -176,6 +178,7 @@ public class MemorySpaces : MonoBehaviour {
         {
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceTwo";
+            currentVideoResetTrigger = "CarScene03Trigger";
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
             MemorySpaceActive = true;
@@ -205,20 +208,12 @@ public class MemorySpaces : MonoBehaviour {
     }
     public void ResumeVideos()
     {
-        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Play();
         //if exiting first memory space
-        if(GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.GetCurrentTimeMs() < 400*1000)
-        {
-            GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Seek(GetComponent<TriggerDictionary>().triggers["CarScene02Trigger"].triggerTime * 1000);
-            GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Seek(GetComponent<TriggerDictionary>().triggers["CarScene02Trigger"].triggerTime * 1000);
-        } else
-        {
-            //we're exiting out of the 2nd memory space
-            GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Seek(GetComponent<TriggerDictionary>().triggers["CarScene03Trigger"].triggerTime * 1000);
-            GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Seek(GetComponent<TriggerDictionary>().triggers["CarScene03Trigger"].triggerTime * 1000);
-        }
-        //GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Play();
-        //GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Play();
+        float seekTime = GetComponent<TriggerDictionary>().triggers[currentVideoResetTrigger].triggerTime * 1000;
+        GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Seek(seekTime);
+        GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Seek(seekTime);
+        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Seek(seekTime);
+        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Play();
     }
     public void LoopActorVideos()
     {
@@ -229,7 +224,7 @@ public class MemorySpaces : MonoBehaviour {
             //Get actor current pos and rewind it xx seconds
             IMediaControl controlRed = GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control;
             IMediaControl controlBlue = GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control;
-            float resetPoint = GetComponent<TriggerDictionary>().triggers["CarScene02Trigger"].triggerTime * 1000 - (MaxActorLoop * 1000)-1000;
+            float resetPoint = GetComponent<TriggerDictionary>().triggers[currentVideoResetTrigger].triggerTime * 1000 - (MaxActorLoop * 1000)-3000;
             controlRed.Seek(resetPoint);
             controlBlue.Seek(resetPoint);
             //reset the loop

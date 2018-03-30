@@ -161,16 +161,16 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(RearWindow, WindowsDownScene02SFX);
 
 		//start ED Dialog 
-		InitSceneSound(EdAudioSource, EdCarScene02DX);
+		InitSceneSound(EdAudioSource, null);
 		//ED Yells Clip
 		InitSceneSound(EdYellsAudioSource, null);
 		//Add the sound effects clip for Ed
-		InitSceneSound(EdPFXSource, EdCarScene02PFX);
+		InitSceneSound(EdPFXSource, null);
 
 		//Add Mary Helen Dialogue
-		InitSceneSound(MhAudioSource, MhCarScene02DX);
+		InitSceneSound(MhAudioSource, null);
 		//Add MH sound effects clip
-		InitSceneSound(MhPFXSource, MhCarScene02PFX);
+		InitSceneSound(MhPFXSource, null);
 
     }
 
@@ -199,14 +199,14 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(RearWindow, WindowsDownScene03SFX);
 
 		//start ED Dialog 
-		InitSceneSound(EdAudioSource, EdCarScene03DX);
+		InitSceneSound(EdAudioSource, null);
 		//Add the sound effects clip for Ed)
-		InitSceneSound(EdPFXSource, EdCarScene03PFX);
+		InitSceneSound(EdPFXSource, null);
 
 		//Add Mary Helen Dialogue
-		InitSceneSound(MhAudioSource, MhCarScene03DX);
+		InitSceneSound(MhAudioSource, null);
 		//Add MH sound effects clip
-		InitSceneSound(MhPFXSource, MhCarScene03PFX);
+		InitSceneSound(MhPFXSource, null);
 
     }
 

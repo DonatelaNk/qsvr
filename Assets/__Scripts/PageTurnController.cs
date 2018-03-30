@@ -138,7 +138,7 @@ public class PageTurnController : MonoBehaviour
 			{
 				if (setPageCoroutine != null)
 					StopCoroutine(setPageCoroutine);
-                int randomPage = UnityEngine.Random.Range(0, pageTextureAudioList.Count);
+                int randomPage = GetOddRandomPage(0, pageTextureAudioList.Count);
                 setPageCoroutine = StartCoroutine(DoSetPage(randomPage, 0.5f));
 			}
 
@@ -340,4 +340,14 @@ public class PageTurnController : MonoBehaviour
 
 		return textureNames;
 	}
+
+    private int GetOddRandomPage(int min, int max)
+    {
+        int pageNumber;
+        do
+        {
+            pageNumber = UnityEngine.Random.Range(min, max);
+        } while (pageNumber % 2 == 0); //keep generating a rand number until we get an odd one
+        return pageNumber;
+    }
 }
