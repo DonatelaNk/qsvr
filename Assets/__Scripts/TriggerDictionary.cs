@@ -40,13 +40,22 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger MemorySpace01Trigger = new Trigger("Memory01", false, 230.0f, EnterMemorySpaceOne);
         triggers.Add("MemorySpace01Trigger", MemorySpace01Trigger);
 
+        //Trigger CarScene 2 Videos
+        Trigger CarScene02VideoTrigger = new Trigger("Scene02", false, 255.14f, null);
+        triggers.Add("CarScene02VideoTrigger", CarScene02VideoTrigger);
+
         //Trigger CarScene 2 sounds
         Trigger CarScene02Trigger = new Trigger("Scene02", false, 258.0f, SoundManager.StartCar02);
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
 
+
         //Trigger Memory Space 2
         Trigger MemorySpace02Trigger = new Trigger("Memory02", false, 440.11f, EnterMemorySpaceTwo);
         triggers.Add("MemorySpace02Trigger", MemorySpace02Trigger);
+
+        //Trigger CarScene 3 Videos
+        Trigger CarScene03VideoTrigger = new Trigger("Scene03", false, 470.18f, null);
+        triggers.Add("CarScene03VideoTrigger", CarScene03VideoTrigger);
 
         //Trigger CarScene 3 sounds
         Trigger CarScene03Trigger = new Trigger("Scene03", false, 473.0f, SoundManager.StartCar03);
@@ -65,8 +74,8 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("FlyHitTrigger", FlyHitTrigger);
 
         //Trigger finale
-        Trigger FinaletTrigger = new Trigger("Scene03", false, 638.0f, SceneController.StartFinale);
-        triggers.Add("FinaletTrigger", FinaletTrigger);
+        Trigger FinaleTrigger = new Trigger("Scene03", false, 638.0f, SceneController.StartFinale);
+        triggers.Add("FinaleTrigger", FinaleTrigger);
 
 
         // ╔═════ ∘◦ END Trigger values  ◦∘ ══════╗
@@ -142,7 +151,11 @@ public class TriggerDictionary : MonoBehaviour {
                 {
                     //update this trigger's bool value, set it to true indicating that it has been triggered
                     triggers[trigger].triggerStatus = true;
-                    triggers[trigger].triggerFunction();
+                    if(triggers[trigger].triggerFunction!=null)
+                    {
+                        triggers[trigger].triggerFunction();
+                    }
+                    
                     Debug.Log("Triggered:" + trigger);
                 }
             }

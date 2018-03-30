@@ -45,15 +45,15 @@ public class Blindfold : MonoBehaviour {
     public void fadeInBlindFold()
     {
         //StopCoroutine(FadeOutCoroutine);
-        FadeInCoroutine = FadeIn(fadeControls);
-        StartCoroutine(FadeInCoroutine);
+        //FadeInCoroutine = FadeIn(fadeControls);
+        StartCoroutine(FadeIn(fadeControls));
     }
 
     public void fadeOutBlindFold()
     {
         //StopCoroutine(FadeInCoroutine);
-        FadeOutCoroutine = FadeOut(fadeControls);
-        StartCoroutine(FadeOutCoroutine);
+        //FadeOutCoroutine = FadeOut(fadeControls);
+        StartCoroutine(FadeOut(fadeControls));
     }
 
     public void setBlindFold()

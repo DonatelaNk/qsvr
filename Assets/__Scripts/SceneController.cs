@@ -321,16 +321,8 @@ public class SceneController : MonoBehaviour {
         GetComponent<MemorySpaces>().EnterMemorySpace(1);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
 
-        //remove audio
-        GetComponent<SoundManager>().MhAudioSource.clip = null;
-        GetComponent<SoundManager>().MhPFXSource.clip = null;
-        GetComponent<SoundManager>().EdAudioSource.clip = null;
-        GetComponent<SoundManager>().EdPFXSource.clip = null;
-        //Preload the next scene's sound, but do not play
-        GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene02DX;
-        GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene02PFX;
-        GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene02DX;
-        GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene02PFX;
+        //remove/reset actor audio
+        resetAudio(2);
 
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
@@ -351,16 +343,8 @@ public class SceneController : MonoBehaviour {
         GetComponent<MemorySpaces>().EnterMemorySpace(2);
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
 
-        //remove audio
-        GetComponent<SoundManager>().MhAudioSource.clip = null;
-        GetComponent<SoundManager>().MhPFXSource.clip = null;
-        GetComponent<SoundManager>().EdAudioSource.clip = null;
-        GetComponent<SoundManager>().EdPFXSource.clip = null;
-        //Preload the next scene's sound, but do not play
-        GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene03DX;
-        GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene03PFX;
-        GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene03DX;
-        GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene03PFX;
+        //remove/reset actor audio
+        resetAudio(3);
 
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
@@ -540,7 +524,7 @@ public class SceneController : MonoBehaviour {
     public void StartFinale()
     {
         StartCoroutine(StartWrapUp(8.0f));
-        this.gameObject.GetComponent<Blindfold>().fadeInBlindFold();
+        GetComponent<Blindfold>().fadeInBlindFold();
         //start any finale music/sound
         GetComponent<SoundManager>().StartFinale();
     }
@@ -600,6 +584,8 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().EdAudioSource.Stop();
                     GetComponent<SoundManager>().EdPFXSource.Stop();
 
+                    AudioSyncAdjust();
+
                     GetComponent<SoundManager>().MhAudioSource.Play();
                     GetComponent<SoundManager>().MhPFXSource.Play();
                     GetComponent<SoundManager>().EdAudioSource.Play();
@@ -611,7 +597,43 @@ public class SceneController : MonoBehaviour {
         }
     }
 
+    public void AudioSyncAdjust()
+    {
+        GetComponent<SoundManager>().EdAudioSource.time = 0.75f;
+        GetComponent<SoundManager>().MhAudioSource.time = 0.2f;
+    }
+    void resetAudio(int scene)
+    {
+        //remove audio
+        GetComponent<SoundManager>().MhAudioSource.clip = null;
+        GetComponent<SoundManager>().MhPFXSource.clip = null;
+        GetComponent<SoundManager>().EdAudioSource.clip = null;
+        GetComponent<SoundManager>().EdPFXSource.clip = null;
+        //Preload the next scene's sound, but do not play
+        if(scene==2)
+        {
+            GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene02DX;
+            GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene02PFX;
+            GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene02DX;
+            GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene02PFX;
+        }
+        if (scene == 3)
+        {
+            GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene03DX;
+            GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene03PFX;
+            GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene03DX;
+            GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene03PFX;
+        }
+        //make sure it's stopped
+        GetComponent<SoundManager>().MhAudioSource.Stop();
+        GetComponent<SoundManager>().MhPFXSource.Stop();
+        GetComponent<SoundManager>().EdAudioSource.Stop();
+        GetComponent<SoundManager>().EdPFXSource.Stop();
+    }
+    void resetAudioClip(AudioClip clip)
+    {
 
+    }
     /*void CueAudio() //this function is only called once from StartScene
     {
         if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
@@ -641,7 +663,9 @@ public class SceneController : MonoBehaviour {
         }
         else if (StartAt == EnumeratedSkipPoints.CarTwo)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02Trigger"].triggerTime * 1000;
+            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02VideoTrigger"].triggerTime * 1000;
+            //remove/reset actor audio
+            resetAudio(2);
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
@@ -649,7 +673,9 @@ public class SceneController : MonoBehaviour {
         }
         else if (StartAt == EnumeratedSkipPoints.CarThree)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03Trigger"].triggerTime * 1000;
+            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03VideoTrigger"].triggerTime * 1000;
+            //remove/reset actor audio
+            resetAudio(3);
         } else
         {
             SkipTo = 0;

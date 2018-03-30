@@ -172,6 +172,8 @@ public class SoundManager : MonoBehaviour {
 		//Add MH sound effects clip
 		InitSceneSound(MhPFXSource, null);
 
+        //Fix dialogue audio timing issue
+        //GetComponent<SceneController>().AudioSyncAdjust();
     }
 
     public void StartEntryIntoMemorySpaceTwo()
@@ -207,6 +209,9 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(MhAudioSource, null);
 		//Add MH sound effects clip
 		InitSceneSound(MhPFXSource, null);
+        
+        //Fix dialogue audio timing issue
+        //GetComponent<SceneController>().AudioSyncAdjust();
 
     }
 

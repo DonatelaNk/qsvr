@@ -110,7 +110,7 @@ public class MemorySpaces : MonoBehaviour {
         {
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceOne";
-            currentVideoResetTrigger = "CarScene02Trigger";
+            currentVideoResetTrigger = "CarScene02VideoTrigger";
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
             CounterMemoryMaxTime = MemoryMaxTime;
@@ -178,7 +178,7 @@ public class MemorySpaces : MonoBehaviour {
         {
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceTwo";
-            currentVideoResetTrigger = "CarScene03Trigger";
+            currentVideoResetTrigger = "CarScene03VideoTrigger";
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
             MemorySpaceActive = true;
