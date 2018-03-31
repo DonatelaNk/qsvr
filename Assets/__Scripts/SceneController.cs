@@ -59,8 +59,6 @@ public class SceneController : MonoBehaviour {
 
     //Cady
     public GameObject Car;
-    //Car lights
-    public GameObject CarLights;
 
     [Header("Debug Tools & Settings")]
     //time in seconds to wait for the vanity card onscreen
@@ -220,7 +218,6 @@ public class SceneController : MonoBehaviour {
             Blue.SetActive(false);
             InteractiveObjects.SetActive(false);
             Car.SetActive(false);
-            CarLights.SetActive(false);
 
             //Trigger the prelude sound track
             GetComponent<SoundManager>().StartPrelude();
@@ -279,7 +276,6 @@ public class SceneController : MonoBehaviour {
         SphereVideo.SetActive(true);  
         //Activate car
         Car.SetActive(true);
-        CarLights.SetActive(true);
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
