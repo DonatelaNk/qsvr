@@ -13,22 +13,6 @@ sysinfo.txt
 *.unitypackage
 
 
-# ====================== #
-# Assets too big for git #
-# ====================== #
-#/Assets/StreamingAssets/
-#/Assets/Models
-#/Assets/Sound
-/Assets/StreamingAssets/QueerSkinsEigthCut.mp4
-/Assets/StreamingAssets/QueerskinsEigthCut.mp4.meta
-/Assets/UnityHDRI/Gareoult/
-/Assets/UnityHDRI/MuirWood/
-/Assets/UnityHDRI/Seaside/
-/Assets/UnityHDRI/TreasureIsland/
-/Assets/UnityHDRI/Trinitatis Church/
-/Assets/UnityHDRI/Unite/
-
-
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
