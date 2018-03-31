@@ -23525,10 +23525,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 0.1
+  MaxDistance: 1
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -23559,6 +23559,12 @@ AudioSource:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1.0054972
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -23573,7 +23579,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -28941,7 +28947,7 @@ MonoBehaviour:
   Car: {fileID: 1355048970}
   CarLights: {fileID: 1559040749}
   VanityCardDelay: 12.5
-  StartAt: 1
+  StartAt: 2
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -29002,21 +29008,21 @@ MonoBehaviour:
   polaroid: {fileID: 54633588328411768, guid: d49061592ac06fd4a81ebee4b936f270, type: 2}
   PictureSet1:
   - texture: {fileID: 2800000, guid: 926c8e6bf42da4b49b0c314be9a97154, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 3f7536730e4cb5a49b38f75b87e1c57b, type: 3}
   - texture: {fileID: 2800000, guid: a1a99fc0332c5464391564b0567e2413, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: b35f11e3e0e1b9043ba955c7639b6024, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 78076149f6e27a94cad2cbd61c020edc, type: 3}
   - texture: {fileID: 2800000, guid: e979acd9ce7a9aa4da8bf0938013eba7, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 4ca592b60bf2b0f49a3bfe76ba1561a8, type: 3}
   - texture: {fileID: 2800000, guid: 019e2466c32172847b34090894c2b772, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 39e141231367ae64bbb2d49b392bd40f, type: 3}
   - texture: {fileID: 2800000, guid: 35e220edda2b6cf438dcd4151224f5a7, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 3767dad3a125aa542ac356e2e1b3bb59, type: 3}
   - texture: {fileID: 2800000, guid: 409759a5b53c42e4a98ee3ee9273df36, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: ae0a353403d29ab4b9470acc0a741ffb, type: 3}
   - texture: {fileID: 2800000, guid: 33217a9dff8c2fa439f674a8e6e63ac2, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 1fe6e7e3065bb4046abedc566e2d8717, type: 3}
   - texture: {fileID: 2800000, guid: 2588118482c508b459f154ca11f825dd, type: 3}
     audioClip: {fileID: 0}
   PictureSet2:
@@ -30333,7 +30339,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 243508357889116804, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 7b65b990f711860468d447e321d70f57, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

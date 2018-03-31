@@ -246,10 +246,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 0.1
+  MaxDistance: 0.5
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -257,26 +257,50 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0
+      time: 0.12888107
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -10.0039835
+      outSlope: -10.0039835
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.23610993
+      value: 0.49468994
+      inSlope: -2.1481292
+      outSlope: -2.1481292
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.48301545
+      value: 0.18624878
+      inSlope: -0.41242367
+      outSlope: -0.41242367
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8000153
+      value: 0.050598145
+      inSlope: -0.25091487
+      outSlope: -0.25091487
       tangentMode: 0
     - serializedVersion: 2
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.04154358
+      inSlope: -0.0049381265
+      outSlope: -0.0049381265
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   panLevelCustomCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
       value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.9999975
+      value: 0.9979512
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -294,7 +318,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
