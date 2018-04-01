@@ -318,7 +318,7 @@ public class SceneController : MonoBehaviour {
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
 
         //remove/reset actor audio
-        resetAudio(2);
+        ResetAudio(2);
 
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
@@ -340,7 +340,7 @@ public class SceneController : MonoBehaviour {
         GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
 
         //remove/reset actor audio
-        resetAudio(3);
+        ResetAudio(3);
 
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
@@ -598,7 +598,7 @@ public class SceneController : MonoBehaviour {
         GetComponent<SoundManager>().EdAudioSource.time = 0.75f;
         GetComponent<SoundManager>().MhAudioSource.time = 0.2f;
     }
-    void resetAudio(int scene)
+    void ResetAudio(int scene)
     {
         //remove audio
         GetComponent<SoundManager>().MhAudioSource.clip = null;
@@ -626,7 +626,7 @@ public class SceneController : MonoBehaviour {
         GetComponent<SoundManager>().EdAudioSource.Stop();
         GetComponent<SoundManager>().EdPFXSource.Stop();
     }
-    void resetAudioClip(AudioClip clip)
+    void ResetAudioClip(AudioClip clip)
     {
 
     }
@@ -661,7 +661,7 @@ public class SceneController : MonoBehaviour {
         {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
-            resetAudio(2);
+            ResetAudio(2);
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
@@ -671,7 +671,7 @@ public class SceneController : MonoBehaviour {
         {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
-            resetAudio(3);
+            ResetAudio(3);
         } else
         {
             SkipTo = 0;

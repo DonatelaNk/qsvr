@@ -11,11 +11,13 @@ public class TriggerDictionary : MonoBehaviour {
     private SoundManager SoundManager;
     private SceneController SceneController;
     private Objects Objects;
+    private Sun Sun;
 
     // Use this for initialization
     void Start () {
         SoundManager = GetComponent<SoundManager>();
         SceneController = GetComponent<SceneController>();
+        Sun = GameObject.Find("SUN_Animated").GetComponent<Sun>();
         //Declare our triggers dictionary
         triggers = new Dictionary<string, Trigger>();
 
@@ -31,6 +33,18 @@ public class TriggerDictionary : MonoBehaviour {
         //Trigger Radio
         Trigger radioTrigger = new Trigger("Scene01", false, 56.0f, SoundManager.StartRadio);
         triggers.Add("radioTrigger", radioTrigger);
+
+        //Trigger preDawn Sun
+        Trigger preDawnSunTrigger = new Trigger("Scene01", false, 47.13f, Sun.TriggerPreDawn);
+        triggers.Add("preDawnSunTrigger", preDawnSunTrigger);
+
+        //Trigger Sunrise
+        Trigger sunRiseTrigger = new Trigger("Scene01", false, 116.07f, Sun.TriggerSunrise);
+        triggers.Add("sunRiseTrigger", sunRiseTrigger);
+
+        //Trigger EarlyDay sun
+        Trigger earlyDayTrigger = new Trigger("Scene01", false, 207.29f, Sun.TriggerEarlyDay);
+        triggers.Add("earlyDayTrigger", earlyDayTrigger);
 
         //Trigger Ed rolling down the window
         Trigger EdRollsWindowTrigger = new Trigger("Scene01", false, 229.5f, SoundManager.StartEdRollsWindow);

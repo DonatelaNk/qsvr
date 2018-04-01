@@ -14802,13 +14802,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2005037762}
-  m_LocalRotation: {x: 0.5390199, y: -0.31655696, z: 0.76431227, w: 0.15835436}
-  m_LocalPosition: {x: -0.077, y: 1.703, z: 0.23460019}
+  m_LocalRotation: {x: 0.99839216, y: 0.0015804343, z: -0.036190573, w: 0.043599565}
+  m_LocalPosition: {x: 0.35, y: 1.32, z: 7.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1754609665}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 139.11, y: -106.8, z: 7.5399933}
+  m_LocalEulerAnglesHint: {x: 174.999, y: 4.151993, z: 0}
 --- !u!108 &2005037764
 Light:
   m_ObjectHideFlags: 0
@@ -14860,42 +14860,58 @@ MonoBehaviour:
   - color: {r: 0.39607844, g: 0.5764706, b: 1, a: 1}
     intensity: 1.3
     exposure: -2
-    sunPosition: {x: 0, y: 0, z: 0}
+    sunPosition: {x: -0.077, y: 0.76, z: -3.84}
+    rotationX: 172.11
+    rotationY: -199.8
   preDawn:
   - color: {r: 0.6901961, g: 0.6901961, b: 1, a: 1}
     intensity: 0.75
     exposure: -1
-    sunPosition: {x: 0, y: 0, z: 0}
+    sunPosition: {x: -0.077, y: 1.29, z: -3.84}
+    rotationX: 167.625
+    rotationY: -181.697
   sunrise:
   - color: {r: 1, g: 0.7529412, b: 0.38431373, a: 1}
     intensity: 1.15
     exposure: -0.4
-    sunPosition: {x: 0, y: 0, z: 0}
+    sunPosition: {x: -3.84, y: 1.29, z: -0.86}
+    rotationX: 169.373
+    rotationY: -114.756
   earlyDay:
   - color: {r: 1, g: 0.8627451, b: 0.654902, a: 1}
     intensity: 1.15
     exposure: 0.4
-    sunPosition: {x: 0, y: 0, z: 0}
+    sunPosition: {x: 0.35, y: 1.32, z: 7.17}
+    rotationX: 174.999
+    rotationY: 4.151993
   midDay:
   - color: {r: 1, g: 0.91764706, b: 0.7921569, a: 1}
     intensity: 1.25
     exposure: 0.8
     sunPosition: {x: 0, y: 0, z: 0}
+    rotationX: 0
+    rotationY: 0
   bridgeDay:
   - color: {r: 1, g: 0.9411765, b: 0.85882354, a: 1}
     intensity: 1.35
     exposure: 0.8
     sunPosition: {x: 0, y: 0, z: 0}
+    rotationX: 0
+    rotationY: 0
   sunset:
   - color: {r: 1, g: 0.77254903, b: 0.43529412, a: 1}
     intensity: 1
     exposure: 0
     sunPosition: {x: 0, y: 0, z: 0}
+    rotationX: 0
+    rotationY: 0
   graveSite:
   - color: {r: 1, g: 0.6862745, b: 0.21960784, a: 1}
     intensity: 0.65
     exposure: 0
     sunPosition: {x: 0, y: 0, z: 0}
+    rotationX: 0
+    rotationY: 0
 --- !u!1 &2006739172 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1262408854342764, guid: 614da74b563087349a3d19930fd6cb18,
