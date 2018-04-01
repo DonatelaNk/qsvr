@@ -12,8 +12,6 @@ public class Blindfold : MonoBehaviour {
 
     private ScreenFadeControl fadeControl;
     private List<ScreenFadeControl> fadeControls;
-    IEnumerator FadeOutCoroutine;
-    IEnumerator FadeInCoroutine;
 
     void Awake()
     {
@@ -44,15 +42,11 @@ public class Blindfold : MonoBehaviour {
 
     public void fadeInBlindFold()
     {
-        //StopCoroutine(FadeOutCoroutine);
-        //FadeInCoroutine = FadeIn(fadeControls);
         StartCoroutine(FadeIn(fadeControls));
     }
 
     public void fadeOutBlindFold()
     {
-        //StopCoroutine(FadeInCoroutine);
-        //FadeOutCoroutine = FadeOut(fadeControls);
         StartCoroutine(FadeOut(fadeControls));
     }
 
@@ -72,41 +66,36 @@ public class Blindfold : MonoBehaviour {
     }
     public IEnumerator FadeIn(IEnumerable<ScreenFadeControl> fadeControls)
     {
-        while (true)
-        {
-            //Debug.Log("Doing fade In");
-            // Derived from OVRScreenFade
-            float elapsedTime = 0.0f;
-            Color color = fadeColor;
-            color.a = 0.0f;
-            fadeMaterial.color = color;
-            SetFadersEnabled(fadeControls, true);
-            while (elapsedTime < fadeTime)
-            {
-                yield return new WaitForEndOfFrame();
-                elapsedTime += Time.deltaTime;
-                color.a = Mathf.Clamp01(elapsedTime / fadeTime);
-                fadeMaterial.color = color;
-            }
-        }
+       //Debug.Log("Doing fade In");
+       // Derived from OVRScreenFade
+       float elapsedTime = 0.0f;
+       Color color = fadeColor;
+       color.a = 0.0f;
+       fadeMaterial.color = color;
+       SetFadersEnabled(fadeControls, true);
+       while (elapsedTime < fadeTime)
+       {
+           yield return new WaitForEndOfFrame();
+           elapsedTime += Time.deltaTime;
+           color.a = Mathf.Clamp01(elapsedTime / fadeTime);
+           fadeMaterial.color = color;
+       }
+
     }
 
     public IEnumerator FadeOut(IEnumerable<ScreenFadeControl> fadeControls)
     {
-        while (true)
-        {
-            //Debug.Log("Fading back out");
-            float elapsedTime = 0.0f;
-            Color color = fadeMaterial.color = fadeColor;
-            while (elapsedTime < fadeTime)
-            {
-                yield return new WaitForEndOfFrame();
-                elapsedTime += Time.deltaTime;
-                color.a = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
-                fadeMaterial.color = color;
-            }
-            SetFadersEnabled(fadeControls, false);
-        }
+       //Debug.Log("Fading back out");
+       float elapsedTime = 0.0f;
+       Color color = fadeMaterial.color = fadeColor;
+       while (elapsedTime < fadeTime)
+       {
+           yield return new WaitForEndOfFrame();
+           elapsedTime += Time.deltaTime;
+           color.a = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
+           fadeMaterial.color = color;
+       }
+       SetFadersEnabled(fadeControls, false);
     }
 
 }

@@ -25,6 +25,8 @@ public class MemorySpaces : MonoBehaviour {
     private string currentMemorySpaceTrigger;
     private string currentVideoResetTrigger;
 
+    private Sun Sun;
+
     [Header("Memory Space 1")]
     //Intantiate the photograph prefabs used in Memory Space 1
     public Rigidbody polaroid;
@@ -68,6 +70,7 @@ public class MemorySpaces : MonoBehaviour {
     {
         CountDownUserIdleTime = MaxUserIdleTime;
         Diary.SetActive(false);
+        Sun = GameObject.Find("SUN_Animated").GetComponent<Sun>();
     }
 
     void Update()
@@ -254,6 +257,7 @@ public class MemorySpaces : MonoBehaviour {
         RenderSettings.fogStartDistance = 10;
         RenderSettings.fogEndDistance = 20;*/
         addFogCoroutine = StartFog();
+        Sun.TriggerMemorySpaceLight();
         StartCoroutine(addFogCoroutine);
     }
 

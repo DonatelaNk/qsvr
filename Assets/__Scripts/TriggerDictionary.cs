@@ -30,13 +30,13 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger CarScene01Trigger = new Trigger("Scene01", false, 0.01f, SoundManager.StartCar01);
         triggers.Add("CarScene01Trigger", CarScene01Trigger);
 
-        //Trigger Radio
-        Trigger radioTrigger = new Trigger("Scene01", false, 56.0f, SoundManager.StartRadio);
-        triggers.Add("radioTrigger", radioTrigger);
-
         //Trigger preDawn Sun
         Trigger preDawnSunTrigger = new Trigger("Scene01", false, 47.13f, Sun.TriggerPreDawn);
         triggers.Add("preDawnSunTrigger", preDawnSunTrigger);
+
+        //Trigger Radio
+        Trigger radioTrigger = new Trigger("Scene01", false, 56.0f, SoundManager.StartRadio);
+        triggers.Add("radioTrigger", radioTrigger);
 
         //Trigger Sunrise
         Trigger sunRiseTrigger = new Trigger("Scene01", false, 116.07f, Sun.TriggerSunrise);
@@ -62,6 +62,10 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger CarScene02Trigger = new Trigger("Scene02", false, 258.0f, SoundManager.StartCar02);
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
 
+        //Trigger light over bridge
+        Trigger bridgeLightTrigger = new Trigger("Scene02", false, 392.06f, Sun.TriggerBridgeDay);
+        triggers.Add("bridgeLightTrigger", bridgeLightTrigger);
+
 
         //Trigger Memory Space 2
         Trigger MemorySpace02Trigger = new Trigger("Memory02", false, 440.11f, EnterMemorySpaceTwo);
@@ -71,13 +75,25 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger CarScene03VideoTrigger = new Trigger("Scene03", false, 470.18f, null);
         triggers.Add("CarScene03VideoTrigger", CarScene03VideoTrigger);
 
+        //Trigger sunset light
+        Trigger sunsetLightTrigger = new Trigger("Scene03", false, 471.0f, Sun.TriggerSunset);
+        triggers.Add("sunsetLightTrigger", sunsetLightTrigger);
+
         //Trigger CarScene 3 sounds
         Trigger CarScene03Trigger = new Trigger("Scene03", false, 473.0f, SoundManager.StartCar03);
         triggers.Add("CarScene03Trigger", CarScene03Trigger);
 
+        //Trigger cemetery light
+        Trigger graveSiteLightTrigger = new Trigger("Scene03", false, 499.06f, Sun.TriggerGraveSiteLight);
+        triggers.Add("graveSiteLightTrigger", graveSiteLightTrigger);
+
         //Trigger ShiftKey
         Trigger ShiftKeyTrigger = new Trigger("Scene03", false, 552.0f, SoundManager.StartShiftKey);
         triggers.Add("ShiftKeyTrigger", ShiftKeyTrigger);
+
+        //Trigger finale light
+        Trigger finaleLightTrigger = new Trigger("Scene03", false, 548.23f, Sun.TriggerFinaleLight);
+        triggers.Add("finaleLightTrigger", finaleLightTrigger);
 
         //Trigger fly flyby
         Trigger FlybyTrigger = new Trigger("Scene03", false, 612.25f, SoundManager.StartFlyBi);

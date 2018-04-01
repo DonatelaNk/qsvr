@@ -13,6 +13,8 @@ public class Sun : MonoBehaviour {
     public List<LightSet> bridgeDay;
     public List<LightSet> sunset;
     public List<LightSet> graveSite;
+    public List<LightSet> finaleLight;
+    public List<LightSet> memorySpace;
     [Serializable]
     public class LightSet
     {
@@ -30,10 +32,10 @@ public class Sun : MonoBehaviour {
     private PostProcessingProfile ppProfile;
 
     //change speed variables
-    private float moveSpeed = 1.0f;
     private float intensityChangeSpeed = 5.0f;
     private float colorChangeSpeed = 5.0f;
     private float exposureChangeSpeed = 5.0f;
+    private float moveSpeed = 1.0f;
 
     // Use this for initialization
     void Start () {
@@ -76,6 +78,8 @@ public class Sun : MonoBehaviour {
     public void TriggerBridgeDay() { SetSun(bridgeDay); }
     public void TriggerSunset() { SetSun(sunset); }
     public void TriggerGraveSiteLight() { SetSun(graveSite); }
+    public void TriggerMemorySpaceLight() { SetSun(memorySpace); }
+    public void TriggerFinaleLight() { SetSun(finaleLight); }
 
     void SetSun(List<LightSet> timeOfDay)
     {
@@ -83,13 +87,23 @@ public class Sun : MonoBehaviour {
         foreach (LightSet set in timeOfDay)
         {
             //set position and rotation
-            StartCoroutine(AnimateSunPositionAndRotation(set.sunPosition, set.rotationX, set.rotationY));
+            if (timeOfDay == finaleLight)
+            {
+                //also animate sun setting
+                moveSpeed = 60.0f;
+                intensityChangeSpeed = 60.0f;
+                colorChangeSpeed = 60.0f;
+                exposureChangeSpeed = 60.0f;
+                lt.intensity = 0.8f;
+            }
+            StartCoroutine(AnimateSunPositionAndRotation(set.sunPosition, set.rotationX, set.rotationY, moveSpeed));
             //animate intensity
             StartCoroutine(AnimateSunIntensity(set.intensity));
             //set color
             StartCoroutine(AnimateSunLightColor(set.color));
             //set exposure
             StartCoroutine(AnimateExposure(set.exposure));
+            
         }   
     }
 
@@ -98,19 +112,19 @@ public class Sun : MonoBehaviour {
     //*******************************************************//
     //*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*//
 
-    IEnumerator AnimateSunPositionAndRotation(Vector3 targetPosition, float rotation_x, float rotation_y)
+    IEnumerator AnimateSunPositionAndRotation(Vector3 targetPosition, float rotation_x, float rotation_y, float speed)
     {
         float elapsedTime = 0;
         Vector3 startingPosition = lt.transform.position;
         Quaternion startingRotation = lt.transform.rotation; // have a startingRotation as well
         Quaternion targetRotation = Quaternion.Euler(new Vector3(rotation_x, rotation_y, 0));
 
-        while (elapsedTime < moveSpeed)
+        while (elapsedTime < speed)
         {
             //move
-            lt.transform.position = Vector3.Lerp(startingPosition, targetPosition, (elapsedTime / moveSpeed));
+            lt.transform.position = Vector3.Lerp(startingPosition, targetPosition, (elapsedTime / speed));
             //rotate
-            lt.transform.rotation = Quaternion.Slerp(startingRotation, targetRotation, (elapsedTime / moveSpeed));
+            lt.transform.rotation = Quaternion.Slerp(startingRotation, targetRotation, (elapsedTime / speed));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -154,4 +168,6 @@ public class Sun : MonoBehaviour {
             yield return null;
         }
     }
+
+
 }

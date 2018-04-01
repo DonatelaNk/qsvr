@@ -30,7 +30,7 @@ public class SceneController : MonoBehaviour {
 
     [Header("Scene setup")]
     //Direction light (sun)
-    public Light Sun;
+    public GameObject Sun;
     //skybox for vanity card and opening title sequence
     public Material VanitySkybox;
     //Skybox for the car scene (uses one of Unitys HDRIs textures)
@@ -352,28 +352,34 @@ public class SceneController : MonoBehaviour {
         EventManager.StopListening("ExitMemorySpaceTwo", StartExitFromMemorySpaceTwo);
     }
 
-
+    public void StartFinale()
+    {
+        StartCoroutine(StartWrapUp(4.0f));
+        GetComponent<Blindfold>().fadeInBlindFold();
+        //start any finale music/sound
+        GetComponent<SoundManager>().StartFinale();
+    }
 
     //This function is called when the scene is fully faded at the end
     IEnumerator StartWrapUp(float wait)
     {
         yield return new WaitForSeconds(wait);
         WrapUpScene();
-        this.gameObject.GetComponent<Blindfold>().fadeOutBlindFold();
-
     }
+
     void WrapUpScene()
     {
-        Red.SetActive(false);
-        Blue.SetActive(false);
-        Car.SetActive(false);
+        Destroy(Red);
+        Destroy(Blue);
         SphereVideo.SetActive(false);
         //Remove interactiveobjects
         Destroy(InteractiveObjects);
+        Destroy(Car);
         //reset skybox
         RenderSettings.skybox = VanitySkybox;
         RenderSettings.skybox.SetFloat("_Blend", 1.0f);
         //show titles
+        GetComponent<Blindfold>().fadeOutBlindFold();
         Titles.SetActive(true);
         //roll closing credits
         Titles.GetComponent<TitlesController>().RollClosingCredits();
@@ -396,7 +402,6 @@ public class SceneController : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
             ResetHeadsetPosition();
-            //control360.Play();
         }
 
         //Hit Escape to exit (build mode only)
@@ -427,7 +432,7 @@ public class SceneController : MonoBehaviour {
        
 
         //Reat for the Red and Blue videos
-        if (Red.activeSelf && !videoRedLoaded)
+        if (Red != null && Red.activeSelf && !videoRedLoaded)
         {
             mediaplayerRed = Red.GetComponent<MediaPlayer>();
             controlRed = mediaplayerRed.Control;
@@ -441,7 +446,7 @@ public class SceneController : MonoBehaviour {
                 //}
             }
         }
-        if (Blue.activeSelf && !videoBlueLoaded)
+        if (Blue !=null && Blue.activeSelf && !videoBlueLoaded)
         {
             mediaplayerBlue = Blue.GetComponent<MediaPlayer>();
             controlBlue = mediaplayerBlue.Control;
@@ -517,13 +522,7 @@ public class SceneController : MonoBehaviour {
             startFinale();
         }*/
     }
-    public void StartFinale()
-    {
-        StartCoroutine(StartWrapUp(8.0f));
-        GetComponent<Blindfold>().fadeInBlindFold();
-        //start any finale music/sound
-        GetComponent<SoundManager>().StartFinale();
-    }
+    
 
     //********** FUNCTIONS TO SKIP AROUND TIMELINE************/
     //*******************************************************//
@@ -662,6 +661,8 @@ public class SceneController : MonoBehaviour {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
             ResetAudio(2);
+            //reset light
+            //Sun.GetComponent<Sun>().TriggerMidDay();
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
@@ -672,6 +673,8 @@ public class SceneController : MonoBehaviour {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
             ResetAudio(3);
+            //reset light
+            //Sun.GetComponent<Sun>().TriggerSunset();
         } else
         {
             SkipTo = 0;

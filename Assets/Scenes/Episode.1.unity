@@ -1236,7 +1236,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.99965733
+      value: 0.99939084
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalRotation.z
@@ -1244,7 +1244,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.026176924
+      value: -0.034899402
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_RootOrder
@@ -1280,7 +1280,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 183
+      value: 184
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9647,7 +9647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0382d6e155051b74795d4787d677b7ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sun: {fileID: 2005037764}
+  Sun: {fileID: 2005037762}
   VanitySkybox: {fileID: 2100000, guid: 88ec9a13802800449aaf825aff3aadc7, type: 2}
   StorySkybox: {fileID: 2100000, guid: c6009c518b3fa764d960a012396d76fb, type: 2}
   MemoryDust: {fileID: 395125480}
@@ -9658,7 +9658,7 @@ MonoBehaviour:
   InteractiveObjects: {fileID: 988423553}
   Car: {fileID: 1355048970}
   VanityCardDelay: 12.5
-  StartAt: 1
+  StartAt: 5
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -14802,13 +14802,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2005037762}
-  m_LocalRotation: {x: 0.99839216, y: 0.0015804343, z: -0.036190573, w: 0.043599565}
-  m_LocalPosition: {x: 0.35, y: 1.32, z: 7.17}
+  m_LocalRotation: {x: 0.6809125, y: -0.14449662, z: -0.71437454, w: 0.07174951}
+  m_LocalPosition: {x: 5.3, y: 0, z: 1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1754609665}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 174.999, y: 4.151993, z: 0}
+  m_LocalEulerAnglesHint: {x: 186.243, y: 91.784996, z: 17.521988}
 --- !u!108 &2005037764
 Light:
   m_ObjectHideFlags: 0
@@ -14879,7 +14879,7 @@ MonoBehaviour:
     rotationY: -114.756
   earlyDay:
   - color: {r: 1, g: 0.8627451, b: 0.654902, a: 1}
-    intensity: 1.15
+    intensity: 3
     exposure: 0.4
     sunPosition: {x: 0.35, y: 1.32, z: 7.17}
     rotationX: 174.999
@@ -14888,30 +14888,44 @@ MonoBehaviour:
   - color: {r: 1, g: 0.91764706, b: 0.7921569, a: 1}
     intensity: 1.25
     exposure: 0.8
-    sunPosition: {x: 0, y: 0, z: 0}
-    rotationX: 0
-    rotationY: 0
+    sunPosition: {x: 2.87, y: 1.32, z: 6.76}
+    rotationX: 134.679
+    rotationY: 53.188
   bridgeDay:
   - color: {r: 1, g: 0.9411765, b: 0.85882354, a: 1}
     intensity: 1.35
     exposure: 0.8
-    sunPosition: {x: 0, y: 0, z: 0}
-    rotationX: 0
-    rotationY: 0
+    sunPosition: {x: 2.87, y: 1.32, z: 6.76}
+    rotationX: 134.679
+    rotationY: 53.188
   sunset:
   - color: {r: 1, g: 0.77254903, b: 0.43529412, a: 1}
     intensity: 1
     exposure: 0
-    sunPosition: {x: 0, y: 0, z: 0}
-    rotationX: 0
-    rotationY: 0
+    sunPosition: {x: 3, y: 1, z: 6}
+    rotationX: 162
+    rotationY: 56
   graveSite:
   - color: {r: 1, g: 0.6862745, b: 0.21960784, a: 1}
     intensity: 0.65
     exposure: 0
-    sunPosition: {x: 0, y: 0, z: 0}
-    rotationX: 0
-    rotationY: 0
+    sunPosition: {x: 5.3, y: 1.31, z: 1.25}
+    rotationX: 171.239
+    rotationY: 88.58099
+  finaleLight:
+  - color: {r: 0.8455882, g: 0.2957141, b: 0, a: 1}
+    intensity: 0.4
+    exposure: -1
+    sunPosition: {x: 5.3, y: 0, z: 1.25}
+    rotationX: 186.243
+    rotationY: 92
+  memorySpace:
+  - color: {r: 1, g: 1, b: 1, a: 0}
+    intensity: 1
+    exposure: 1
+    sunPosition: {x: 0.35, y: 1.32, z: 7.17}
+    rotationX: 174
+    rotationY: 4
 --- !u!1 &2006739172 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1262408854342764, guid: 614da74b563087349a3d19930fd6cb18,
