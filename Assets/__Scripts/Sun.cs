@@ -35,7 +35,8 @@ public class Sun : MonoBehaviour {
     private float intensityChangeSpeed = 5.0f;
     private float colorChangeSpeed = 5.0f;
     private float exposureChangeSpeed = 5.0f;
-    private float moveSpeed = 1.0f;
+    private float moveSpeed = 4.0f;
+
 
     // Use this for initialization
     void Start () {
@@ -73,7 +74,7 @@ public class Sun : MonoBehaviour {
     //called by our triggers (found in TriggerDictionary)
     public void TriggerPreDawn() { SetSun(preDawn); }
     public void TriggerSunrise() { SetSun(sunrise); }
-    public void TriggerEarlyDay() { SetSun(earlyDay); }
+    public void TriggerEarlyDay() { SetSun(earlyDay);}
     public void TriggerMidDay() { SetSun(midDay); }
     public void TriggerBridgeDay() { SetSun(bridgeDay); }
     public void TriggerSunset() { SetSun(sunset); }
@@ -81,6 +82,18 @@ public class Sun : MonoBehaviour {
     public void TriggerMemorySpaceLight() { SetSun(memorySpace); }
     public void TriggerFinaleLight() { SetSun(finaleLight); }
 
+    public void TriggerAdjustSun()
+    {
+        Vector3 t = new Vector3(-4.65f, 2.57f, 6.0f);
+        float rx = 169.528f;
+        float ry = -52.689f;
+        StartCoroutine(AnimateSunPositionAndRotation(t, rx, ry, 25.0f));
+    }
+
+    void MoveSun()
+    {
+
+    }
     void SetSun(List<LightSet> timeOfDay)
     {
 
@@ -168,6 +181,5 @@ public class Sun : MonoBehaviour {
             yield return null;
         }
     }
-
 
 }

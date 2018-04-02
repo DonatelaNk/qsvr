@@ -39,11 +39,15 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("radioTrigger", radioTrigger);
 
         //Trigger Sunrise
-        Trigger sunRiseTrigger = new Trigger("Scene01", false, 116.07f, Sun.TriggerSunrise);
+        Trigger sunRiseTrigger = new Trigger("Scene01", false, 118.07f, Sun.TriggerSunrise);
         triggers.Add("sunRiseTrigger", sunRiseTrigger);
 
+        //Trigger SunAdjust
+        Trigger sunAdjustTrigger = new Trigger("Scene01", false, 158.0f, Sun.TriggerAdjustSun);
+        triggers.Add("sunAdjustTrigger", sunAdjustTrigger);
+
         //Trigger EarlyDay sun
-        Trigger earlyDayTrigger = new Trigger("Scene01", false, 207.29f, Sun.TriggerEarlyDay);
+        Trigger earlyDayTrigger = new Trigger("Scene01", false, 202.29f, Sun.TriggerEarlyDay);
         triggers.Add("earlyDayTrigger", earlyDayTrigger);
 
         //Trigger Ed rolling down the window

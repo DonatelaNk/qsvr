@@ -56,6 +56,7 @@ public class SceneController : MonoBehaviour {
     [Header("Car")]
     //Interactive Objects
     public GameObject InteractiveObjects;
+    public GameObject GearShift;
 
     //Cady
     public GameObject Car;
@@ -198,7 +199,7 @@ public class SceneController : MonoBehaviour {
     {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
-
+        //StartCoroutine(MoveGearShift());
 
         //See if we need to skip intro and/or go to specific place
         //if not, run the project from the beginning
@@ -715,8 +716,29 @@ public class SceneController : MonoBehaviour {
     //Courtine to remove the user blindfold with a 2 second delay
     IEnumerator RemoveBlindfold()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(4.0f);
         GetComponent<Blindfold>().fadeOutBlindFold();
     }
+    //Courtine to move gearshift
+    IEnumerator MoveGearShift()
+    {
+        yield return new WaitForSeconds(6.0f);
+        
+        float elapsedTime = 0;
+        float speed = 1.0f;
+        Vector3 startingPosition = GearShift.transform.position;
+        Vector3 targetPosition = GearShift.transform.position;
+        Quaternion startingRotation = GearShift.transform.rotation; // have a startingRotation as well
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(-9.246f, 15.932f, -27.451f));
 
+        while (elapsedTime < speed)
+        {
+            //move
+            //GearShift.transform.position = Vector3.Lerp(startingPosition, targetPosition, (elapsedTime / speed));
+            //rotate
+            GearShift.transform.rotation = Quaternion.Slerp(startingRotation, targetRotation, (elapsedTime / speed));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
 }
