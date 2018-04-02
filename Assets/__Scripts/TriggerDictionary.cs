@@ -62,6 +62,10 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger CarScene02VideoTrigger = new Trigger("Scene02", false, 255.14f, null);
         triggers.Add("CarScene02VideoTrigger", CarScene02VideoTrigger);
 
+        //TriggerMidDay light
+        Trigger MidDayLightTrigger = new Trigger("Scene02", false, 256.0f, Sun.TriggerMidDay);
+        triggers.Add("MidDayLightTrigger", MidDayLightTrigger);
+
         //Trigger CarScene 2 sounds
         Trigger CarScene02Trigger = new Trigger("Scene02", false, 258.0f, SoundManager.StartCar02);
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
@@ -84,7 +88,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("sunsetLightTrigger", sunsetLightTrigger);
 
         //Trigger CarScene 3 sounds
-        Trigger CarScene03Trigger = new Trigger("Scene03", false, 473.0f, SoundManager.StartCar03);
+        Trigger CarScene03Trigger = new Trigger("Scene03", false, 472.9f, SoundManager.StartCar03);
         triggers.Add("CarScene03Trigger", CarScene03Trigger);
 
         //Trigger cemetery light

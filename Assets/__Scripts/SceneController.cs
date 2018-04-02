@@ -406,8 +406,8 @@ public class SceneController : MonoBehaviour {
     {
         if (park)
         {
-            Quaternion quats = Quaternion.FromToRotation(Vector3.up, Vector3.up) * Quaternion.Euler(-1.61f, 0, 0);
-            GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime * 4);
+            Quaternion quats = Quaternion.FromToRotation(Vector3.up, Vector3.up) * Quaternion.Euler(-1.61f, 0, -10f);
+            GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime*20);
         }
 
     }
@@ -598,7 +598,12 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().EdAudioSource.Stop();
                     GetComponent<SoundManager>().EdPFXSource.Stop();
 
-                    AudioSyncAdjust();
+                    if (StartAt == EnumeratedSkipPoints.Prelude ||
+                        StartAt == EnumeratedSkipPoints.CarOne)
+                    {
+                        GetComponent<SoundManager>().EdAudioSource.time = 0.75f;
+                        GetComponent<SoundManager>().MhAudioSource.time = 0.2f;
+                    }
 
                     GetComponent<SoundManager>().MhAudioSource.Play();
                     GetComponent<SoundManager>().MhPFXSource.Play();
@@ -613,8 +618,7 @@ public class SceneController : MonoBehaviour {
 
     public void AudioSyncAdjust()
     {
-        GetComponent<SoundManager>().EdAudioSource.time = 0.75f;
-        GetComponent<SoundManager>().MhAudioSource.time = 0.2f;
+       
     }
     void ResetAudio(int scene)
     {
