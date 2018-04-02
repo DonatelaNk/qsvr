@@ -1199,14 +1199,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 141197274}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSpatialization: 1
+  enableSpatialization: 0
   gain: 0
-  useInvSqr: 1
+  useInvSqr: 0
   near: 0.75
   far: 50
   volumetricRadius: 0
@@ -1546,12 +1546,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 177849553}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSpatialization: 1
+  enableSpatialization: 0
   gain: 0
   useInvSqr: 0
   near: 1
@@ -1603,7 +1603,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
@@ -2219,7 +2219,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
@@ -6069,7 +6069,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 651098802}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
@@ -9794,7 +9794,7 @@ MonoBehaviour:
   GearShift: {fileID: 254768780}
   Car: {fileID: 1355048970}
   VanityCardDelay: 12.5
-  StartAt: 1
+  StartAt: 2
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -9857,30 +9857,30 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: a1a99fc0332c5464391564b0567e2413, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: b35f11e3e0e1b9043ba955c7639b6024, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 78076149f6e27a94cad2cbd61c020edc, type: 3}
   - texture: {fileID: 2800000, guid: e979acd9ce7a9aa4da8bf0938013eba7, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 4ca592b60bf2b0f49a3bfe76ba1561a8, type: 3}
   - texture: {fileID: 2800000, guid: 019e2466c32172847b34090894c2b772, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 39e141231367ae64bbb2d49b392bd40f, type: 3}
   - texture: {fileID: 2800000, guid: 35e220edda2b6cf438dcd4151224f5a7, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 3767dad3a125aa542ac356e2e1b3bb59, type: 3}
   - texture: {fileID: 2800000, guid: 409759a5b53c42e4a98ee3ee9273df36, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: ae0a353403d29ab4b9470acc0a741ffb, type: 3}
   - texture: {fileID: 2800000, guid: 409759a5b53c42e4a98ee3ee9273df36, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: 33217a9dff8c2fa439f674a8e6e63ac2, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 1fe6e7e3065bb4046abedc566e2d8717, type: 3}
   - texture: {fileID: 2800000, guid: 2588118482c508b459f154ca11f825dd, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: 926c8e6bf42da4b49b0c314be9a97154, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 3f7536730e4cb5a49b38f75b87e1c57b, type: 3}
   PictureSet2:
   - texture: {fileID: 2800000, guid: 37947d595f58e474dada5c56cff55c1c, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: e7176009b96105c4482324ae11d174a2, type: 3}
   - texture: {fileID: 2800000, guid: a281e2bbd13e21443a55173f22c19489, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: 81d16c10538f73344bf29f98f76edd50, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: c0703e4bac15d544aa1a06746a9a78e8, type: 3}
   - texture: {fileID: 2800000, guid: d31865421e37d274989c98622a064256, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: b8741e00705742d46846b262eda212ed, type: 3}
@@ -9895,11 +9895,11 @@ MonoBehaviour:
     audioClip: {fileID: 0}
   PictureSet3:
   - texture: {fileID: 2800000, guid: 183c9c89bfc4c2b4fa6f58bc8b282bfe, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 75e9cff85e0d5ae46aeb133d7e0ecd05, type: 3}
   - texture: {fileID: 2800000, guid: 7ef67f8b19b31ae449650ae4c31308f2, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: 78df77a767f077841a03a734845d2718, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 761d41d8e28a7a742b442bfe1371d8dc, type: 3}
   - texture: {fileID: 2800000, guid: c255e10b138713e419a8c15c634fa476, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: 6c50b54bf7e908741bb55fcc65c4e6d6, type: 3}
@@ -10241,12 +10241,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1193381888}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSpatialization: 1
+  enableSpatialization: 0
   gain: 0
   useInvSqr: 0
   near: 1
@@ -10760,14 +10760,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1281280866}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSpatialization: 1
+  enableSpatialization: 0
   gain: 0
-  useInvSqr: 1
+  useInvSqr: 0
   near: 0.75
   far: 40
   volumetricRadius: 0
@@ -11395,7 +11395,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
@@ -14532,7 +14532,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
@@ -15181,7 +15181,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
