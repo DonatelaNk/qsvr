@@ -57,7 +57,7 @@ public class SceneController : MonoBehaviour {
     //Interactive Objects
     public GameObject InteractiveObjects;
     public GameObject GearShift;
-
+    private bool park = false; //controls the movement of the parking/gearshift
     //Cady
     public GameObject Car;
 
@@ -199,7 +199,9 @@ public class SceneController : MonoBehaviour {
     {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
-        //StartCoroutine(MoveGearShift());
+        //set GearShift into drive mode
+        GearShift.transform.eulerAngles = new Vector3(GearShift.transform.rotation.x, GearShift.transform.rotation.x, -80.0f);
+
 
         //See if we need to skip intro and/or go to specific place
         //if not, run the project from the beginning
@@ -353,6 +355,13 @@ public class SceneController : MonoBehaviour {
         EventManager.StopListening("ExitMemorySpaceTwo", StartExitFromMemorySpaceTwo);
     }
 
+
+    //Engage gearshift
+    public void MoveGearShift()
+    {
+        park = true;
+    }
+
     public void StartFinale()
     {
         StartCoroutine(StartWrapUp(4.0f));
@@ -375,6 +384,7 @@ public class SceneController : MonoBehaviour {
         SphereVideo.SetActive(false);
         //Remove interactiveobjects
         Destroy(InteractiveObjects);
+        Destroy(GearShift);
         Destroy(Car);
         //reset skybox
         RenderSettings.skybox = VanitySkybox;
@@ -392,7 +402,15 @@ public class SceneController : MonoBehaviour {
 
 
 
+    void FixedUpdate()
+    {
+        if (park)
+        {
+            Quaternion quats = Quaternion.FromToRotation(Vector3.up, Vector3.up) * Quaternion.Euler(-1.61f, 0, 0);
+            GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime * 4);
+        }
 
+    }
 
 
 
@@ -718,27 +736,5 @@ public class SceneController : MonoBehaviour {
     {
         yield return new WaitForSeconds(4.0f);
         GetComponent<Blindfold>().fadeOutBlindFold();
-    }
-    //Courtine to move gearshift
-    IEnumerator MoveGearShift()
-    {
-        yield return new WaitForSeconds(6.0f);
-        
-        float elapsedTime = 0;
-        float speed = 1.0f;
-        Vector3 startingPosition = GearShift.transform.position;
-        Vector3 targetPosition = GearShift.transform.position;
-        Quaternion startingRotation = GearShift.transform.rotation; // have a startingRotation as well
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(-9.246f, 15.932f, -27.451f));
-
-        while (elapsedTime < speed)
-        {
-            //move
-            //GearShift.transform.position = Vector3.Lerp(startingPosition, targetPosition, (elapsedTime / speed));
-            //rotate
-            GearShift.transform.rotation = Quaternion.Slerp(startingRotation, targetRotation, (elapsedTime / speed));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
+    }  
 }

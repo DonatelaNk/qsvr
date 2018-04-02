@@ -99,6 +99,10 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger finaleLightTrigger = new Trigger("Scene03", false, 548.23f, Sun.TriggerFinaleLight);
         triggers.Add("finaleLightTrigger", finaleLightTrigger);
 
+        //Engage parking break
+        Trigger engageParkingBreak = new Trigger("Scene03", false, 552.19f, SceneController.MoveGearShift);
+        triggers.Add("engageParkingBreak", engageParkingBreak);
+
         //Trigger fly flyby
         Trigger FlybyTrigger = new Trigger("Scene03", false, 612.25f, SoundManager.StartFlyBi);
         triggers.Add("FlybyTrigger", FlybyTrigger);
