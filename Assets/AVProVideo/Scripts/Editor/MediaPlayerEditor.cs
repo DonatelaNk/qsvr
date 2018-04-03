@@ -15,11 +15,14 @@ using UnityEditor;
 using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo.Editor
 {
+	/// <summary>
+	/// Editor for the MediaPlayer component
+	/// </summary>
 	[CanEditMultipleObjects]
 	[CustomEditor(typeof(MediaPlayer))]
 	public class MediaPlayerEditor : UnityEditor.Editor
@@ -54,6 +57,9 @@ namespace RenderHeads.Media.AVProVideo.Editor
 		private SerializedProperty _propAudioFocusOffLevelDB;
 		private SerializedProperty _propAudioFocusWidthDegrees;
 		private SerializedProperty _propAudioFocusTransform;
+		private SerializedProperty _propSourceAudioSampleRate;
+		private SerializedProperty _propSourceAudioChannels;
+		private SerializedProperty _propManualSetAudioProps;
 
 		private static bool _isTrialVersion = false;
 		private static Texture2D _icon;
@@ -179,7 +185,7 @@ namespace RenderHeads.Media.AVProVideo.Editor
 			return version.Contains("t");
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			LoadSettings();
 
@@ -217,11 +223,14 @@ namespace RenderHeads.Media.AVProVideo.Editor
 			_propAudioFocusOffLevelDB = serializedObject.FindProperty("m_AudioFocusOffLevelDB");
 			_propAudioFocusWidthDegrees = serializedObject.FindProperty("m_AudioFocusWidthDegrees");
 			_propAudioFocusTransform = serializedObject.FindProperty("m_AudioFocusTransform");
+			_propSourceAudioSampleRate = serializedObject.FindProperty("m_sourceSampleRate");
+			_propSourceAudioChannels = serializedObject.FindProperty("m_sourceChannels");
+			_propManualSetAudioProps = serializedObject.FindProperty("m_manuallySetAudioSourceProperties");
 
 			CheckStereoPackingField();
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			SaveSettings();
 		}
@@ -1006,6 +1015,7 @@ namespace RenderHeads.Media.AVProVideo.Editor
 			{
 				if (!_showAlpha)
 				{
+					// TODO: In Linear mode, this displays the texture too bright, but GUI.DrawTexture displays it correctly
 					EditorGUI.DrawTextureTransparent(textureRect, texture, ScaleMode.ScaleToFit);
 				}
 				else
@@ -1435,6 +1445,8 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					{
 						media.Control.MuteAudio(newMuted);
 					}
+
+					
 					/*
 										int selectedTrackIndex = media.Control.GetCurrentAudioTrack();
 										int numTracks = media.Info.GetAudioTrackCount();
@@ -1468,6 +1480,8 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					}
 					EditorGUILayout.EndVertical();
 				}
+
+				
 			}
 
 			GUILayout.EndVertical();
@@ -2092,25 +2106,47 @@ namespace RenderHeads.Media.AVProVideo.Editor
 			//MediaPlayer.PlatformOptions options = media.GetPlatformOptions((Platform)_platformIndex);
 			//if (options != null)
 
-			EditorGUILayout.BeginVertical("box");
-			//GUILayout.Label("Media Foundation Options", EditorStyles.boldLabel);
+			if (_platformIndex >= 0)
 			{
-				string optionsVarName = MediaPlayer.GetPlatformOptionsVariable((Platform)_platformIndex);
-				SerializedProperty propOverridePath = serializedObject.FindProperty(optionsVarName + ".overridePath");
-				if (propOverridePath != null)
+				EditorGUILayout.BeginVertical("box");
+				//GUILayout.Label("Media Foundation Options", EditorStyles.boldLabel);
 				{
-					EditorGUILayout.PropertyField(propOverridePath, new GUIContent("Override Path"));
-
-					//if (propOverridePath.boolValue)
+					string optionsVarName = MediaPlayer.GetPlatformOptionsVariable((Platform)_platformIndex);
+					SerializedProperty propOverridePath = serializedObject.FindProperty(optionsVarName + ".overridePath");
+					if (propOverridePath != null)
 					{
-						EditorGUI.BeginDisabledGroup(!propOverridePath.boolValue);
-						GUI_OverridePath(_platformIndex);
-						EditorGUI.EndDisabledGroup();
+						EditorGUILayout.PropertyField(propOverridePath, new GUIContent("Override Path"));
+
+						//if (propOverridePath.boolValue)
+						{
+							EditorGUI.BeginDisabledGroup(!propOverridePath.boolValue);
+							GUI_OverridePath(_platformIndex);
+							EditorGUI.EndDisabledGroup();
+						}
 					}
 				}
+				EditorGUILayout.EndVertical();
 			}
-			EditorGUILayout.EndVertical();
 		}
+
+		private readonly static GUIContent[] _audioModesWindows =
+		{
+			new GUIContent("System Direct"),
+			new GUIContent("Facebook Audio 360", "Initialises player with Facebook Audio 360 support"),
+			new GUIContent("Unity", "Allows the AudioOutput component to grab audio from the video and play it through Unity to the AudioListener"),
+		};
+
+		private readonly static GUIContent[] _audioModesUWP =
+		{
+			new GUIContent("System Direct"),
+			new GUIContent("Unity", "Allows the AudioOutput component to grab audio from the video and play it through Unity to the AudioListener"),
+		};
+
+		private readonly static GUIContent[] _audioModesAndroid =
+		{
+			new GUIContent("System Direct"),
+			new GUIContent("Facebook Audio 360", "Initialises player with Facebook Audio 360 support"),
+		};
 
 		private readonly static GUIContent[] _audio360ChannelMapGuiNames =
 		{
@@ -2143,6 +2179,17 @@ namespace RenderHeads.Media.AVProVideo.Editor
 			new GUIContent("(AMBIX_9) 9 channels of second order ambiX"),
 			new GUIContent("(AMBIX_9_2) 9 channels of second order ambiX with 2 channels of head-locked audio"),
 		};
+
+		private void OnInspectorGUI_AudioOutput()
+		{
+			EditorGUILayout.PropertyField(_propManualSetAudioProps, new GUIContent("Specify Properties", "Manually set source audio properties, in case auto detection fails and the audio needs to be resampled"));
+
+			if (_propManualSetAudioProps.boolValue)
+			{
+				EditorGUILayout.PropertyField(_propSourceAudioSampleRate, new GUIContent("Sample rate", "Sample rate of source video"));
+				EditorGUILayout.PropertyField(_propSourceAudioChannels, new GUIContent("Channel count", "Number of channels in source video"));
+			}
+		}
 
 		private void OnInspectorGUI_Override_Windows()
 		{
@@ -2189,14 +2236,44 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					}
 				}
 
+				int audioModeIndex = 0;
 				{
 					SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
-					if (propUseUnityAudio != null)
+					SerializedProperty propEnableAudio360 = serializedObject.FindProperty(optionsVarName + ".enableAudio360");
+					
+					if (propEnableAudio360.boolValue)
 					{
-						EditorGUILayout.PropertyField(propUseUnityAudio, new GUIContent("Use Unity Audio", "Allows the AudioOutput component to grab audio from the video and play it through Unity to the AudioListener."));
+						audioModeIndex = 1;
 					}
+					if (propUseUnityAudio.boolValue)
+					{
+						audioModeIndex = 2;
+					}
+					int newAudioModeIndex = EditorGUILayout.Popup(new GUIContent("Audio Mode"), audioModeIndex, _audioModesWindows);
+					if (newAudioModeIndex != audioModeIndex)
+					{
+						switch (newAudioModeIndex)
+						{
+							case 0:
+								propUseUnityAudio.boolValue = false;
+								propEnableAudio360.boolValue = false;
+								break;
+							case 1:
+								propUseUnityAudio.boolValue = false;
+								propEnableAudio360.boolValue = true;
+								break;
+							case 2:
+								propUseUnityAudio.boolValue = true;
+								propEnableAudio360.boolValue = false;
+								break;
+						}
+					}
+				}
 
-					EditorGUI.BeginDisabledGroup(!propUseUnityAudio.boolValue);
+				if (audioModeIndex == 2)
+				{
+					EditorGUILayout.Space();
+					EditorGUILayout.LabelField("Unity Audio", EditorStyles.boldLabel);
 
 					SerializedProperty propForceAudioResample = serializedObject.FindProperty(optionsVarName + ".forceAudioResample");
 					if (propForceAudioResample != null)
@@ -2204,20 +2281,13 @@ namespace RenderHeads.Media.AVProVideo.Editor
 						EditorGUILayout.PropertyField(propForceAudioResample, new GUIContent("Stereo", "Forces plugin to resample the video's audio to 2 channels"));
 					}
 
-					EditorGUI.EndDisabledGroup();
+					OnInspectorGUI_AudioOutput();
 				}
-
-				EditorGUILayout.Space();
-
+				else if (audioModeIndex == 1)
 				{
-					SerializedProperty propEnableAudio360 = serializedObject.FindProperty(optionsVarName + ".enableAudio360");
-					if (propEnableAudio360 != null)
-					{
-						EditorGUILayout.PropertyField(propEnableAudio360, new GUIContent("Facebook Audio 360", "Initialises player with Facebook Audio 360 support"));
-					}
-
-					EditorGUI.BeginDisabledGroup(!propEnableAudio360.boolValue);
-
+					EditorGUILayout.Space();
+					EditorGUILayout.LabelField("Facebook Audio 360", EditorStyles.boldLabel);
+					
 					SerializedProperty prop360AudioChannelMode = serializedObject.FindProperty(optionsVarName + ".audio360ChannelMode");
 					if (prop360AudioChannelMode != null)
 					{
@@ -2245,26 +2315,29 @@ namespace RenderHeads.Media.AVProVideo.Editor
 									break;
 							}
 						}
-						index = EditorGUILayout.Popup("Audio Device Name", index, deviceNames);
-						if (index == 0)
+						int newIndex = EditorGUILayout.Popup("Audio Device Name", index, deviceNames);
+						if (newIndex == 0)
 						{
 							propForceAudioOutputDeviceName.stringValue = string.Empty;
 						}
-						else if (index == 3)
+						else if (newIndex == 3)
 						{
-							if (string.IsNullOrEmpty(propForceAudioOutputDeviceName.stringValue))
+							if (index != newIndex)
 							{
-								propForceAudioOutputDeviceName.stringValue = " ";
+								if (string.IsNullOrEmpty(propForceAudioOutputDeviceName.stringValue) ||
+										 propForceAudioOutputDeviceName.stringValue == Windows.AudioDeviceOutputName_Rift ||
+										 propForceAudioOutputDeviceName.stringValue == Windows.AudioDeviceOutputName_Vive)
+								{
+									propForceAudioOutputDeviceName.stringValue = "?";
+								}
 							}
 							EditorGUILayout.PropertyField(propForceAudioOutputDeviceName, new GUIContent("Audio Device Name", "Useful for VR when you need to output to the VR audio device"));
 						}
 						else
 						{
-							propForceAudioOutputDeviceName.stringValue = deviceNames[index];
+							propForceAudioOutputDeviceName.stringValue = deviceNames[newIndex];
 						}
 					}
-
-					EditorGUI.EndDisabledGroup();
 				}
 
 				EditorGUILayout.EndVertical();
@@ -2399,7 +2472,7 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					{
 						ShowNoticeBox(MessageType.Info, "OES requires special shaders.  Make sure you assign an AVPro Video OES shader to your meshes/materials that need to display video.");
 #if UNITY_5_6_0 || UNITY_5_6_1
-					ShowNoticeBox(MessageType.Warning, "Unity 5.6.0 and 5.6.1 have a known bug with OES path.  Please use another version of Unity for this feature and vote to fix bug #899502.");
+						ShowNoticeBox(MessageType.Warning, "Unity 5.6.0 and 5.6.1 have a known bug with OES path.  Please use another version of Unity for this feature and vote to fix bug #899502.");
 #endif
 					}
 				}
@@ -2416,31 +2489,44 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					EditorGUILayout.PropertyField(propHttpHeaderJson, new GUIContent("HTTP Header (JSON)", "Allows custom http fields."));
 				}
 
-				EditorGUILayout.Space();
-
+				if ((Android.VideoApi)propVideoApi.intValue == Android.VideoApi.ExoPlayer)
 				{
-					SerializedProperty propEnableAudio360 = serializedObject.FindProperty(optionsVarName + ".enableAudio360");
-					if (propEnableAudio360 != null)
+					int audioModeIndex = 0;
 					{
-						EditorGUILayout.PropertyField(propEnableAudio360, new GUIContent("Facebook Audio 360", "Initialises player with Facebook Audio 360 support"));
-						if (propEnableAudio360.boolValue && (Android.VideoApi)propVideoApi.intValue != Android.VideoApi.ExoPlayer)
+						SerializedProperty propEnableAudio360 = serializedObject.FindProperty(optionsVarName + ".enableAudio360");
+
+						if (propEnableAudio360.boolValue)
 						{
-							ShowNoticeBox(MessageType.Warning, "Facebook Audio 360 requires the ExoPlayer API to be selected");
+							audioModeIndex = 1;
 						}
-						if (!propEnableAudio360.boolValue)
+						int newAudioModeIndex = EditorGUILayout.Popup(new GUIContent("Audio Mode"), audioModeIndex, _audioModesAndroid);
+						if (newAudioModeIndex != audioModeIndex)
 						{
-							GUI.enabled = false;
+							switch (newAudioModeIndex)
+							{
+								case 0:
+									propEnableAudio360.boolValue = false;
+									break;
+								case 1:
+									propEnableAudio360.boolValue = true;
+									break;
+							}
 						}
 					}
 
-					SerializedProperty prop360AudioChannelMode = serializedObject.FindProperty(optionsVarName + ".audio360ChannelMode");
-					if (prop360AudioChannelMode != null)
+					if (audioModeIndex == 1)
 					{
-						GUIContent label = new GUIContent("Channel Mode", "Specifies what channel mode Facebook Audio 360 needs to be initialised with");
-						prop360AudioChannelMode.enumValueIndex = EditorGUILayout.Popup(label, prop360AudioChannelMode.enumValueIndex, _audio360ChannelMapGuiNames);
+						EditorGUILayout.Space();
+						EditorGUILayout.LabelField("Facebook Audio 360", EditorStyles.boldLabel);
+
+						SerializedProperty prop360AudioChannelMode = serializedObject.FindProperty(optionsVarName + ".audio360ChannelMode");
+						if (prop360AudioChannelMode != null)
+						{
+							GUIContent label = new GUIContent("Channel Mode", "Specifies what channel mode Facebook Audio 360 needs to be initialised with");
+							prop360AudioChannelMode.enumValueIndex = EditorGUILayout.Popup(label, prop360AudioChannelMode.enumValueIndex, _audio360ChannelMapGuiNames);
+						}
 					}
 				}
-
 				GUI.enabled = true;
 			}
 
@@ -2489,22 +2575,41 @@ namespace RenderHeads.Media.AVProVideo.Editor
 					EditorGUILayout.PropertyField(propUseLowLatency, new GUIContent("Use Low Latency", "Provides a hint to the decoder to use less buffering"));
 				}
 			}
-			
-			SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
-			if (propUseUnityAudio != null)
+
+			int audioModeIndex = 0;
 			{
-				EditorGUILayout.PropertyField(propUseUnityAudio, new GUIContent("Use Unity Audio", "Allows the AudioOutput component to grab audio from the video and play it through Unity to the AudioListener."));
+				SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
+				if (propUseUnityAudio.boolValue)
+				{
+					audioModeIndex = 1;
+				}
+				int newAudioModeIndex = EditorGUILayout.Popup(new GUIContent("Audio Mode"), audioModeIndex, _audioModesUWP);
+				if (newAudioModeIndex != audioModeIndex)
+				{
+					switch (newAudioModeIndex)
+					{
+						case 0:
+							propUseUnityAudio.boolValue = false;
+							break;
+						case 1:
+							propUseUnityAudio.boolValue = true;
+							break;
+					}
+				}
 			}
 
-			if (!propUseUnityAudio.boolValue)
+			if (audioModeIndex == 1)
 			{
-				GUI.enabled = false;
-			}
+				EditorGUILayout.Space();
+				EditorGUILayout.LabelField("Unity Audio", EditorStyles.boldLabel);
 
-			SerializedProperty propForceAudioResample = serializedObject.FindProperty(optionsVarName + ".forceAudioResample");
-			if (propForceAudioResample != null)
-			{
-				EditorGUILayout.PropertyField(propForceAudioResample, new GUIContent("Stereo", "Forces plugin to resample the video's audio to 2 channels"));
+				SerializedProperty propForceAudioResample = serializedObject.FindProperty(optionsVarName + ".forceAudioResample");
+				if (propForceAudioResample != null)
+				{
+					EditorGUILayout.PropertyField(propForceAudioResample, new GUIContent("Stereo", "Forces plugin to resample the video's audio to 2 channels"));
+				}
+
+				OnInspectorGUI_AudioOutput();
 			}
 
 			GUI.enabled = true;
@@ -2545,21 +2650,40 @@ namespace RenderHeads.Media.AVProVideo.Editor
 				}
 			}
 
-			SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
-			if (propUseUnityAudio != null)
+			int audioModeIndex = 0;
 			{
-				EditorGUILayout.PropertyField(propUseUnityAudio, new GUIContent("Use Unity Audio", "Allows the AudioOutput component to grab audio from the video and play it through Unity to the AudioListener."));
+				SerializedProperty propUseUnityAudio = serializedObject.FindProperty(optionsVarName + ".useUnityAudio");
+				if (propUseUnityAudio.boolValue)
+				{
+					audioModeIndex = 1;
+				}
+				int newAudioModeIndex = EditorGUILayout.Popup(new GUIContent("Audio Mode"), audioModeIndex, _audioModesUWP);
+				if (newAudioModeIndex != audioModeIndex)
+				{
+					switch (newAudioModeIndex)
+					{
+						case 0:
+							propUseUnityAudio.boolValue = false;
+							break;
+						case 1:
+							propUseUnityAudio.boolValue = true;
+							break;
+					}
+				}
 			}
 
-			if (!propUseUnityAudio.boolValue)
+			if (audioModeIndex == 1)
 			{
-				GUI.enabled = false;
-			}
+				EditorGUILayout.Space();
+				EditorGUILayout.LabelField("Unity Audio", EditorStyles.boldLabel);
 
-			SerializedProperty propForceAudioResample = serializedObject.FindProperty(optionsVarName + ".forceAudioResample");
-			if (propForceAudioResample != null)
-			{
-				EditorGUILayout.PropertyField(propForceAudioResample, new GUIContent("Stereo", "Forces plugin to resample the video's audio to 2 channels"));
+				SerializedProperty propForceAudioResample = serializedObject.FindProperty(optionsVarName + ".forceAudioResample");
+				if (propForceAudioResample != null)
+				{
+					EditorGUILayout.PropertyField(propForceAudioResample, new GUIContent("Stereo", "Forces plugin to resample the video's audio to 2 channels"));
+				}
+
+				OnInspectorGUI_AudioOutput();
 			}
 
 			GUI.enabled = true;

@@ -21,11 +21,14 @@ using Windows.Storage.Streams;
 #endif
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo
 {
+	/// <summary>
+	/// Windows desktop, Windows phone and UWP implementation of BaseMediaPlayer
+	/// </summary>
 	public /*sealed*/ partial class WindowsMediaPlayer : BaseMediaPlayer
 	{
 		private bool			_forceAudioResample = true;
@@ -161,7 +164,7 @@ namespace RenderHeads.Media.AVProVideo
 			return _version;
 		}
 
-		public override bool OpenVideoFromFile(string path, long offset, string httpHeaderJson)
+		public override bool OpenVideoFromFile(string path, long offset, string httpHeaderJson, uint sourceSamplerate = 0, uint sourceChannels = 0)
 		{
 			CloseVideo();
 
@@ -179,7 +182,7 @@ namespace RenderHeads.Media.AVProVideo
 				}
 			}
 
-			_instance = Native.OpenSource(_instance, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, AudioSettings.outputSampleRate, filters, filterCount, (int)_audioChannelMode);
+			_instance = Native.OpenSource(_instance, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, AudioSettings.outputSampleRate, filters, filterCount, (int)_audioChannelMode, sourceSamplerate, sourceChannels);
 
 			if (filters != null)
 			{
@@ -239,12 +242,63 @@ namespace RenderHeads.Media.AVProVideo
 			return true;
 		}
 
-#if NETFX_CORE
-		public override bool OpenVideoFromFile(IRandomAccessStream ras, string path, long offset, string httpHeaderJson)
+		public override bool StartOpenVideoFromBuffer(ulong length)
 		{
 			CloseVideo();
 
-			_instance = Native.OpenSourceFromStream(_instance, ras, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, AudioSettings.outputSampleRate);
+			_instance = Native.StartOpenSourceFromBuffer(_instance, (int)_videoApi, length);
+
+			return _instance != IntPtr.Zero;
+		}
+
+		public override bool AddChunkToVideoBuffer(byte[] chunk, ulong offset, ulong length)
+		{
+			return Native.AddChunkToSourceBuffer(_instance, chunk, offset, length);
+		}
+
+		public override bool EndOpenVideoFromBuffer()
+		{
+			IntPtr[] filters;
+			if (_preferredFilters.Count == 0)
+			{
+				filters = null;
+			}
+			else
+			{
+				filters = new IntPtr[_preferredFilters.Count];
+
+				for (int i = 0; i < filters.Length; ++i)
+				{
+					filters[i] = Marshal.StringToHGlobalUni(_preferredFilters[i]);
+				}
+			}
+
+			_instance = Native.EndOpenSourceFromBuffer(_instance, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, filters, (uint)_preferredFilters.Count);
+
+			if (filters != null)
+			{
+				for (int i = 0; i < filters.Length; ++i)
+				{
+					Marshal.FreeHGlobal(filters[i]);
+				}
+			}
+
+			if (_instance == System.IntPtr.Zero)
+			{
+				return false;
+			}
+
+			Native.SetUnityAudioEnabled(_instance, _useUnityAudio);
+
+			return true;
+		}
+
+#if NETFX_CORE
+		public override bool OpenVideoFromFile(IRandomAccessStream ras, string path, long offset, string httpHeaderJson, uint sourceSamplerate = 0, uint sourceChannels = 0)
+		{
+			CloseVideo();
+
+			_instance = Native.OpenSourceFromStream(_instance, ras, path, (int)_videoApi, _useHardwareDecoding, _useTextureMips, _hintAlphaChannel, _useLowLatency, _audioDeviceOutputName, _useUnityAudio, _forceAudioResample, AudioSettings.outputSampleRate, sourceSamplerate, sourceChannels);
 
 			if (_instance == System.IntPtr.Zero)
 			{
@@ -813,6 +867,11 @@ namespace RenderHeads.Media.AVProVideo
 			}
 		}
 
+		public override long GetLastExtendedErrorCode()
+		{
+			return Native.GetLastExtendedErrorCode(_instance);
+		}
+
 		private void OnTextureSizeChanged()
 		{
 			// Warning for DirectShow Microsoft H.264 decoder which has a limit of 1920x1080 and can fail silently and return video dimensions clamped at 720x480
@@ -949,17 +1008,30 @@ namespace RenderHeads.Media.AVProVideo
 			public static extern System.IntPtr OpenSource(System.IntPtr instance, [MarshalAs(UnmanagedType.LPWStr)]string path, int videoApiIndex, bool useHardwareDecoding, 
 				bool generateTextureMips, bool hintAlphaChannel, bool useLowLatency, [MarshalAs(UnmanagedType.LPWStr)]string forceAudioOutputDeviceName,
 				 bool useUnityAudio, bool forceResample, int sampleRate, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)]IntPtr[] preferredFilter, uint numFilters,
-				 int audioChannelMode);
+				 int audioChannelMode, uint sourceSampleRate, uint sourceChannels);
 
 			[DllImport("AVProVideo")]
 			public static extern System.IntPtr OpenSourceFromBuffer(System.IntPtr instance, byte[] buffer, ulong bufferLength, int videoApiIndex, bool useHardwareDecoding,
 				bool generateTextureMips, bool hintAlphaChannel, bool useLowLatency, [MarshalAs(UnmanagedType.LPWStr)]string forceAudioOutputDeviceName, 
 				bool useUnityAudio, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)]IntPtr[] preferredFilter, uint numFilters);
 
+			[DllImport("AVProVideo")]
+			public static extern System.IntPtr StartOpenSourceFromBuffer(System.IntPtr instance, int videoApiIndex, ulong bufferLength);
+
+			[DllImport("AVProVideo")]
+			public static extern bool AddChunkToSourceBuffer(System.IntPtr instance, byte[] buffer, ulong offset, ulong chunkLength);
+
+			[DllImport("AVProVideo")]
+			public static extern System.IntPtr EndOpenSourceFromBuffer(System.IntPtr instance, bool useHardwareDecoding, bool generateTextureMips, bool hintAlphaChannel, 
+				bool useLowLatency, [MarshalAs(UnmanagedType.LPWStr)]string forceAudioOutputDeviceName,	bool useUnityAudio, 
+				[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)]IntPtr[] preferredFilter, uint numFilters);
 
 #if NETFX_CORE
 			[DllImport("AVProVideo")]
-			public static extern System.IntPtr OpenSourceFromStream(System.IntPtr instance, IRandomAccessStream ras, [MarshalAs(UnmanagedType.LPWStr)]string path, int videoApiIndex, bool useHardwareDecoding, bool generateTextureMips, bool hintAlphaChannel, bool useLowLatency, [MarshalAs(UnmanagedType.LPWStr)]string forceAudioOutputDeviceName, bool useUnityAudio, bool forceResample, int sampleRate);
+			public static extern System.IntPtr OpenSourceFromStream(System.IntPtr instance, IRandomAccessStream ras, 
+			[MarshalAs(UnmanagedType.LPWStr)]string path, int videoApiIndex, bool useHardwareDecoding, bool generateTextureMips, 
+			bool hintAlphaChannel, bool useLowLatency, [MarshalAs(UnmanagedType.LPWStr)]string forceAudioOutputDeviceName, bool useUnityAudio, bool forceResample, 
+			int sampleRate, uint sourceSampleRate, uint sourceChannels);
 #endif
 
 			[DllImport("AVProVideo")]
@@ -972,6 +1044,9 @@ namespace RenderHeads.Media.AVProVideo
 
 			[DllImport("AVProVideo")]
 			public static extern int GetLastErrorCode(System.IntPtr instance);
+
+			[DllImport("AVProVideo")]
+			public static extern long GetLastExtendedErrorCode(System.IntPtr instance);
 
 			// Controls
 

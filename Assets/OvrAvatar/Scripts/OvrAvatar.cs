@@ -50,6 +50,8 @@ public class OvrAvatar : MonoBehaviour
     public OvrAvatarHand HandLeft;
     public OvrAvatarHand HandRight;
     public bool RecordPackets;
+    public bool UseSDKPackets = true;
+
     public bool StartWithControllers;
     public AvatarLayer FirstPersonLayer;
     public AvatarLayer ThirdPersonLayer;
@@ -59,6 +61,7 @@ public class OvrAvatar : MonoBehaviour
     public Shader SurfaceShader;
     public Shader SurfaceShaderSelfOccluding;
     public Shader SurfaceShaderPBS;
+    public Shader SurfaceShaderPBSV2;
 
     int renderPartCount = 0;
     bool showLeftController;
@@ -95,6 +98,8 @@ public class OvrAvatar : MonoBehaviour
     }
 
     public PacketRecordSettings PacketSettings = new PacketRecordSettings();
+
+    OvrAvatarPacket CurrentUnityPacket;
 
     public enum HandType
     {
@@ -174,6 +179,13 @@ public class OvrAvatar : MonoBehaviour
     {
         OvrAvatarSkinnedMeshRenderPBSComponent skinnedMeshRenderer = gameObject.AddComponent<OvrAvatarSkinnedMeshRenderPBSComponent>();
         skinnedMeshRenderer.Initialize(skinnedMeshRenderPBS, SurfaceShaderPBS, ThirdPersonLayer.layerIndex, FirstPersonLayer.layerIndex, renderPartCount++);
+        return skinnedMeshRenderer;
+    }
+
+    private OvrAvatarSkinnedMeshPBSV2RenderComponent AddSkinnedMeshRenderPBSV2Component(GameObject gameObject, ovrAvatarRenderPart_SkinnedMeshRenderPBS_V2 skinnedMeshRenderPBSV2)
+    {
+        OvrAvatarSkinnedMeshPBSV2RenderComponent skinnedMeshRenderer = gameObject.AddComponent<OvrAvatarSkinnedMeshPBSV2RenderComponent>();
+        skinnedMeshRenderer.Initialize(skinnedMeshRenderPBSV2, SurfaceShaderPBSV2, ThirdPersonLayer.layerIndex, FirstPersonLayer.layerIndex, renderPartCount++);
         return skinnedMeshRenderer;
     }
 
@@ -465,6 +477,8 @@ public class OvrAvatar : MonoBehaviour
         ShowRightController(StartWithControllers);
         OvrAvatarSDKManager.Instance.RequestAvatarSpecification(
             oculusUserID, this.AvatarSpecificationCallback);
+
+        Driver.Mode = UseSDKPackets ? OvrAvatarDriver.PacketMode.SDK : OvrAvatarDriver.PacketMode.Unity;
     }
 
     void Update()
@@ -551,6 +565,68 @@ public class OvrAvatar : MonoBehaviour
 
     void RecordFrame()
     {
+        if(UseSDKPackets)
+        {
+            RecordSDKFrame();
+        }
+        else
+        {
+            RecordUnityFrame();
+        }
+    }
+
+    // Meant to be used mutually exclusively with RecordSDKFrame to give user more options to optimize or tweak packet data
+    private void RecordUnityFrame()
+    {
+        var deltaSeconds = Time.deltaTime;
+        var frame = Driver.GetCurrentPose();
+        // If this is our first packet, store the pose as the initial frame
+        if (CurrentUnityPacket == null)
+        {
+            CurrentUnityPacket = new OvrAvatarPacket(frame);
+            deltaSeconds = 0;
+        }
+
+        float recordedSeconds = 0;
+        while (recordedSeconds < deltaSeconds)
+        {
+            float remainingSeconds = deltaSeconds - recordedSeconds;
+            float remainingPacketSeconds = PacketSettings.UpdateRate - CurrentUnityPacket.Duration;
+
+            // If we're not going to fill the packet, just add the frame
+            if (remainingSeconds < remainingPacketSeconds)
+            {
+                CurrentUnityPacket.AddFrame(frame, remainingSeconds);
+                recordedSeconds += remainingSeconds;
+            }
+
+            // If we're going to fill the packet, interpolate the pose, send the packet,
+            // and open a new one
+            else
+            {
+                // Interpolate between the packet's last frame and our target pose
+                // to compute a pose at the end of the packet time.
+                OvrAvatarDriver.PoseFrame a = CurrentUnityPacket.FinalFrame;
+                OvrAvatarDriver.PoseFrame b = frame;
+                float t = remainingPacketSeconds / remainingSeconds;
+                OvrAvatarDriver.PoseFrame intermediatePose = OvrAvatarDriver.PoseFrame.Interpolate(a, b, t);
+                CurrentUnityPacket.AddFrame(intermediatePose, remainingPacketSeconds);
+                recordedSeconds += remainingPacketSeconds;
+
+                // Broadcast the recorded packet
+                if (PacketRecorded != null)
+                {
+                    PacketRecorded(this, new PacketEventArgs(CurrentUnityPacket));
+                }
+
+                // Open a new packet
+                CurrentUnityPacket = new OvrAvatarPacket(intermediatePose);
+            }
+        }
+    }
+
+    private void RecordSDKFrame()
+    {
         if (sdkAvatar == IntPtr.Zero)
         {
             return;
@@ -603,6 +679,10 @@ public class OvrAvatar : MonoBehaviour
                 case ovrAvatarRenderPartType.ProjectorRender:
                     combineMeshes = false;
                     ovrRenderPart = AddProjectorRenderComponent(renderPartObject, CAPI.ovrAvatarRenderPart_GetProjectorRender(renderPart));
+                    break;
+                case ovrAvatarRenderPartType.SkinnedMeshRenderPBS_V2:
+                    combineMeshes = false;
+                    ovrRenderPart = AddSkinnedMeshRenderPBSV2Component(renderPartObject, CAPI.ovrAvatarRenderPart_GetSkinnedMeshRenderPBSV2(renderPart));
                     break;
                 default:
                     throw new NotImplementedException(string.Format("Unsupported render part type: {0}", type.ToString()));

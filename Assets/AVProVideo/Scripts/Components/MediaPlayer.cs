@@ -20,11 +20,17 @@ using Windows.Storage.Streams;
 #endif
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo
 {
+	/// <summary>
+	/// This is the primary AVPro Video component and handles all media loading,
+	/// seeking, information retrieving etc.  This component does not do any display
+	/// of the video.  Instead this is handled by other components such as
+	/// ApplyToMesh, ApplyToMaterial, DisplayIMGUI, DisplayUGUI.
+	/// </summary>
 	[AddComponentMenu("AVPro Video/Media Player", -100)]
 #if UNITY_HELPATTRIB
 	[HelpURL("http://renderheads.com/product/avpro-video/")]
@@ -173,11 +179,22 @@ namespace RenderHeads.Media.AVProVideo
 		private bool m_EventFired_FirstFrameReady = false;
 		private bool m_EventFired_FinishedPlaying = false;
 		private bool m_EventFired_MetaDataReady = false;
+		private bool m_EventState_PlaybackStalled = false;
+		private bool m_EventState_PlaybackBuffering = false;
+		private bool m_EventState_PlaybackSeeking = false;
+		private int m_EventState_PreviousWidth = 0;
+		private int m_EventState_PreviousHeight = 0;
 		private int m_previousSubtitleIndex = -1;
-		private bool m_isPlaybackStalled = false;
 
 		private static Camera m_DummyCamera = null;
 		private bool m_FinishedFrameOpenCheck = false;
+
+		[SerializeField]
+		private uint m_sourceSampleRate = 0;
+		[SerializeField]
+		private uint m_sourceChannels = 0;
+		[SerializeField]
+		private bool m_manuallySetAudioSourceProperties = false;
 
 
 		public enum FileLocation
@@ -187,7 +204,7 @@ namespace RenderHeads.Media.AVProVideo
 			RelativeToStreamingAssetsFolder,
 			RelativeToDataFolder,
 			RelativeToPeristentDataFolder,
-			// TODO: Resource?
+			// TODO: Resource, AssetBundle?
 		}
 
 		[System.Serializable]
@@ -512,6 +529,30 @@ namespace RenderHeads.Media.AVProVideo
 			return OpenVideoFromBufferInternal(buffer);
 		}
 
+		public bool StartOpenChunkedVideoFromBuffer(ulong length, bool autoPlay = true)
+		{
+			m_VideoLocation = FileLocation.AbsolutePathOrURL;
+			m_VideoPath = "buffer";
+			m_AutoStart = autoPlay;
+
+			if (m_Control == null)
+			{
+				Initialise();
+			}
+
+			return StartOpenVideoFromBufferInternal(length);
+		}
+
+		public bool AddChunkToVideoBuffer(byte[] chunk, ulong offset, ulong chunkSize)
+		{
+			return AddChunkToBufferInternal(chunk, offset, chunkSize);
+		}
+
+		public bool EndOpenChunkedVideoFromBuffer()
+		{
+			return EndOpenVideoFromBufferInternal();
+		}
+
 #if NETFX_CORE
 		public bool OpenVideoFromStream(IRandomAccessStream ras, string path, bool autoPlay = true)
 		{
@@ -684,12 +725,6 @@ namespace RenderHeads.Media.AVProVideo
 
 				m_VideoOpened = true;
 				m_AutoStartTriggered = !m_AutoStart;
-				m_EventFired_MetaDataReady = false;
-				m_EventFired_ReadyToPlay = false;
-				m_EventFired_Started = false;
-				m_EventFired_FirstFrameReady = false;
-				m_EventFired_FinishedPlaying = false;
-				m_previousSubtitleIndex = -1;
 
 				Helper.LogInfo("Opening buffer of length " + buffer.Length, this);
 
@@ -711,6 +746,57 @@ namespace RenderHeads.Media.AVProVideo
 			return result;
 		}
 
+		private bool StartOpenVideoFromBufferInternal(ulong length)
+		{
+			bool result = false;
+			// Open the video file
+			if (m_Control != null)
+			{
+				CloseVideo();
+
+				m_VideoOpened = true;
+				m_AutoStartTriggered = !m_AutoStart;
+
+				Helper.LogInfo("Starting Opening buffer of length " + length, this);
+
+				if (!m_Control.StartOpenVideoFromBuffer(length))
+				{
+					Debug.LogError("[AVProVideo] Failed to start open video from buffer", this);
+					if (GetCurrentPlatformOptions() != PlatformOptionsWindows || PlatformOptionsWindows.videoApi != Windows.VideoApi.DirectShow)
+					{
+						Debug.LogError("[AVProVideo] Loading from buffer is currently only supported in Windows when using the DirectShow API");
+					}
+				}
+				else
+				{
+					SetPlaybackOptions();
+					result = true;
+					StartRenderCoroutine();
+				}
+			}
+			return result;
+		}
+
+		private bool AddChunkToBufferInternal(byte[] chunk, ulong offset, ulong chunkSize)
+		{
+			if(Control != null)
+			{
+				return Control.AddChunkToVideoBuffer(chunk, offset, chunkSize);
+			}
+
+			return false;
+		}
+
+		private bool EndOpenVideoFromBufferInternal()
+		{
+			if(Control != null)
+			{
+				return Control.EndOpenVideoFromBuffer();
+			}
+
+			return false;
+		}
+
 		private bool OpenVideoFromFile()
 		{
 			bool result = false;
@@ -721,13 +807,7 @@ namespace RenderHeads.Media.AVProVideo
 
 				m_VideoOpened = true;
 				m_AutoStartTriggered = !m_AutoStart;
-				m_EventFired_MetaDataReady = false;
-				m_EventFired_ReadyToPlay = false;
-				m_EventFired_Started = false;
-				m_EventFired_FirstFrameReady = false;
-				m_EventFired_FinishedPlaying = false;
 				m_FinishedFrameOpenCheck = true;
-				m_previousSubtitleIndex = -1;
 
 				// Potentially override the file location
 				long fileOffset = GetPlatformFileOffset();
@@ -762,7 +842,8 @@ namespace RenderHeads.Media.AVProVideo
 							m_Control.SetAudioChannelMode(_optionsWindows.audio360ChannelMode);
 						}
 #endif
-						if (!m_Control.OpenVideoFromFile(fullPath, fileOffset, httpHeaderJson))
+						if (!m_Control.OpenVideoFromFile(fullPath, fileOffset, httpHeaderJson, m_manuallySetAudioSourceProperties ? m_sourceSampleRate : 0,
+							m_manuallySetAudioSourceProperties ? m_sourceChannels : 0))
 						{
 							Debug.LogError("[AVProVideo] Failed to open " + fullPath, this);
 						}
@@ -793,17 +874,12 @@ namespace RenderHeads.Media.AVProVideo
 
 				m_VideoOpened = true;
 				m_AutoStartTriggered = !m_AutoStart;
-				m_EventFired_MetaDataReady = false;
-				m_EventFired_ReadyToPlay = false;
-				m_EventFired_Started = false;
-				m_EventFired_FirstFrameReady = false;
-				m_EventFired_FinishedPlaying = false;
-				m_previousSubtitleIndex = -1;
 
 				// Potentially override the file location
 				long fileOffset = GetPlatformFileOffset();
 
-				if (!m_Control.OpenVideoFromFile(ras, m_VideoPath, fileOffset, null))
+				if (!m_Control.OpenVideoFromFile(ras, m_VideoPath, fileOffset, null, m_manuallySetAudioSourceProperties ? m_sourceSampleRate : 0, 
+					m_manuallySetAudioSourceProperties ? m_sourceChannels : 0))
 				{
 					Debug.LogError("[AVProVideo] Failed to open " + m_VideoPath, this);
 				}
@@ -824,9 +900,9 @@ namespace RenderHeads.Media.AVProVideo
 			if (m_Control != null)
 			{
 				m_Control.SetLooping(m_Loop);
+				m_Control.SetPlaybackRate(m_PlaybackRate);
 				m_Control.SetVolume(m_Volume);
 				m_Control.SetBalance(m_Balance);
-				m_Control.SetPlaybackRate(m_PlaybackRate);
 				m_Control.MuteAudio(m_Muted);
 				m_Control.SetTextureProperties(m_FilterMode, m_WrapMode, m_AnisoLevel);
 			}
@@ -844,11 +920,16 @@ namespace RenderHeads.Media.AVProVideo
 
 				m_AutoStartTriggered = false;
 				m_VideoOpened = false;
+				m_EventFired_MetaDataReady = false;
 				m_EventFired_ReadyToPlay = false;
 				m_EventFired_Started = false;
-				m_EventFired_MetaDataReady = false;
 				m_EventFired_FirstFrameReady = false;
 				m_EventFired_FinishedPlaying = false;
+				m_EventState_PlaybackBuffering = false;
+				m_EventState_PlaybackSeeking = false;
+				m_EventState_PlaybackStalled = false;
+				m_EventState_PreviousWidth = 0;
+				m_EventState_PreviousHeight = 0;
 
 				if (m_loadSubtitlesRoutine != null)
 				{
@@ -856,8 +937,6 @@ namespace RenderHeads.Media.AVProVideo
 					m_loadSubtitlesRoutine = null;
 				}
 				m_previousSubtitleIndex = -1;
-
-				m_isPlaybackStalled = false;
 
 				m_Control.CloseVideo();
 			}
@@ -957,7 +1036,6 @@ namespace RenderHeads.Media.AVProVideo
 				UpdateErrors();
 				UpdateEvents();
 			}
-
 		}
 
 		private void LateUpdate()
@@ -1634,24 +1712,59 @@ namespace RenderHeads.Media.AVProVideo
 					}
 				}
 
+				// Events that can only fire once 
 				m_EventFired_MetaDataReady = FireEventIfPossible(MediaPlayerEvent.EventType.MetaDataReady, m_EventFired_MetaDataReady);
 				m_EventFired_ReadyToPlay = FireEventIfPossible(MediaPlayerEvent.EventType.ReadyToPlay, m_EventFired_ReadyToPlay);
 				m_EventFired_Started = FireEventIfPossible(MediaPlayerEvent.EventType.Started, m_EventFired_Started);
 				m_EventFired_FirstFrameReady = FireEventIfPossible(MediaPlayerEvent.EventType.FirstFrameReady, m_EventFired_FirstFrameReady);
-				if (FireEventIfPossible(MediaPlayerEvent.EventType.SubtitleChange, false))
-				{
-					m_previousSubtitleIndex = m_Subtitles.GetSubtitleIndex();
-				}
 
-				// Is the stalled state changes, fire an event
+				// Events that can fire multiple times
 				{
-					bool newStalled = m_Info.IsPlaybackStalled();
-					if(newStalled != m_isPlaybackStalled)
+					// Subtitle changing
+					if (FireEventIfPossible(MediaPlayerEvent.EventType.SubtitleChange, false))
 					{
-						m_isPlaybackStalled = newStalled;
+						m_previousSubtitleIndex = m_Subtitles.GetSubtitleIndex();
+					}
 
-						var stallEvent = m_isPlaybackStalled ? MediaPlayerEvent.EventType.Stalled : MediaPlayerEvent.EventType.Unstalled;
-						FireEventIfPossible(stallEvent, false);
+					// Resolution changing
+					if (FireEventIfPossible(MediaPlayerEvent.EventType.ResolutionChanged, false))
+					{
+						m_EventState_PreviousWidth = m_Info.GetVideoWidth();
+						m_EventState_PreviousHeight = m_Info.GetVideoHeight();
+					}
+
+					// Stalling
+					{
+						bool newState = m_Info.IsPlaybackStalled();
+						if (newState != m_EventState_PlaybackStalled)
+						{
+							m_EventState_PlaybackStalled = newState;
+
+							var newEvent = m_EventState_PlaybackStalled ? MediaPlayerEvent.EventType.Stalled : MediaPlayerEvent.EventType.Unstalled;
+							FireEventIfPossible(newEvent, false);
+						}
+					}
+					// Seeking
+					{
+						bool newState = m_Control.IsSeeking();
+						if (newState != m_EventState_PlaybackSeeking)
+						{
+							m_EventState_PlaybackSeeking = newState;
+
+							var newEvent = m_EventState_PlaybackSeeking ? MediaPlayerEvent.EventType.StartedSeeking : MediaPlayerEvent.EventType.FinishedSeeking;
+							FireEventIfPossible(newEvent, false);
+						}
+					}
+					// Buffering
+					{
+						bool newState = m_Control.IsBuffering();
+						if (newState != m_EventState_PlaybackBuffering)
+						{
+							m_EventState_PlaybackBuffering = newState;
+
+							var newEvent = m_EventState_PlaybackBuffering ? MediaPlayerEvent.EventType.StartedBuffering : MediaPlayerEvent.EventType.FinishedBuffering;
+							FireEventIfPossible(newEvent, false);
+						}
 					}
 				}
 			}
@@ -1702,6 +1815,24 @@ namespace RenderHeads.Media.AVProVideo
 						break;
 					case MediaPlayerEvent.EventType.Unstalled:
 						result = !m_Info.IsPlaybackStalled();
+						break;
+					case MediaPlayerEvent.EventType.StartedSeeking:
+						result = m_Control.IsSeeking();
+						break;
+					case MediaPlayerEvent.EventType.FinishedSeeking:
+						result = !m_Control.IsSeeking();
+						break;
+					case MediaPlayerEvent.EventType.StartedBuffering:
+						result = m_Control.IsBuffering();
+						break;
+					case MediaPlayerEvent.EventType.FinishedBuffering:
+						result = !m_Control.IsBuffering();
+						break;
+					case MediaPlayerEvent.EventType.ResolutionChanged:
+						result = (m_Info != null && (m_EventState_PreviousWidth != m_Info.GetVideoWidth() || m_EventState_PreviousHeight != m_Info.GetVideoHeight()));
+						break;
+					default:
+						Debug.LogWarning("[AVProVideo] Unhandled event type");
 						break;
 				}
 			}

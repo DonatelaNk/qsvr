@@ -4,11 +4,14 @@ using System.Runtime.InteropServices;
 using System;
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo
 {
+	/// <summary>
+	/// WebGL implementation of BaseMediaPlayer
+	/// </summary>
     public sealed class WebGLMediaPlayer : BaseMediaPlayer
     {
 		//private enum AVPPlayerStatus
@@ -108,9 +111,9 @@ namespace RenderHeads.Media.AVProVideo
         [DllImport("__Internal")]
         private static extern bool AVPPlayerHasAudio(int player);
 
-        // Need jslib
-        [DllImport("__Internal")]
-        private static extern void AVPPlayerFetchVideoTexture(int player, IntPtr texture);
+		// Need jslib
+		[DllImport("__Internal")]
+        private static extern void AVPPlayerFetchVideoTexture(int player, IntPtr texture, bool init);
 
         [DllImport("__Internal")]
         private static extern int AVPPlayerGetDecodedFrameCount(int player);
@@ -148,10 +151,10 @@ namespace RenderHeads.Media.AVProVideo
 
         public override string GetVersion()
         {
-			return "1.7.4";
+			return "1.8.0";
 		}
 
-        public override bool OpenVideoFromFile(string path, long offset, string httpHeaderJson)
+        public override bool OpenVideoFromFile(string path, long offset, string httpHeaderJson, uint sourceSamplerate = 0, uint sourceChannels = 0)
         {
             bool result = false;
 
@@ -311,7 +314,6 @@ namespace RenderHeads.Media.AVProVideo
         public override void Seek(float ms)
         {
             Debug.Assert(_playerIndex != -1, "no player Seek");
-
             AVPPlayerSeekToTime(_playerIndex, ms * 0.001f, false);
         }
 
@@ -586,6 +588,7 @@ namespace RenderHeads.Media.AVProVideo
 							_texture.Apply(false, false);
 							_cachedTextureNativePtr = _texture.GetNativeTexturePtr();
 							ApplyTextureProperties(_texture);
+							AVPPlayerFetchVideoTexture(_playerIndex, _cachedTextureNativePtr, true);
 						}
 
 						if (_texture.width != _width || _texture.height != _height)
@@ -593,12 +596,14 @@ namespace RenderHeads.Media.AVProVideo
 							_texture.Resize(_width, _height, TextureFormat.ARGB32, false);
 							_texture.Apply(false, false);
 							_cachedTextureNativePtr = _texture.GetNativeTexturePtr();
+							AVPPlayerFetchVideoTexture(_playerIndex, _cachedTextureNativePtr, true);
 						}
 
 						if (_cachedTextureNativePtr != System.IntPtr.Zero)
 						{
 							// TODO: only update the texture when the frame count changes
-							AVPPlayerFetchVideoTexture(_playerIndex, _cachedTextureNativePtr);
+							// actually this will break the update for certain browsers such as edge and possibly safari - Sunrise
+							AVPPlayerFetchVideoTexture(_playerIndex, _cachedTextureNativePtr, false);
 						}
 
 						UpdateDisplayFrameRate();

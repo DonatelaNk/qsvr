@@ -9,11 +9,19 @@ using System.Collections;
 using RenderHeads.Media.AVProVideo;
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo.Demos
 {
+	/// <summary>
+	/// A demo of a simple video player using uGUI for display
+	/// Uses two MediaPlayer components, with one displaying the current video
+	/// while the other loads the next video.  MediaPlayers are then swapped
+	/// once the video is loaded and has a frame available for display.
+	/// This gives a more seamless display than simply using a single MediaPlayer
+	/// as its texture will be destroyed when it loads a new video
+	/// </summary>
 	public class VCR : MonoBehaviour 
 	{
 		public MediaPlayer	_mediaPlayer;

@@ -13,9 +13,9 @@
 		Tags{ "Queue" = "Geometry" }
 		Pass
 		{ 
-			//ZTest Always
 			Cull Front
-			ZWrite Off
+			//ZTest Always
+			ZWrite On
 			Lighting Off
 
 			GLSLPROGRAM
@@ -50,9 +50,9 @@
 				texVal = vec2(1.0, 1.0) - texVal;
 
 #if defined(STEREO_TOP_BOTTOM) | defined(STEREO_LEFT_RIGHT)
-				bool isLeftEye = IsStereoEyeLeft(_cameraPosition, _ViewMatrix[0].xyz, false);
+				bool isLeftEye = IsStereoEyeLeft(_cameraPosition, _ViewMatrix[0].xyz);
 
-				vec4 scaleOffset = GetStereoScaleOffset(isLeftEye);
+				vec4 scaleOffset = GetStereoScaleOffset(isLeftEye, false);
 
 				texVal.xy *= scaleOffset.xy;
 				texVal.xy += scaleOffset.zw;

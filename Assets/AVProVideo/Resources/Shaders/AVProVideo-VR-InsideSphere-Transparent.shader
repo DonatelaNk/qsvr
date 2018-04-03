@@ -5,6 +5,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit Transparent(stereo+color+fog+alpha)"
     Properties
     {
         _MainTex ("Texture", 2D) = "black" {}
+		_ChromaTex("Chroma", 2D) = "white" {}
 		_Color("Main Color", Color) = (1,1,1,1)
 
 		[KeywordEnum(None, Top_Bottom, Left_Right, Custom_UV)] Stereo ("Stereo Mode", Float) = 0
@@ -12,6 +13,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit Transparent(stereo+color+fog+alpha)"
 		[Toggle(STEREO_DEBUG)] _StereoDebug ("Stereo Debug Tinting", Float) = 0
 		[Toggle(HIGH_QUALITY)] _HighQuality ("High Quality", Float) = 0
 		[Toggle(APPLY_GAMMA)] _ApplyGamma("Apply Gamma", Float) = 0
+		[Toggle(USE_YPCBCR)] _UseYpCbCr("Use YpCbCr", Float) = 0
 		_EdgeFeather("Edge Feather", Range (0, 1)) = 0
 	
 
@@ -49,6 +51,7 @@ Shader "AVProVideo/VR/InsideSphere Unlit Transparent(stereo+color+fog+alpha)"
 			#pragma multi_compile STEREO_DEBUG_OFF STEREO_DEBUG
 			#pragma multi_compile HIGH_QUALITY_OFF HIGH_QUALITY
 			#pragma multi_compile APPLY_GAMMA_OFF APPLY_GAMMA
+			#pragma multi_compile USE_YPCBCR_OFF USE_YPCBCR
 
             struct appdata
             {
@@ -93,6 +96,9 @@ Shader "AVProVideo/VR/InsideSphere Unlit Transparent(stereo+color+fog+alpha)"
             };
 
             uniform sampler2D _MainTex;
+#if USE_YPCBCR
+			uniform sampler2D _ChromaTex;
+#endif
 			uniform float4 _MainTex_ST;
 			uniform float4 _MainTex_TexelSize;
 			uniform float3 _cameraPosition;
@@ -177,7 +183,16 @@ Shader "AVProVideo/VR/InsideSphere Unlit Transparent(stereo+color+fog+alpha)"
 				uv = i.uv;
 #endif
 
-				fixed4 col = tex2D(_MainTex, uv.xy);
+#if USE_YPCBCR
+	#if SHADER_API_METAL || SHADER_API_GLES || SHADER_API_GLES3
+				float3 ypcbcr = float3(tex2D(_MainTex, uv).r, tex2D(_ChromaTex, uv).rg);
+	#else
+				float3 ypcbcr = float3(tex2D(_MainTex, uv).r, tex2D(_ChromaTex, uv).ra);
+	#endif
+				fixed4 col = fixed4(Convert420YpCbCr8ToRGB(ypcbcr), 1.0);
+#else
+                fixed4 col = tex2D(_MainTex, uv);
+#endif
 
 #if APPLY_GAMMA
 				col.rgb = GammaToLinear(col.rgb);

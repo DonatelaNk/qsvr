@@ -2,8 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//-----------------------------------------------------------------------------
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
+//-----------------------------------------------------------------------------
+
 namespace RenderHeads.Media.AVProVideo
 {
+	/// <summary>
+	/// Utility class to resample MediaPlayer video frames to allow for smoother playback
+	/// Keeps a buffer of frames with timestamps and presents them using its own clock
+	/// </summary>
 	public class Resampler
 	{
 		private class TimestampedRenderTexture

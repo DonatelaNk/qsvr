@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo.Demos
 {
+	/// <summary>
+	/// Rotates a transform, randomly changing direction and speed every few seconds
+	/// </summary>
 	[RequireComponent(typeof(Transform))]
 	public class AutoRotate : MonoBehaviour
 	{

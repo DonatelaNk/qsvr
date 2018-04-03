@@ -141,13 +141,20 @@ var AVProVideoWebGL = {
         return ret;
     },
     AVPPlayerFetchVideoTexture__deps: ["videos", "hasVideos"],
-    AVPPlayerFetchVideoTexture: function (playerIndex, texture) {
+    AVPPlayerFetchVideoTexture: function (playerIndex, texture, init) {
         if (!_hasVideos(playerIndex)) {
             return;
         }
 
         GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[texture]);
-		GLctx.texSubImage2D(GLctx.TEXTURE_2D, 0, 0, 0, GLctx.RGBA, GLctx.UNSIGNED_BYTE, _videos[playerIndex].video);
+        if (!init)
+        {
+        	GLctx.texSubImage2D(GLctx.TEXTURE_2D, 0, 0, 0, GLctx.RGBA, GLctx.UNSIGNED_BYTE, _videos[playerIndex].video);
+        }
+        else
+		{
+        	GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, _videos[playerIndex].video);
+        }
 		
         //NB: This line causes the texture to not show unless something else is rendered (not sure why)
 		//GLctx.bindTexture(GLctx.TEXTURE_2D, null);

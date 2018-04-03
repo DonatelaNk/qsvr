@@ -2,11 +2,14 @@
 using UnityEditor;
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo.Editor
 {
+	/// <summary>
+	/// Editor for UpdateStereoMaterial component
+	/// </summary>
 	[CanEditMultipleObjects]
 	[CustomEditor(typeof(UpdateStereoMaterial))]
 	public class UpdateStereoMaterialEditor : UnityEditor.Editor

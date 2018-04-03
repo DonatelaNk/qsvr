@@ -14,22 +14,28 @@ using Windows.Storage.Streams;
 #endif
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserved.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserved.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo
 {
+	/// <summary>
+	/// Base class for all platform specific MediaPlayers
+	/// </summary>
 	public abstract class BaseMediaPlayer : IMediaPlayer, IMediaControl, IMediaInfo, IMediaProducer, IMediaSubtitles, System.IDisposable
 	{
 		public abstract string		GetVersion();
 
-		public abstract bool		OpenVideoFromFile(string path, long offset, string httpHeaderJson);
+		public abstract bool		OpenVideoFromFile(string path, long offset, string httpHeaderJson, uint sourceSamplerate = 0, uint sourceChannels = 0);
 
 #if NETFX_CORE
-		public virtual bool			OpenVideoFromFile(IRandomAccessStream ras, string path, long offset, string httpHeaderJson){return false;}
+		public virtual bool			OpenVideoFromFile(IRandomAccessStream ras, string path, long offset, string httpHeaderJson, uint sourceSamplerate = 0, uint sourceChannels = 0){return false;}
 #endif
 
 		public virtual bool			OpenVideoFromBuffer(byte[] buffer) { return false; }
+		public virtual bool			StartOpenVideoFromBuffer(ulong length) { return false; }
+		public virtual bool			AddChunkToVideoBuffer(byte[] chunk, ulong offset, ulong length) { return false; }
+		public virtual bool			EndOpenVideoFromBuffer() { return false; }
 
 		public abstract void		CloseVideo();
 
@@ -45,7 +51,10 @@ namespace RenderHeads.Media.AVProVideo
 
 		public abstract void		Seek(float timeMs);
 		public abstract void		SeekFast(float timeMs);
+		public virtual void			SeekWithTolerance(float timeMs, float beforeMs, float afterMs) { Seek(timeMs); }
 		public abstract float		GetCurrentTimeMs();
+		public virtual double		GetCurrentDateTimeSecondsSince1970() { return 0.0; }
+		public virtual TimeRange[]	GetSeekableTimeRanges() { return _seekableTimeRanges; }
 
 		public abstract float		GetPlaybackRate();
 		public abstract void		SetPlaybackRate(float rate);
@@ -103,6 +112,8 @@ namespace RenderHeads.Media.AVProVideo
 
 		public abstract float		GetVideoFrameRate();
 
+		public virtual long			GetEstimatedTotalBandwidthUsed() { return -1; }
+
 		public abstract float		GetBufferingProgress();
 
 		public abstract void		Update();
@@ -112,6 +123,11 @@ namespace RenderHeads.Media.AVProVideo
 		public ErrorCode GetLastError()
 		{
 			return _lastError;
+		}
+
+		public virtual long GetLastExtendedErrorCode()
+		{
+			return 0;
 		}
 
 		public string GetPlayerDescription()
@@ -136,6 +152,8 @@ namespace RenderHeads.Media.AVProVideo
 		protected FilterMode _defaultTextureFilterMode = FilterMode.Bilinear;
 		protected TextureWrapMode _defaultTextureWrapMode = TextureWrapMode.Clamp;
 		protected int _defaultTextureAnisoLevel = 1;
+
+		protected TimeRange[] _seekableTimeRanges = new TimeRange[0];
 
 		public void SetTextureProperties(FilterMode filterMode = FilterMode.Bilinear, TextureWrapMode wrapMode = TextureWrapMode.Clamp, int anisoLevel = 0)
 		{

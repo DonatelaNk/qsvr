@@ -5,7 +5,7 @@
 using UnityEngine;
 
 //-----------------------------------------------------------------------------
-// Copyright 2015-2017 RenderHeads Ltd.  All rights reserverd.
+// Copyright 2015-2018 RenderHeads Ltd.  All rights reserverd.
 //-----------------------------------------------------------------------------
 
 namespace RenderHeads.Media.AVProVideo
@@ -49,7 +49,7 @@ namespace RenderHeads.Media.AVProVideo
 		}
 
 		// We do a LateUpdate() to allow for any changes in the camera position that may have happened in Update()
-		void LateUpdate()
+		private void LateUpdate()
 		{
 			Camera camera = _camera;
 			if (camera == null)
