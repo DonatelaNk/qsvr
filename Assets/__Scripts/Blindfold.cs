@@ -15,7 +15,7 @@ public class Blindfold : MonoBehaviour {
 
     void Awake()
     {
-        initBlindFold();
+        InitBlindFold();
     }
 
 
@@ -24,7 +24,7 @@ public class Blindfold : MonoBehaviour {
     }
    
 
-    public void initBlindFold()
+    public void InitBlindFold()
     {
         fadeControls = new List<ScreenFadeControl>();
         foreach (Camera c in Camera.allCameras)

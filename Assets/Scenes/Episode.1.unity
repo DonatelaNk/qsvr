@@ -9794,7 +9794,7 @@ MonoBehaviour:
   GearShift: {fileID: 254768780}
   Car: {fileID: 1355048970}
   VanityCardDelay: 12.5
-  StartAt: 2
+  StartAt: 1
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -9849,7 +9849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogDensity: 0.03
-  MemoryMaxTime: 120
+  MemoryMaxTime: 100
   m_parent: {fileID: 964450601}
   MaxUserIdleTime: 30
   polaroid: {fileID: 54633588328411768, guid: d49061592ac06fd4a81ebee4b936f270, type: 2}
@@ -14993,9 +14993,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   night:
-  - color: {r: 0.39607844, g: 0.5764706, b: 1, a: 1}
-    intensity: 1.3
-    exposure: -2
+  - color: {r: 0.17279412, g: 0.3276356, b: 0.6911765, a: 1}
+    intensity: 1
+    exposure: -2.5
     sunPosition: {x: -0.077, y: 0.76, z: -3.84}
     rotationX: 172.11
     rotationY: -199.8
@@ -15058,7 +15058,7 @@ MonoBehaviour:
   memorySpace:
   - color: {r: 1, g: 1, b: 1, a: 0}
     intensity: 1
-    exposure: 1
+    exposure: 0.4
     sunPosition: {x: 0.35, y: 1.32, z: 7.17}
     rotationX: 174
     rotationY: 4

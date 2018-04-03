@@ -182,6 +182,7 @@ public class MemorySpaces : MonoBehaviour {
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceTwo";
             currentVideoResetTrigger = "CarScene03VideoTrigger";
+
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
             MemorySpaceActive = true;
@@ -206,21 +207,23 @@ public class MemorySpaces : MonoBehaviour {
     public void PauseVideos()
     {
         GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();
-        //GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Pause();
-        //GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
+        GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Pause();
+        GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
     }
     public void ResumeVideos()
     {
         //if exiting first memory space
         float seekTime = GetComponent<TriggerDictionary>().triggers[currentVideoResetTrigger].triggerTime * 1000;
+        Debug.Log("seekTime: " + seekTime);
         GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Seek(seekTime);
         GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Seek(seekTime);
         GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Seek(seekTime);
-        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Play();
+        //GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Play();
+        GetComponent<SceneController>().resetSync();
     }
     public void LoopActorVideos()
     {
-        CounterMaxActorLoop -= Time.deltaTime;
+        /*CounterMaxActorLoop -= Time.deltaTime;
         //Debug.Log(CounterMaxActorLoop);
         if (CounterMaxActorLoop <= 0)
         {
@@ -232,7 +235,7 @@ public class MemorySpaces : MonoBehaviour {
             controlBlue.Seek(resetPoint);
             //reset the loop
             CounterMaxActorLoop = MaxActorLoop;
-        }
+        }*/
     }
     public void WatchUserIdleTime()
     {
@@ -241,7 +244,6 @@ public class MemorySpaces : MonoBehaviour {
         {
             //break the memory space corutine;
             Debug.Log("break the memory space corutine and exit");
-            StopCoroutine(exitMemorySpaceCoroutine);
             ExitMemorySpaceNow();
         }
     }
@@ -269,13 +271,13 @@ public class MemorySpaces : MonoBehaviour {
 
     private void ExitMemorySpaceNow()
     {
-        
+        MemorySpaceActive = false;
+        StopCoroutine(exitMemorySpaceCoroutine);
         //remove momory dust
         GetComponent<SceneController>().MemoryDust.SetActive(false);
         removeFogCoroutine = EndFog();
         StartCoroutine(removeFogCoroutine);
-        ResumeVideos();
-        MemorySpaceActive = false;
+        ResumeVideos();  
         //destroy objects available in memory space
         foreach (Transform child in m_parent.transform)
         {
@@ -298,6 +300,7 @@ public class MemorySpaces : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(wait);
+            Debug.Log("ExitMemorySpace coroutine finished.");
             ExitMemorySpaceNow();
         }
 

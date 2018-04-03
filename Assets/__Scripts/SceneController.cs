@@ -39,6 +39,7 @@ public class SceneController : MonoBehaviour {
     bool triggerMemorySpace = true;
     public GameObject MemoryDust;
     int memorySpaceCounter = 0;
+    private bool adjustAudioSyncOnce = true;
 
     //Skybox for the memory spaces
     //public Material MemorySkybox;
@@ -556,7 +557,10 @@ public class SceneController : MonoBehaviour {
         control.Seek(SkipTo);
         //control.Play();     
     }
-
+    public void resetSync()
+    {
+        sync = false;
+    }
     public void WaitForVideoAudioSync()
     {
         //Debug.Log("360 BUFFERING: " + control360.GetBufferingProgress());
@@ -570,6 +574,10 @@ public class SceneController : MonoBehaviour {
             AudioClip ED_PFX_Clip = GetComponent<SoundManager>().EdPFXSource.clip;
 
             //Debug.Log("MH_DX_Clip.loadState: " + MH_DX_Clip.loadState);
+
+            control360.Stop();
+            controlRed.Stop();
+            controlBlue.Stop();
 
             if (
             (StartAt == EnumeratedSkipPoints.FirstMemorySpace || 
@@ -588,38 +596,38 @@ public class SceneController : MonoBehaviour {
                     controlBlue.GetBufferingProgress() >= 1)
                 {
                     sync = true;
-                    //start video playback
-                    control360.Play();
-                    controlRed.Play();
-                    controlBlue.Play();
+                    
 
                     GetComponent<SoundManager>().MhAudioSource.Stop();
                     GetComponent<SoundManager>().MhPFXSource.Stop();
                     GetComponent<SoundManager>().EdAudioSource.Stop();
                     GetComponent<SoundManager>().EdPFXSource.Stop();
 
-                    if (StartAt == EnumeratedSkipPoints.Prelude ||
-                        StartAt == EnumeratedSkipPoints.CarOne)
+                    if ((StartAt == EnumeratedSkipPoints.Prelude ||
+                        StartAt == EnumeratedSkipPoints.CarOne) && adjustAudioSyncOnce)
                     {
-                        GetComponent<SoundManager>().EdAudioSource.time = 0.75f;
+                        adjustAudioSyncOnce = false;
+                        GetComponent<SoundManager>().EdAudioSource.time = 0.83f;
                         GetComponent<SoundManager>().MhAudioSource.time = 0.2f;
                     }
 
+                    Debug.Log("PLAY Audio/Video in sync");
                     GetComponent<SoundManager>().MhAudioSource.Play();
                     GetComponent<SoundManager>().MhPFXSource.Play();
                     GetComponent<SoundManager>().EdAudioSource.Play();
                     GetComponent<SoundManager>().EdPFXSource.Play();
-                    Debug.Log("PLAY Audio/Video in sync");
+
+                    //start video playback
+                    control360.Play();
+                    controlRed.Play();
+                    controlBlue.Play();
+                    
                 }
                 
             }
         }
     }
 
-    public void AudioSyncAdjust()
-    {
-       
-    }
     void ResetAudio(int scene)
     {
         //remove audio
