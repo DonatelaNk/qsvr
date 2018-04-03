@@ -87,7 +87,7 @@ public class PageTurnController : MonoBehaviour
 		//RandomizeFirstPage();
 	}
 
-	private void LateUpdate()
+    void LateUpdate()
 	{
 		if (megaBookBuilder == null || pageTurnRightHandle == null || pageTurnLeftHandle == null)
 			return;
@@ -111,15 +111,15 @@ public class PageTurnController : MonoBehaviour
         {
             leftPageCollider.enabled = false;
         }
-
+        
 
         // Reset to page 0 if the book isn't currently grabbed
         if (!bookGrabbable.isGrabbed && !bookGrasped.isGrasped)
 		{
-			if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.ovrGrabbable.isGrabbed ||
+			/*if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.ovrGrabbable.isGrabbed ||
                 pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped || 
                 pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
-				closeBookCurrentTime = closeBookDelay;
+				closeBookCurrentTime = closeBookDelay;*/
 
 			closeBookCurrentTime -= Time.deltaTime;
 
@@ -136,15 +136,18 @@ public class PageTurnController : MonoBehaviour
 			// Open the book to a randomized page (if closed)
 			if (megaBookBuilder.page < 0)
 			{
-				if (setPageCoroutine != null)
+                int randomPage = 0;
+                if (setPageCoroutine != null)
 					StopCoroutine(setPageCoroutine);
-                int randomPage = GetOddRandomPage(0, pageTextureAudioList.Count);
+                if(pageTextureAudioList.Count > 0)
+                    randomPage = GetOddRandomPage(0, pageTextureAudioList.Count);
+                
                 setPageCoroutine = StartCoroutine(DoSetPage(randomPage, 0.5f));
 			}
 
 			closeBookCurrentTime = closeBookDelay;
 		}
-
+        
 		// Page turning
 		if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped)
 		{
@@ -167,10 +170,10 @@ public class PageTurnController : MonoBehaviour
 
 		// Handle states
 		UpdateHandleStates();
-	}
+    }
 
 
-	private void RandomizeFirstPage()
+    private void RandomizeFirstPage()
 	{
         /*int randomPage = UnityEngine.Random.Range(0, megaBookBuilder.pages.Count);
 		int randomSide = UnityEngine.Random.Range(0, 2);

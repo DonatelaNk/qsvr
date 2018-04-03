@@ -58,6 +58,7 @@ public class SceneController : MonoBehaviour {
     //Interactive Objects
     public GameObject InteractiveObjects;
     public GameObject GearShift;
+    private GameObject AnimatedCarParts;
     private bool park = false; //controls the movement of the parking/gearshift
     //Cady
     public GameObject Car;
@@ -200,6 +201,7 @@ public class SceneController : MonoBehaviour {
     {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
+        AnimatedCarParts = GameObject.Find("AnimatedCarParts");
         //set GearShift into drive mode
         GearShift.transform.eulerAngles = new Vector3(GearShift.transform.rotation.x, GearShift.transform.rotation.x, -80.0f);
 
@@ -222,6 +224,7 @@ public class SceneController : MonoBehaviour {
             Blue.SetActive(false);
             InteractiveObjects.SetActive(false);
             Car.SetActive(false);
+            AnimatedCarParts.SetActive(false);
 
             //Trigger the prelude sound track
             GetComponent<SoundManager>().StartPrelude();
@@ -280,6 +283,7 @@ public class SceneController : MonoBehaviour {
         SphereVideo.SetActive(true);  
         //Activate car
         Car.SetActive(true);
+        AnimatedCarParts.SetActive(true);
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
@@ -385,8 +389,10 @@ public class SceneController : MonoBehaviour {
         SphereVideo.SetActive(false);
         //Remove interactiveobjects
         Destroy(InteractiveObjects);
-        Destroy(GearShift);
+        park = false;
+        Destroy(AnimatedCarParts);
         Destroy(Car);
+        
         //reset skybox
         RenderSettings.skybox = VanitySkybox;
         RenderSettings.skybox.SetFloat("_Blend", 1.0f);
