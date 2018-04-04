@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-    float delay = 3.0f;
+    //float delay = 3.0f;
     //AudioSources
     public AudioSource PreludeAudioSource;
 
@@ -106,12 +106,12 @@ public class SoundManager : MonoBehaviour {
         InitSceneSound(CarAudioSource, CarScene01FOA);
 
         //start ED Dialog 
-        InitSceneSound(EdAudioSource, EdCarScene01DX);
+        //InitSceneSound(EdAudioSource, EdCarScene01DX);
         //Add the sound effects clip for Ed (audio source added to same game objects, see onstart)
         InitSceneSound(EdPFXSource, EdCarScene01PFX);
 
         //Add Mary Helen Dialogue
-        InitSceneSound(MhAudioSource, MhCarScene01DX);
+        //InitSceneSound(MhAudioSource, MhCarScene01DX);
         //Add MH sound effects clip (audio source added to same game objects, see onstart)
         InitSceneSound(MhPFXSource, MhCarScene01PFX);
 
@@ -161,14 +161,14 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(RearWindow, WindowsDownScene02SFX);
 
 		//start ED Dialog 
-		InitSceneSound(EdAudioSource, null);
+		//InitSceneSound(EdAudioSource, null);
 		//ED Yells Clip
-		InitSceneSound(EdYellsAudioSource, null);
+		//InitSceneSound(EdYellsAudioSource, null);
 		//Add the sound effects clip for Ed
 		InitSceneSound(EdPFXSource, null);
 
 		//Add Mary Helen Dialogue
-		InitSceneSound(MhAudioSource, null);
+		//InitSceneSound(MhAudioSource, null);
 		//Add MH sound effects clip
 		InitSceneSound(MhPFXSource, null);
 
@@ -201,12 +201,12 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(RearWindow, WindowsDownScene03SFX);
 
 		//start ED Dialog 
-		InitSceneSound(EdAudioSource, null);
+		//InitSceneSound(EdAudioSource, null);
 		//Add the sound effects clip for Ed)
 		InitSceneSound(EdPFXSource, null);
 
 		//Add Mary Helen Dialogue
-		InitSceneSound(MhAudioSource, null);
+		//InitSceneSound(MhAudioSource, null);
 		//Add MH sound effects clip
 		InitSceneSound(MhPFXSource, null);
         

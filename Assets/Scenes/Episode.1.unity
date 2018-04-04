@@ -1306,6 +1306,10 @@ Prefab:
       propertyPath: m_Persistent
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
+      propertyPath: m_Muted
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
   m_IsPrefabParent: 0
@@ -22064,9 +22068,9 @@ MonoBehaviour:
   m_AutoOpen: 0
   m_AutoStart: 0
   m_Loop: 0
-  m_Volume: 0
+  m_Volume: 0.5
   m_Balance: 0
-  m_Muted: 1
+  m_Muted: 0
   m_PlaybackRate: 1
   m_Resample: 0
   m_ResampleMode: 0
@@ -22331,7 +22335,7 @@ MonoBehaviour:
   _autoLoad: 1
   _delaySeconds: 0
   _videoLoops: 0
-  _volume: 0
+  _volume: 0.5
   _playerSetup: 1
   _metaSetup: 1
   _rendererSetup: 1
@@ -32482,7 +32486,7 @@ MonoBehaviour:
   GearShift: {fileID: 254768780}
   Car: {fileID: 1355048970}
   VanityCardDelay: 12.5
-  StartAt: 1
+  StartAt: 2
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -32554,14 +32558,12 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 3767dad3a125aa542ac356e2e1b3bb59, type: 3}
   - texture: {fileID: 2800000, guid: 409759a5b53c42e4a98ee3ee9273df36, type: 3}
     audioClip: {fileID: 8300000, guid: ae0a353403d29ab4b9470acc0a741ffb, type: 3}
-  - texture: {fileID: 2800000, guid: 409759a5b53c42e4a98ee3ee9273df36, type: 3}
-    audioClip: {fileID: 0}
+  - texture: {fileID: 2800000, guid: 926c8e6bf42da4b49b0c314be9a97154, type: 3}
+    audioClip: {fileID: 8300000, guid: 3f7536730e4cb5a49b38f75b87e1c57b, type: 3}
   - texture: {fileID: 2800000, guid: 33217a9dff8c2fa439f674a8e6e63ac2, type: 3}
     audioClip: {fileID: 8300000, guid: 1fe6e7e3065bb4046abedc566e2d8717, type: 3}
   - texture: {fileID: 2800000, guid: 2588118482c508b459f154ca11f825dd, type: 3}
     audioClip: {fileID: 0}
-  - texture: {fileID: 2800000, guid: 926c8e6bf42da4b49b0c314be9a97154, type: 3}
-    audioClip: {fileID: 8300000, guid: 3f7536730e4cb5a49b38f75b87e1c57b, type: 3}
   PictureSet2:
   - texture: {fileID: 2800000, guid: 37947d595f58e474dada5c56cff55c1c, type: 3}
     audioClip: {fileID: 8300000, guid: e7176009b96105c4482324ae11d174a2, type: 3}
@@ -33473,9 +33475,9 @@ MonoBehaviour:
   m_AutoOpen: 0
   m_AutoStart: 0
   m_Loop: 0
-  m_Volume: 0
+  m_Volume: 0.5
   m_Balance: 0
-  m_Muted: 1
+  m_Muted: 0
   m_PlaybackRate: 1
   m_Resample: 0
   m_ResampleMode: 0
@@ -33740,7 +33742,7 @@ MonoBehaviour:
   _autoLoad: 1
   _delaySeconds: 0
   _videoLoops: 0
-  _volume: 0
+  _volume: 0.5
   _playerSetup: 1
   _metaSetup: 1
   _rendererSetup: 1
@@ -43651,7 +43653,7 @@ MonoBehaviour:
     rotationY: -114.756
   earlyDay:
   - color: {r: 1, g: 0.8627451, b: 0.654902, a: 1}
-    intensity: 3
+    intensity: 1.64
     exposure: 0.4
     sunPosition: {x: 0.35, y: 1.32, z: 7.17}
     rotationX: 174.999
@@ -43659,7 +43661,7 @@ MonoBehaviour:
   midDay:
   - color: {r: 1, g: 0.91764706, b: 0.7921569, a: 1}
     intensity: 1.25
-    exposure: 0.8
+    exposure: 0.64
     sunPosition: {x: 2.87, y: 1.32, z: 6.76}
     rotationX: 134.679
     rotationY: 53.188
@@ -43692,7 +43694,7 @@ MonoBehaviour:
     rotationX: 186.243
     rotationY: 92
   memorySpace:
-  - color: {r: 1, g: 1, b: 1, a: 0}
+  - color: {r: 0.9411765, g: 0.9411765, b: 0.9619377, a: 0}
     intensity: 0.5
     exposure: -0.2
     sunPosition: {x: 0.35, y: 1.32, z: 7.17}

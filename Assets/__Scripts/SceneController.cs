@@ -128,7 +128,7 @@ public class SceneController : MonoBehaviour {
     private UnityAction ExitMemorySpaceTwo;
 
     //*************** Time manager ********************/
-    float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
+    //float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
     //*************** //END ***************************/
 
     
@@ -491,7 +491,9 @@ public class SceneController : MonoBehaviour {
         /*
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
-
+            control360.Play();
+                    controlRed.Play();
+                    controlBlue.Play();
 		
 
             //Enter memory space 1 
@@ -574,6 +576,22 @@ public class SceneController : MonoBehaviour {
         //we get out of sync here if they are not ready but videos are
         if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf)
         {
+
+            /*Uncomment for baked audio*/
+            if (video360Loaded && videoBlueLoaded && videoRedLoaded &&
+                control360.GetBufferingProgress() >= 1 &&
+                controlRed.GetBufferingProgress() >= 1 &&
+                controlBlue.GetBufferingProgress() >= 1)
+            {
+                control360.Play();
+                controlRed.Play();
+                controlBlue.Play();
+                sync = true;
+            }
+            //end
+
+            /*Uncomment for separate audio tracks*/
+            /*
             AudioClip MH_DX_Clip = GetComponent<SoundManager>().MhAudioSource.clip;
             AudioClip MH_PFX_Clip = GetComponent<SoundManager>().MhPFXSource.clip;
             AudioClip ED_DX_Clip = GetComponent<SoundManager>().EdAudioSource.clip;
@@ -630,7 +648,7 @@ public class SceneController : MonoBehaviour {
                     
                 }
                 
-            }
+            }*/
         }
     }
 
