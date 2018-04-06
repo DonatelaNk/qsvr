@@ -97,11 +97,11 @@ public class PageTurnController : MonoBehaviour
 		pageTurnLeftHandle.transform.rotation = transform.rotation;
 
         // Set book colliders enabled based on the current page
-        /*if (rightPageCollider)
+        if (rightPageCollider)
 			rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
 
 		if (leftPageCollider)
-			leftPageCollider.enabled = currentPage >= 0;*/
+			leftPageCollider.enabled = currentPage >= 0;
 
         if (currentPage >= 0)
         {
