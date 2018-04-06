@@ -21,6 +21,18 @@ public class TriggerDictionary : MonoBehaviour {
         //Declare our triggers dictionary
         triggers = new Dictionary<string, Trigger>();
 
+        /*
+        Scene1
+        00:00:00:00 / 0m0s
+
+        Scene2
+        00:04:16:22 / 4m16.990s
+
+        Scene3 
+        00:07:51:22 / 7m52.205s
+        */
+
+
         //Triggers: 
         //1. Scene Number (Scene01, Memory01, Scene02, Memory02, Scene03)
         //2. Default trigger value, should be false meaning it has not yet been triggered
@@ -63,11 +75,11 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("MidDayLightTrigger", MidDayLightTrigger);
 
         //Trigger CarScene 2 Videos
-        Trigger CarScene02VideoTrigger = new Trigger("Scene02", false, 258.04f, null); //258.04f
+        Trigger CarScene02VideoTrigger = new Trigger("Scene02", false, 255.00f, null); //258.04f
         triggers.Add("CarScene02VideoTrigger", CarScene02VideoTrigger);
 
         //Trigger CarScene 2 sounds
-        Trigger CarScene02Trigger = new Trigger("Scene02", false, 258.04f, SoundManager.StartCar02);
+        Trigger CarScene02Trigger = new Trigger("Scene02", false, 256.8f, SoundManager.StartCar02);
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
 
         //Trigger light over bridge
@@ -80,7 +92,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("MemorySpace02Trigger", MemorySpace02Trigger);
 
         //Trigger CarScene 3 Videos
-        Trigger CarScene03VideoTrigger = new Trigger("Scene03", false, 473.9f, null);
+        Trigger CarScene03VideoTrigger = new Trigger("Scene03", false, 470.0f, null);
         triggers.Add("CarScene03VideoTrigger", CarScene03VideoTrigger);
 
         //Trigger sunset light
@@ -88,7 +100,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("sunsetLightTrigger", sunsetLightTrigger);
 
         //Trigger CarScene 3 sounds
-        Trigger CarScene03Trigger = new Trigger("Scene03", false, 472.9f, SoundManager.StartCar03); //473.1
+        Trigger CarScene03Trigger = new Trigger("Scene03", false, 472.0f, SoundManager.StartCar03); //473.1
         triggers.Add("CarScene03Trigger", CarScene03Trigger);
 
         //Trigger cemetery light

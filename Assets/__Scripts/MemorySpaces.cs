@@ -185,6 +185,8 @@ public class MemorySpaces : MonoBehaviour {
 
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
+            CounterMemoryMaxTime = MemoryMaxTime;
+            CounterMaxActorLoop = MaxActorLoop;
             MemorySpaceActive = true;
             //Trigger Memory space 2 audio
             GetComponent<SoundManager>().MemorySpaceTwo();
@@ -219,7 +221,7 @@ public class MemorySpaces : MonoBehaviour {
         GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Seek(seekTime);
         GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Seek(seekTime);
         //GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Play();
-        GetComponent<SceneController>().resetSync();
+        GetComponent<SceneController>().ResetSync();
     }
     public void LoopActorVideos()
     {

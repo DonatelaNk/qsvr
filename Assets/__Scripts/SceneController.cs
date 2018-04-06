@@ -563,7 +563,7 @@ public class SceneController : MonoBehaviour {
         control.Seek(SkipTo);
         //control.Play();     
     }
-    public void resetSync()
+    public void ResetSync()
     {
         sync = false;
     }
@@ -581,9 +581,9 @@ public class SceneController : MonoBehaviour {
 
             //Debug.Log("MH_DX_Clip.loadState: " + MH_DX_Clip.loadState);
 
-            control360.Stop();
-            controlRed.Stop();
-            controlBlue.Stop();
+            control360.Pause();
+            controlRed.Pause();
+            controlBlue.Pause();
 
             if (
             (StartAt == EnumeratedSkipPoints.FirstMemorySpace || 
@@ -609,13 +609,13 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().EdAudioSource.Stop();
                     GetComponent<SoundManager>().EdPFXSource.Stop();
 
-                    if ((StartAt == EnumeratedSkipPoints.Prelude ||
+                    /*if ((StartAt == EnumeratedSkipPoints.Prelude ||
                         StartAt == EnumeratedSkipPoints.CarOne) && adjustAudioSyncOnce)
                     {
                         adjustAudioSyncOnce = false;
                         GetComponent<SoundManager>().EdAudioSource.time = 0.83f;
                         GetComponent<SoundManager>().MhAudioSource.time = 0.2f;
-                    }
+                    }*/
 
                     Debug.Log("PLAY Audio/Video in sync");
                     GetComponent<SoundManager>().MhAudioSource.Play();
