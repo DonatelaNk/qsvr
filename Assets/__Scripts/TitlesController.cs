@@ -10,8 +10,8 @@ public class TitlesController : MonoBehaviour {
     public GameObject SubtitleText; //Crew subtitle
 
     private int CurrentCrewArrayPos = 0;
-    private float delay = 1.0f;
-    private float WaitTime = 3.9f;
+    private float delay = 0.5f;
+    private float WaitTime = 3.5f;
     private float VanityCardDelay;
     private GameObject SceneManager;
     private bool SceneFinished = false;
@@ -33,6 +33,8 @@ public class TitlesController : MonoBehaviour {
             {"depthkit operator", "Supreet Mahanti",""},
             {"director of photography", "Cory Allen",""},
             {"producer", "Kathleen Fox",""},
+            {"associate producers", "Christopher E. Vroom\nDr. Yael Halaas",""},
+            {"executive producer", "T-Mo Bauer",""},
             {"creative direction & unity development by", "Cyril Tsiboulski",""},
             {"written & directed by", "Illya Szilak",""},
             {"", "",""}, //Queerskins:\nA Love Story

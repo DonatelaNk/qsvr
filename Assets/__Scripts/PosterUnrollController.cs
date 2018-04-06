@@ -64,13 +64,13 @@ public class PosterUnrollController : MonoBehaviour
 
 
         //Show hand animation only of the poster is being held
-       /* if (posterGrabbable.isGrabbed || posterGraspable.isGrasped)
+        if (posterGrabbable.isGrabbed || posterGraspable.isGrasped)
         {
-            posterUnrollAnimation.SetActive(true);
-        } else
+           posterUnrollAnimation.SetActive(true);
+        }else
         {
             posterUnrollAnimation.SetActive(false);
-        }*/
+        }
 		// Reset the poster to closed if the poster isn't currently grabbed
 		if ((!posterGrabbable.isGrabbed && !posterGraspable.isGrasped) || 
             (!posterUnrollHandle.ovrGrabbable.isGrabbed &&
