@@ -60,6 +60,8 @@ public class SceneController : MonoBehaviour {
     public GameObject GearShift;
     private GameObject AnimatedCarParts;
     private bool park = false; //controls the movement of the parking/gearshift
+   
+   
     //Cady
     public GameObject Car;
 
@@ -128,7 +130,7 @@ public class SceneController : MonoBehaviour {
     private UnityAction ExitMemorySpaceTwo;
 
     //*************** Time manager ********************/
-    float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
+    //float ProjectTime = 0; // updated if we skip, otherwose equal to ActualTime
     //*************** //END ***************************/
 
     
@@ -202,6 +204,7 @@ public class SceneController : MonoBehaviour {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
         AnimatedCarParts = GameObject.Find("AnimatedCarParts");
+       
         //set GearShift into drive mode
         GearShift.transform.eulerAngles = new Vector3(GearShift.transform.rotation.x, GearShift.transform.rotation.x, -80.0f);
 
@@ -284,6 +287,7 @@ public class SceneController : MonoBehaviour {
         //Activate car
         Car.SetActive(true);
         AnimatedCarParts.SetActive(true);
+        GameObject.Find("SteeringWheel").GetComponent<CarSteering>().StartSteering();
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
@@ -366,6 +370,7 @@ public class SceneController : MonoBehaviour {
     {
         park = true;
     }
+    
 
     public void StartFinale()
     {
@@ -416,6 +421,7 @@ public class SceneController : MonoBehaviour {
             Quaternion quats = Quaternion.FromToRotation(Vector3.up, Vector3.up) * Quaternion.Euler(-1.61f, 0, -10f);
             GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime*20);
         }
+        
 
     }
 

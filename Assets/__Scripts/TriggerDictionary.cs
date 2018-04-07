@@ -12,12 +12,14 @@ public class TriggerDictionary : MonoBehaviour {
     private SceneController SceneController;
     private Objects Objects;
     private Sun Sun;
+    private CarSteering CarSteering;
 
     // Use this for initialization
     void Start () {
         SoundManager = GetComponent<SoundManager>();
         SceneController = GetComponent<SceneController>();
         Sun = GameObject.Find("SUN_Animated").GetComponent<Sun>();
+        CarSteering = GameObject.Find("SteeringWheel").GetComponent<CarSteering>();
         //Declare our triggers dictionary
         triggers = new Dictionary<string, Trigger>();
 
@@ -58,6 +60,14 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger sunAdjustTrigger = new Trigger("Scene01", false, 158.0f, Sun.TriggerAdjustSun);
         triggers.Add("sunAdjustTrigger", sunAdjustTrigger);
 
+        //Turn wheel to the left
+        Trigger wheelTurnLeft1 = new Trigger("Scene01", false, 160.20f, CarSteering.TurnWheelLeft);
+        triggers.Add("wheelTurnLeft1", wheelTurnLeft1);
+
+        //Reset wheel
+        Trigger wheelReset1 = new Trigger("Scene01", false, 174.18f, CarSteering.ResetSteeringWheel);
+        triggers.Add("wheelReset1", wheelReset1);
+
         //Trigger EarlyDay sun
         Trigger earlyDayTrigger = new Trigger("Scene01", false, 202.29f, Sun.TriggerEarlyDay);
         triggers.Add("earlyDayTrigger", earlyDayTrigger);
@@ -81,6 +91,14 @@ public class TriggerDictionary : MonoBehaviour {
         //Trigger CarScene 2 sounds
         Trigger CarScene02Trigger = new Trigger("Scene02", false, 256.8f, SoundManager.StartCar02);
         triggers.Add("CarScene02Trigger", CarScene02Trigger);
+
+        //Turn wheel to the right
+        Trigger wheelTurnRight1 = new Trigger("Scene02", false, 260.16f, CarSteering.TurnWheelRight);
+        triggers.Add("wheelTurnRight1", wheelTurnRight1);
+
+        //Reset wheel
+        Trigger wheelReset2 = new Trigger("Scene02", false, 263.22f, CarSteering.ResetSteeringWheel);
+        triggers.Add("wheelReset2", wheelReset2);
 
         //Trigger light over bridge
         Trigger bridgeLightTrigger = new Trigger("Scene02", false, 392.06f, Sun.TriggerBridgeDay);
@@ -106,6 +124,18 @@ public class TriggerDictionary : MonoBehaviour {
         //Trigger cemetery light
         Trigger graveSiteLightTrigger = new Trigger("Scene03", false, 499.06f, Sun.TriggerGraveSiteLight);
         triggers.Add("graveSiteLightTrigger", graveSiteLightTrigger);
+
+        //Turn wheel to the left
+        Trigger wheelTurnLeft2 = new Trigger("Scene03", false, 521.03f, CarSteering.TurnWheelLeft);
+        triggers.Add("wheelTurnLeft2", wheelTurnLeft2);
+
+        //Reset wheel
+        Trigger wheelReset3 = new Trigger("Scene03", false, 526.05f, CarSteering.ResetSteeringWheel);
+        triggers.Add("wheelReset3", wheelReset3);
+        
+        //Stop steering wheel animation
+        Trigger stopSteering = new Trigger("Scene03", false, 548f, CarSteering.StopSteering);
+        triggers.Add("stopSteering", stopSteering);
 
         //Trigger finale light
         Trigger finaleLightTrigger = new Trigger("Scene03", false, 548.23f, Sun.TriggerFinaleLight);
