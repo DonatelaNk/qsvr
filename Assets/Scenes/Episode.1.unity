@@ -1106,12 +1106,12 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 1.9
+  MaxDistance: 1.65
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1195,12 +1195,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 141197274}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSpatialization: 0
+  enableSpatialization: 1
   gain: 0
   useInvSqr: 0
   near: 0.75
@@ -20046,7 +20046,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 207763617}
-  m_LocalRotation: {x: 0.09266198, y: 0.6353304, z: 0.7628676, w: -0.07617117}
+  m_LocalRotation: {x: 0.092661984, y: 0.63533044, z: 0.7628676, w: -0.076171175}
   m_LocalPosition: {x: 0.21011563, y: 0.45431978, z: 0.04379012}
   m_LocalScale: {x: 4.619684, y: 4.619678, z: 4.6196775}
   m_Children:
@@ -21668,8 +21668,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.1
-  MaxDistance: 1
+  MinDistance: 0
+  MaxDistance: 8.63
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -23580,7 +23580,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 656729169}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.2400007}
+  m_LocalPosition: {x: 0.083, y: 0.423, z: 0.7139997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 881838101}
@@ -23592,7 +23592,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 656729169}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
@@ -23619,12 +23619,12 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.1
-  MaxDistance: 1
+  MinDistance: 1.69
+  MaxDistance: 3
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -23731,7 +23731,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -24361,7 +24361,7 @@ AudioSource:
   m_GameObject: {fileID: 735492894}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243793003219940860, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+  OutputAudioMixerGroup: {fileID: 243966097783515218, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: a24f06809daa84144833bfffab78669c, type: 3}
   m_PlayOnAwake: 0
@@ -40525,7 +40525,7 @@ MonoBehaviour:
   GearShift: {fileID: 254768780}
   Car: {fileID: 1355048970}
   VanityCardDelay: 5
-  StartAt: 1
+  StartAt: 3
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -40613,11 +40613,11 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: 81d16c10538f73344bf29f98f76edd50, type: 3}
     audioClip: {fileID: 8300000, guid: c0703e4bac15d544aa1a06746a9a78e8, type: 3}
   - texture: {fileID: 2800000, guid: d31865421e37d274989c98622a064256, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 0f8fe0b25f6fee440a934a3fa3094df8, type: 3}
   - texture: {fileID: 2800000, guid: b8741e00705742d46846b262eda212ed, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 1bb06c7fb9cc5eb469061048ea5bf57e, type: 3}
   - texture: {fileID: 2800000, guid: 1105e14c94a94704c948d6770f6ca503, type: 3}
-    audioClip: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: b8eb7b5f10111304fb04e0e17e6c1bb7, type: 3}
   - texture: {fileID: 2800000, guid: adac0c19984aa6943a83e933fa9e4ce7, type: 3}
     audioClip: {fileID: 0}
   - texture: {fileID: 2800000, guid: 8547d9ba51076ca4d9cd6f110d8fceb6, type: 3}
@@ -41102,12 +41102,12 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0
-  MaxDistance: 1.9
+  MaxDistance: 1.65
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -41191,12 +41191,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1281280866}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSpatialization: 0
+  enableSpatialization: 1
   gain: 0
   useInvSqr: 0
   near: 0.75
