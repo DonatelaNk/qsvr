@@ -112,6 +112,7 @@ public class MemorySpaces : MonoBehaviour {
         if (memorySpaceNumber == 1)
         {
             CounterMemoryMaxTime = MemoryMaxTime;
+            CountDownUserIdleTime = MaxUserIdleTime;
             CounterMaxActorLoop = MaxActorLoop;
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceOne";
@@ -181,6 +182,7 @@ public class MemorySpaces : MonoBehaviour {
         if (memorySpaceNumber == 2)
         {
             CounterMemoryMaxTime = MemoryMaxTime;
+            CountDownUserIdleTime = MaxUserIdleTime;
             CounterMaxActorLoop = MaxActorLoop;
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceTwo";
