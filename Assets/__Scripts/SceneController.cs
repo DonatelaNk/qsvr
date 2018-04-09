@@ -58,6 +58,7 @@ public class SceneController : MonoBehaviour {
     //Interactive Objects
     public GameObject InteractiveObjects;
     public GameObject GearShift;
+    public GameObject SteeringWheel;
     public GameObject EdsWindow;
     private GameObject AnimatedCarParts;
     private bool park = false; //controls the movement of the parking/gearshift

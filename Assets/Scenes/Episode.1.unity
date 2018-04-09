@@ -20930,8 +20930,12 @@ MonoBehaviour:
   pageTurnRightHandleCollider: {fileID: 2006739179}
   pageTurnLeftHandleCollider: {fileID: 367455399}
   AutoplayRandMonologue: 1
-  pageAudioSource: {fileID: 0}
-  pageTextureAudioList: []
+  pageAudioSource: {fileID: 12030159}
+  pageTextureAudioList:
+  - texture: {fileID: 2800000, guid: 27f6fd0bebbf4e748a014b9602e07e3e, type: 3}
+    audioClip: {fileID: 8300000, guid: 84f05f81bfd1430449f790b3fcef29d7, type: 3}
+  - texture: {fileID: 2800000, guid: 9c219a57d5da0054188c12e9d3385058, type: 3}
+    audioClip: {fileID: 8300000, guid: cea6c4db943d81541b73d53b4f1f4502, type: 3}
   onPageSet:
     m_PersistentCalls:
       m_Calls: []
@@ -40738,10 +40742,11 @@ MonoBehaviour:
   Blue: {fileID: 615939670}
   InteractiveObjects: {fileID: 988423553}
   GearShift: {fileID: 254768780}
+  SteeringWheel: {fileID: 402096752}
   EdsWindow: {fileID: 411743240}
   Car: {fileID: 1355048970}
   VanityCardDelay: 5
-  StartAt: 1
+  StartAt: 4
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -40888,10 +40893,6 @@ MonoBehaviour:
   FlyAudioSource: {fileID: 1756075288}
   FlyDashAudioSource: {fileID: 656729172}
   FlyLandAudioSource: {fileID: 390396726}
-  SebastianAudioSource: {fileID: 12030159}
-  SebastianVoiceovers:
-  - {fileID: 8300000, guid: 84f05f81bfd1430449f790b3fcef29d7, type: 3}
-  - {fileID: 8300000, guid: cea6c4db943d81541b73d53b4f1f4502, type: 3}
   EdWindow: {fileID: 1335625904}
   EdRollsWindow: {fileID: 8300000, guid: 7b65b990f711860468d447e321d70f57, type: 3}
   EdWindowWind: {fileID: 285843109}
@@ -40915,11 +40916,6 @@ MonoBehaviour:
   MhCarScene01PFX: {fileID: 8300000, guid: 15a6eaf2e0f1a804db4430c3d7e0ccb9, type: 3}
   MhCarScene02PFX: {fileID: 8300000, guid: c4bf36e8134c5ab4eb652df7f3c24240, type: 3}
   MhCarScene03PFX: {fileID: 8300000, guid: afb0c2b766eb3c044b42ac059acaa09e, type: 3}
-  MemorySpace: {fileID: 0}
-  MemorySpaceEnter: {fileID: 8300000, guid: 19c2d69f74a6ef941b24394920bbae30, type: 3}
-  MemorySpaceExit: {fileID: 0}
-  MemorySpace01: {fileID: 0}
-  MemorySpace02: {fileID: 0}
 --- !u!114 &1173825491
 MonoBehaviour:
   m_ObjectHideFlags: 0

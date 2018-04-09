@@ -147,7 +147,7 @@ public class PageTurnController : MonoBehaviour
                     randomPage = GetOddRandomPage(0, pageTextureAudioList.Count);
                 
                 setPageCoroutine = StartCoroutine(DoSetPage(randomPage, 0.5f));
-                SoundManager.InitVoiceover();
+                
             }
 
 			closeBookCurrentTime = closeBookDelay;
@@ -309,15 +309,16 @@ public class PageTurnController : MonoBehaviour
 
 		megaBookBuilder.page = currentPage = (int)pageToSet;
 
-		// If this is the first page, play audio
-		if (AutoplayRandMonologue && pageToSet == 0 && pageAudioSource != null)
+		// play audio
+		if (AutoplayRandMonologue && pageAudioSource != null)
 		{
 			PageTextureAudioType pageTextureAudioType = pageTextureAudioList.Find(p => p.texture == megaBookBuilder.GetPageTexture(currentPage, true));
+            AutoplayRandMonologue = false;
 
-			if (pageTextureAudioType != null && pageTextureAudioType.audioClip)
+            if (pageTextureAudioType != null && pageTextureAudioType.audioClip)
 			{
 				pageAudioSource.clip = pageTextureAudioType.audioClip;
-				pageAudioSource.Play();
+                pageAudioSource.Play(3);
 			}
 		}
 
@@ -358,4 +359,6 @@ public class PageTurnController : MonoBehaviour
         } while (pageNumber % 2 == 0); //keep generating a rand number until we get an odd one
         return pageNumber;
     }
+
+   
 }

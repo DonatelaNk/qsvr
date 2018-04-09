@@ -18,8 +18,8 @@ public class TriggerDictionary : MonoBehaviour {
     void Start () {
         SoundManager = GetComponent<SoundManager>();
         SceneController = GetComponent<SceneController>();
-        Sun = GameObject.Find("SUN_Animated").GetComponent<Sun>();
-        CarSteering = GameObject.Find("SteeringWheel").GetComponent<CarSteering>();
+        Sun = SceneController.Sun.GetComponent<Sun>();
+        CarSteering = SceneController.SteeringWheel.GetComponent<CarSteering>();
         //Declare our triggers dictionary
         triggers = new Dictionary<string, Trigger>();
 

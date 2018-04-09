@@ -27,9 +27,9 @@ public class SoundManager : MonoBehaviour {
     public AudioSource FlyDashAudioSource;
     public AudioSource FlyLandAudioSource;
 
-    [Header("Sebastian Sounds")]
+   /* [Header("Sebastian Sounds")]
     public AudioSource SebastianAudioSource;
-    public AudioClip[] SebastianVoiceovers;
+    public AudioClip[] SebastianVoiceovers; */
 
 
     [Header("Ed Sounds")]
@@ -70,18 +70,18 @@ public class SoundManager : MonoBehaviour {
 
 
 
-    [Header("Memory Spaces Sounds")]
+   /* [Header("Memory Spaces Sounds")]
     public AudioSource MemorySpace;
     public AudioClip MemorySpaceEnter;
     public AudioClip MemorySpaceExit;
     public AudioClip MemorySpace01;
-    public AudioClip MemorySpace02;
+    public AudioClip MemorySpace02; */
 
 
 
 
-    IEnumerator playVoiceoverCoroutine;
-    int currentVoiceOver = 0;
+    /*IEnumerator playVoiceoverCoroutine;
+    int currentVoiceOver = 0;*/
 
     // Use this for initialization
     void Awake()
@@ -94,11 +94,6 @@ public class SoundManager : MonoBehaviour {
     }
     void Start()
     {
-        //pick a random Sebastian voiceover
-        if (SebastianVoiceovers.Length > 0)
-        {
-            int currentVoiceOver = Random.Range(0, SebastianVoiceovers.Length);
-        }
     }
 
     //Prelude, Car Scene 1, Memory Space 1, Car Scene 2, Memory Space 2, and Car Scene 3
@@ -137,8 +132,8 @@ public class SoundManager : MonoBehaviour {
 
     public void StartEntryIntoMemorySpaceOne()
     {
-       //test Memory transition sounds
-		InitSceneSound(MemorySpace, MemorySpaceEnter);
+        //test Memory transition sounds
+	    //InitSceneSound(MemorySpace, MemorySpaceEnter);
     }
 
 	public void StartEdRollsWindow()
@@ -261,18 +256,5 @@ public class SoundManager : MonoBehaviour {
         //Debug.Log("prelude state: " + PreludeAudioSource.clip.loadState);
     }
 
-    public void InitVoiceover()
-    {
-        playVoiceoverCoroutine = PlayVoiceover(SebastianVoiceovers[currentVoiceOver]);
-        Debug.Log("currentVoiceOver: " + currentVoiceOver);
-        StartCoroutine(playVoiceoverCoroutine);
-    }
-
-    IEnumerator PlayVoiceover(AudioClip voiceover)
-    {
-        yield return new WaitForSeconds(delay);
-        SebastianAudioSource.clip = voiceover;
-        SebastianAudioSource.Play();
-        //StopCoroutine(playVoiceoverCoroutine);
-    }
+    
 }
