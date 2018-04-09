@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.PostProcessing;
 
 public class Sun : MonoBehaviour {
+    public Texture lightCookie;
     public List<LightSet> night;
     public List<LightSet> preDawn;
     public List<LightSet> sunrise;
@@ -36,6 +37,11 @@ public class Sun : MonoBehaviour {
     private float colorChangeSpeed = 5.0f;
     private float exposureChangeSpeed = 5.0f;
     private float moveSpeed = 4.0f;
+    private float resetSunIntensity;
+    IEnumerator AnimateSunIntensityCoroutine;
+    private bool sunFlicker = false;
+    private bool increaseSunIntensity = false;
+    private bool decreaseSunIntensity = false;
 
 
     // Use this for initialization
@@ -71,6 +77,20 @@ public class Sun : MonoBehaviour {
         }
     }
 
+    void FixedUpdate()
+    {
+        if (sunFlicker)
+        {
+            if (lt.intensity > 0.4f)
+            {
+                float randFlickerSpeed = UnityEngine.Random.Range(0.01f, 0.2f);
+                lt.intensity = Mathf.Lerp(lt.intensity, 0.3f, Time.deltaTime / randFlickerSpeed);
+            } else {
+                lt.intensity = resetSunIntensity;
+            }
+        }
+    }
+
     //called by our triggers (found in TriggerDictionary)
     public void TriggerPreDawn() { SetSun(preDawn); }
     public void TriggerSunrise() { SetSun(sunrise); }
@@ -94,6 +114,31 @@ public class Sun : MonoBehaviour {
     {
 
     }
+
+    public void SetCookie()
+    {
+        lt.cookie = lightCookie;
+        StopCoroutine(AnimateSunIntensityCoroutine);
+        AnimateSunIntensityCoroutine = AnimateSunIntensity(0.4f, 0.3f);
+        StartCoroutine(AnimateSunIntensityCoroutine);
+    }
+
+    
+    public void FlashCookie()
+    {
+        lt.cookie = lightCookie;
+        sunFlicker = true;
+    }
+
+    public void RemoveCookie()
+    {
+        lt.cookie = null;
+        sunFlicker = false;
+        StopCoroutine(AnimateSunIntensityCoroutine);
+        AnimateSunIntensityCoroutine = AnimateSunIntensity(resetSunIntensity, 0.3f);
+        StartCoroutine(AnimateSunIntensityCoroutine);
+    }
+
     void SetSun(List<LightSet> timeOfDay)
     {
 
@@ -111,7 +156,10 @@ public class Sun : MonoBehaviour {
             }
             StartCoroutine(AnimateSunPositionAndRotation(set.sunPosition, set.rotationX, set.rotationY, moveSpeed));
             //animate intensity
-            StartCoroutine(AnimateSunIntensity(set.intensity));
+            if (AnimateSunIntensityCoroutine!=null)
+                StopCoroutine(AnimateSunIntensityCoroutine);
+            AnimateSunIntensityCoroutine = AnimateSunIntensity(set.intensity, intensityChangeSpeed);
+            StartCoroutine(AnimateSunIntensityCoroutine);
             //set color
             StartCoroutine(AnimateSunLightColor(set.color));
             //set exposure
@@ -142,14 +190,16 @@ public class Sun : MonoBehaviour {
             yield return null;
         }
     }
-    IEnumerator AnimateSunIntensity(float targetIntensity)
+    IEnumerator AnimateSunIntensity(float targetIntensity, float speed)
     {
         float elapsedTime = 0;
         //get current intensity
         float currentIntensity = lt.intensity;
-        while (elapsedTime < intensityChangeSpeed)
+        //remember the current intesnity so we can go back to it once we're passed the trees
+        resetSunIntensity = 1.24f;
+        while (elapsedTime < intensityChangeSpeed && true)
         {
-            lt.intensity = Mathf.Lerp(currentIntensity, targetIntensity, elapsedTime / intensityChangeSpeed);
+            lt.intensity = Mathf.Lerp(currentIntensity, targetIntensity, elapsedTime / speed);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

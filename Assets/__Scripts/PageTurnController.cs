@@ -60,8 +60,10 @@ public class PageTurnController : MonoBehaviour
 	private float pageTurnDistance;
 	private int currentPage;
 	private float closeBookCurrentTime;
+    private SoundManager SoundManager;
 
-	private Coroutine setPageCoroutine;
+
+    private Coroutine setPageCoroutine;
 
 
 
@@ -69,6 +71,7 @@ public class PageTurnController : MonoBehaviour
 	{
 		bookGrabbable = GetComponent<OVRGrabbable>(); //OVR
         bookGrasped = GetComponent<InteractionBehaviour>(); //LeapMotion
+        SoundManager = GameObject.Find("SceneManager").GetComponent<SoundManager>();
 
 
         if (pageTurnRightHandle != null && pageTurnLeftHandle != null)
@@ -129,7 +132,8 @@ public class PageTurnController : MonoBehaviour
 					StopCoroutine(setPageCoroutine);
 
 				setPageCoroutine = StartCoroutine(DoSetPage(-1, 0.25f));
-			}
+                
+            }
 		}
 		else
 		{
@@ -143,7 +147,8 @@ public class PageTurnController : MonoBehaviour
                     randomPage = GetOddRandomPage(0, pageTextureAudioList.Count);
                 
                 setPageCoroutine = StartCoroutine(DoSetPage(randomPage, 0.5f));
-			}
+                SoundManager.InitVoiceover();
+            }
 
 			closeBookCurrentTime = closeBookDelay;
 		}

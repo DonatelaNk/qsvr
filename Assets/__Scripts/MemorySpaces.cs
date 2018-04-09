@@ -111,13 +111,14 @@ public class MemorySpaces : MonoBehaviour {
         //First memory space logic
         if (memorySpaceNumber == 1)
         {
+            CounterMemoryMaxTime = MemoryMaxTime;
+            CounterMaxActorLoop = MaxActorLoop;
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceOne";
             currentVideoResetTrigger = "CarScene02VideoTrigger";
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
-            CounterMemoryMaxTime = MemoryMaxTime;
-            CounterMaxActorLoop = MaxActorLoop;
+
             
             MemorySpaceActive = true;
 
@@ -179,21 +180,22 @@ public class MemorySpaces : MonoBehaviour {
         //Second memory space logic
         if (memorySpaceNumber == 2)
         {
+            CounterMemoryMaxTime = MemoryMaxTime;
+            CounterMaxActorLoop = MaxActorLoop;
             PauseVideos();
             currentMemorySpaceTrigger = "ExitMemorySpaceTwo";
             currentVideoResetTrigger = "CarScene03VideoTrigger";
 
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
             StartCoroutine(exitMemorySpaceCoroutine);
-            CounterMemoryMaxTime = MemoryMaxTime;
-            CounterMaxActorLoop = MaxActorLoop;
+
             MemorySpaceActive = true;
             //Trigger Memory space 2 audio
             GetComponent<SoundManager>().MemorySpaceTwo();
             Diary.SetActive(true);
             //make it a child of the memory room parent
             Diary.transform.parent = m_parent;
-            GetComponent<SoundManager>().InitVoiceover();
+            //GetComponent<SoundManager>().InitVoiceover();
 
 
         }

@@ -44,6 +44,14 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger CarScene01Trigger = new Trigger("Scene01", false, 0.01f, SoundManager.StartCar01);
         triggers.Add("CarScene01Trigger", CarScene01Trigger);
 
+        //Turn wheel to the right
+        Trigger wheelTurnRight0 = new Trigger("Scene01", false, 0.5f, CarSteering.TurnWheelRight);
+        triggers.Add("wheelTurnRight0", wheelTurnRight0);
+
+        //Reset wheel
+        Trigger wheelReset0 = new Trigger("Scene01", false, 5.0f, CarSteering.ResetSteeringWheel);
+        triggers.Add("wheelReset0", wheelReset0);
+
         //Trigger preDawn Sun
         Trigger preDawnSunTrigger = new Trigger("Scene01", false, 47.13f, Sun.TriggerPreDawn);
         triggers.Add("preDawnSunTrigger", preDawnSunTrigger);
@@ -161,6 +169,36 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger FinaleTrigger = new Trigger("Scene03", false, 638.0f, SceneController.StartFinale);
         triggers.Add("FinaleTrigger", FinaleTrigger);
 
+        //Light cookies, grouped
+        //Beginning of Scene 2 flickers
+        Trigger setCookie0 = new Trigger("Scene02", false, 284.05f, Sun.SetCookie);
+        triggers.Add("setCookie0", setCookie0);
+        Trigger removeCookie0 = new Trigger("Scene02", false, 284.15f, Sun.RemoveCookie);
+        triggers.Add("removeCookie0", removeCookie0);
+        Trigger setCookie1 = new Trigger("Scene02", false, 284.19f, Sun.SetCookie);
+        triggers.Add("setCookie1", setCookie1);
+        Trigger removeCookie1 = new Trigger("Scene02", false, 286.07f, Sun.RemoveCookie);
+        triggers.Add("removeCookie1", removeCookie1);
+        Trigger setCookie2 = new Trigger("Scene02", false, 286.13f, Sun.SetCookie);
+        triggers.Add("setCookie2", setCookie2);
+        Trigger removeCookie2 = new Trigger("Scene02", false, 286.20f, Sun.RemoveCookie);
+        triggers.Add("removeCookie2", removeCookie2);
+        Trigger setCookie3 = new Trigger("Scene02", false, 289.14f, Sun.SetCookie);
+        triggers.Add("setCookie3", setCookie3);
+        Trigger removeCookie3 = new Trigger("Scene02", false, 291.16f, Sun.RemoveCookie);
+        triggers.Add("removeCookie3", removeCookie3);
+        Trigger setCookie4 = new Trigger("Scene02", false, 300.14f, Sun.FlashCookie);
+        triggers.Add("setCookie4", setCookie4);
+        Trigger removeCookie4 = new Trigger("Scene02", false, 302.16f, Sun.RemoveCookie);
+        triggers.Add("removeCookie4", removeCookie4);
+        Trigger setCookie5 = new Trigger("Scene02", false, 312.0f, Sun.FlashCookie);
+        triggers.Add("setCookie5", setCookie5);
+        Trigger removeCookie5 = new Trigger("Scene02", false, 315.16f, Sun.RemoveCookie);
+        triggers.Add("removeCookie5", removeCookie5);
+        //END
+
+
+
 
         // ╔═════ ∘◦ END Trigger values  ◦∘ ══════╗
         // ╚═════ ∘◦ ❉❉❉❉❉❉❉❉❉❉❉  ◦∘ ══════╝
@@ -219,12 +257,16 @@ public class TriggerDictionary : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         
         //get current video frame just once per udpate
         videoPosition = SceneController.VideoPlayer.GetComponent<MediaPlayer>().Control.GetCurrentTimeMs();
-        //Debug.Log(videoPosition);
-        
+        //Debug.Log(videoPosition/1000);
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log(videoPosition / 1000);
+        }
+
         //loop through triggers list to see if anything needs to be triggered
         foreach (string trigger in triggersList)
         {
@@ -238,8 +280,7 @@ public class TriggerDictionary : MonoBehaviour {
                     if(triggers[trigger].triggerFunction!=null)
                     {
                         triggers[trigger].triggerFunction();
-                    }
-                    
+                    }         
                     Debug.Log("Triggered:" + trigger);
                 }
             }

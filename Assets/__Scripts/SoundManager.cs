@@ -92,6 +92,14 @@ public class SoundManager : MonoBehaviour {
         //MhPFXSource = MhAudioSource.gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
 
     }
+    void Start()
+    {
+        //pick a random Sebastian voiceover
+        if (SebastianVoiceovers.Length > 0)
+        {
+            int currentVoiceOver = Random.Range(0, SebastianVoiceovers.Length);
+        }
+    }
 
     //Prelude, Car Scene 1, Memory Space 1, Car Scene 2, Memory Space 2, and Car Scene 3
     public void StartPrelude()
@@ -255,14 +263,16 @@ public class SoundManager : MonoBehaviour {
 
     public void InitVoiceover()
     {
-        //playVoiceoverCoroutine = PlayVoiceover(delay, SebastianVoiceovers[currentVoiceOver]);
-        //StartCoroutine(playVoiceoverCoroutine);
+        playVoiceoverCoroutine = PlayVoiceover(SebastianVoiceovers[currentVoiceOver]);
+        Debug.Log("currentVoiceOver: " + currentVoiceOver);
+        StartCoroutine(playVoiceoverCoroutine);
     }
 
-    IEnumerator PlayVoiceover(float delay, AudioSource voiceover)
+    IEnumerator PlayVoiceover(AudioClip voiceover)
     {
         yield return new WaitForSeconds(delay);
-        //voiceover.Play();
+        SebastianAudioSource.clip = voiceover;
+        SebastianAudioSource.Play();
         //StopCoroutine(playVoiceoverCoroutine);
     }
 }
