@@ -318,7 +318,7 @@ public class PageTurnController : MonoBehaviour
             if (pageTextureAudioType != null && pageTextureAudioType.audioClip)
 			{
 				pageAudioSource.clip = pageTextureAudioType.audioClip;
-                pageAudioSource.Play(3);
+                pageAudioSource.PlayDelayed(3);
 			}
 		}
 
