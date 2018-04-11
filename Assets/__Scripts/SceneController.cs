@@ -74,7 +74,7 @@ public class SceneController : MonoBehaviour {
     // Set our skipping options
     public enum EnumeratedSkipPoints
     {
-		Prelude, CarOne, FirstMemorySpace, CarTwo, SecondMemorySpace, CarThree
+		Prelude, CarOne, FirstMemorySpace, CarTwo, SecondMemorySpace, CarThree, FinalCredits
     }
     public EnumeratedSkipPoints StartAt;
 
@@ -586,6 +586,7 @@ public class SceneController : MonoBehaviour {
             AudioClip MH_PFX_Clip = GetComponent<SoundManager>().MhPFXSource.clip;
             AudioClip ED_DX_Clip = GetComponent<SoundManager>().EdAudioSource.clip;
             AudioClip ED_PFX_Clip = GetComponent<SoundManager>().EdPFXSource.clip;
+            AudioClip DX_Reverb = GetComponent<SoundManager>().DxReverbSource.clip;
 
             //Debug.Log("MH_DX_Clip.loadState: " + MH_DX_Clip.loadState);
 
@@ -600,7 +601,8 @@ public class SceneController : MonoBehaviour {
             (MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
             MH_PFX_Clip != null && MH_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
             ED_DX_Clip != null && ED_DX_Clip.loadState == AudioDataLoadState.Loaded &&
-            ED_PFX_Clip != null && ED_PFX_Clip.loadState == AudioDataLoadState.Loaded) &&
+            ED_PFX_Clip != null && ED_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
+            DX_Reverb != null && DX_Reverb.loadState == AudioDataLoadState.Loaded) &&
 
             (video360Loaded && videoBlueLoaded && videoRedLoaded))
             {
@@ -615,7 +617,8 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().MhAudioSource.Stop();
                     GetComponent<SoundManager>().MhPFXSource.Stop();
                     GetComponent<SoundManager>().EdAudioSource.Stop();
-                    GetComponent<SoundManager>().EdPFXSource.Stop();
+                    GetComponent<SoundManager>().DxReverbSource.Stop();
+
 
                     /*if ((StartAt == EnumeratedSkipPoints.Prelude ||
                         StartAt == EnumeratedSkipPoints.CarOne) && adjustAudioSyncOnce)
@@ -630,6 +633,7 @@ public class SceneController : MonoBehaviour {
                     GetComponent<SoundManager>().MhPFXSource.Play();
                     GetComponent<SoundManager>().EdAudioSource.Play();
                     GetComponent<SoundManager>().EdPFXSource.Play();
+                    GetComponent<SoundManager>().DxReverbSource.Play();
 
                     //start video playback
                     control360.Play();
@@ -649,13 +653,15 @@ public class SceneController : MonoBehaviour {
         GetComponent<SoundManager>().MhPFXSource.clip = null;
         GetComponent<SoundManager>().EdAudioSource.clip = null;
         GetComponent<SoundManager>().EdPFXSource.clip = null;
+        GetComponent<SoundManager>().DxReverbSource.clip = null;
         //Preload the next scene's sound, but do not play
-        if(scene==2)
+        if (scene==2)
         {
             GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene02DX;
             GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene02PFX;
             GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene02DX;
             GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene02PFX;
+            GetComponent<SoundManager>().DxReverbSource.clip = GetComponent<SoundManager>().CarScene02Verb;
         }
         if (scene == 3)
         {
@@ -663,12 +669,14 @@ public class SceneController : MonoBehaviour {
             GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene03PFX;
             GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene03DX;
             GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene03PFX;
+            GetComponent<SoundManager>().DxReverbSource.clip = GetComponent<SoundManager>().CarScene03Verb;
         }
         //make sure it's stopped
         GetComponent<SoundManager>().MhAudioSource.Stop();
         GetComponent<SoundManager>().MhPFXSource.Stop();
         GetComponent<SoundManager>().EdAudioSource.Stop();
         GetComponent<SoundManager>().EdPFXSource.Stop();
+        GetComponent<SoundManager>().DxReverbSource.Stop();
     }
     void ResetAudioClip(AudioClip clip)
     {
