@@ -494,8 +494,11 @@ public class SceneController : MonoBehaviour {
                 //}
             }
         }
-
-        WaitForVideoAudioSync();
+        if (StartAt != EnumeratedSkipPoints.FinalCredits)
+        {
+            WaitForVideoAudioSync();
+        }
+            
         /*
         if (video360Loaded && videoBlueLoaded && videoRedLoaded)
         {
@@ -714,8 +717,6 @@ public class SceneController : MonoBehaviour {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
             ResetAudio(2);
-            //reset light
-            //Sun.GetComponent<Sun>().TriggerMidDay();
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
@@ -726,9 +727,12 @@ public class SceneController : MonoBehaviour {
             SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
             ResetAudio(3);
-            //reset light
-            //Sun.GetComponent<Sun>().TriggerSunset();
-        } else
+        }
+        else if (StartAt == EnumeratedSkipPoints.FinalCredits)
+        {
+            SkipTo = GetComponent<TriggerDictionary>().triggers["FinaleTrigger"].triggerTime * 1000;
+        }
+        else
         {
             SkipTo = 0;
         }

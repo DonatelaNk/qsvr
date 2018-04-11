@@ -54,8 +54,14 @@ public class PageTurnController : MonoBehaviour
 
 
     private OVRGrabbable bookGrabbable;
+    private OVRGrabbable RightHandleGrabbable;
+    private OVRGrabbable LeftHandleGrabbable;
+
     private InteractionBehaviour bookGrasped;
-	private Vector3 pageTurnRightStartPositionLocal;
+    private InteractionBehaviour RightHandleGrasped;
+    private InteractionBehaviour LeftHandleGrasped;
+
+    private Vector3 pageTurnRightStartPositionLocal;
 	private Vector3 pageTurnLeftStartPositionLocal;
 	private float pageTurnDistance;
 	private int currentPage;

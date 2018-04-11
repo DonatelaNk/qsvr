@@ -14,12 +14,20 @@ public class TriggerDictionary : MonoBehaviour {
     private Sun Sun;
     private CarSteering CarSteering;
 
+    //Set up references for the 360 video
+    MediaPlayer mediaplayer360;
+    IMediaControl control360;
+
     // Use this for initialization
     void Start () {
         SoundManager = GetComponent<SoundManager>();
         SceneController = GetComponent<SceneController>();
         Sun = SceneController.Sun.GetComponent<Sun>();
         CarSteering = SceneController.SteeringWheel.GetComponent<CarSteering>();
+        //video reference
+        mediaplayer360 = SceneController.VideoPlayer.GetComponent<MediaPlayer>();
+        control360 = mediaplayer360.Control;
+
         //Declare our triggers dictionary
         triggers = new Dictionary<string, Trigger>();
 
@@ -166,7 +174,7 @@ public class TriggerDictionary : MonoBehaviour {
         triggers.Add("FlyHitTrigger", FlyHitTrigger);
 
         //Trigger finale
-        Trigger FinaleTrigger = new Trigger("Scene03", false, 638.0f, SceneController.StartFinale);
+        Trigger FinaleTrigger = new Trigger("Finale", false, 638.0f, SceneController.StartFinale);
         triggers.Add("FinaleTrigger", FinaleTrigger);
 
         //Light cookies, grouped
@@ -254,13 +262,28 @@ public class TriggerDictionary : MonoBehaviour {
                 }
             }
         }
+
+        if (SceneController.StartAt == SceneController.EnumeratedSkipPoints.FinalCredits)
+        {
+            foreach (string trigger in triggersList)
+            {
+                if (triggers[trigger].scene == "Scene01" ||
+                    triggers[trigger].scene == "Memory01" ||
+                    triggers[trigger].scene == "Scene02" ||
+                    triggers[trigger].scene == "Memory02" ||
+                    triggers[trigger].scene == "Scene03")
+                {
+                    triggers[trigger].triggerStatus = true;
+                }
+            }
+        }
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        
+
         //get current video frame just once per udpate
-        videoPosition = SceneController.VideoPlayer.GetComponent<MediaPlayer>().Control.GetCurrentTimeMs();
+        videoPosition = control360.GetCurrentTimeMs();
         //Debug.Log(videoPosition/1000);
         if (Input.GetKeyDown(KeyCode.S))
         {

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 
 public class TitlesController : MonoBehaviour {
+    public Transform Credit; 
     public GameObject TitleText; //Crew title
     public GameObject NameText; //Crew name
     public GameObject SubtitleText; //Crew subtitle
@@ -16,6 +17,8 @@ public class TitlesController : MonoBehaviour {
     private GameObject SceneManager;
     private bool SceneFinished = false;
     private GameObject QSVR_Title;
+    private Transform[] spawnPoints;
+    private Camera mainCamera;
 
     IEnumerator RollOpeningCreditsCoroutine;
     IEnumerator FadeInCoroutine;
@@ -43,9 +46,6 @@ public class TitlesController : MonoBehaviour {
     string[,] closingCredits = new string[,]
         {
             
-            {"", "The End",""},
-            {"TO DO:", "Closing Credits",""},
-            {"TO DO:", "Closing Credits",""},
             {"TO DO:", "Closing Credits",""},
         };
 
@@ -71,6 +71,7 @@ public class TitlesController : MonoBehaviour {
         //start title roll
         RollOpeningCreditsCoroutine = RollOpeningCredits(); // create an IEnumerator object
         StartCoroutine(RollOpeningCreditsCoroutine);
+        mainCamera = Camera.main;
     }
 	
 	// Update is called once per frame
@@ -109,11 +110,11 @@ public class TitlesController : MonoBehaviour {
                 //Tell the scene manager, we're done with titles, only if this was
                 //the openning credits roll
                 EventManager.TriggerEvent("TitlesAreDone");
-                QSVR_Title.GetComponent<SpriteFader>().FadeOutSprite();
+                Destroy(QSVR_Title);
             } else
             {
                 //otherwise we are done done!
-                //Show the replay button or soemthing
+                //Show the replay button or something
                 Application.Quit();
             }
            
@@ -135,7 +136,7 @@ public class TitlesController : MonoBehaviour {
         SubtitleText.GetComponent<Text>().text = Subtitle;  
         for (float f = 0f; f <= 1; f += 0.01f)
         {
-            GetComponent<CanvasGroup>().alpha = f;
+            Credit.gameObject.GetComponent<CanvasGroup>().alpha = f;
             yield return null;
         }
     }
@@ -145,7 +146,7 @@ public class TitlesController : MonoBehaviour {
         yield return new WaitForSeconds(delay);
         for (float f = 1f; f >= 0; f -= 0.01f)
         {
-            GetComponent<CanvasGroup>().alpha = f;
+            Credit.gameObject.GetComponent<CanvasGroup>().alpha = f;
             yield return null;
         }
         NameSelector(); //pick the next name
@@ -155,7 +156,6 @@ public class TitlesController : MonoBehaviour {
     {
         yield return new WaitForSeconds(VanityCardDelay+1);
         NameSelector();
-        StopCoroutine(RollOpeningCreditsCoroutine);
     }
 
     public void RollClosingCredits()
@@ -163,5 +163,38 @@ public class TitlesController : MonoBehaviour {
         titles = closingCredits;
         SceneFinished = true;
         NameSelector();
+        SceneManager.GetComponent<SceneController>().MemoryDust.SetActive(true);
+        // Call the Spawn function after a delay of 0 and then continue to call after the WaitTime amount of time.
+       // InvokeRepeating("Spawn", 0, WaitTime);
+
+       /* for (int i = 0; i <= titles.GetUpperBound(0); i++)
+        {
+            Transform CreditInstance;
+            Vector3 center = mainCamera.GetComponent<Collider>().bounds.center;
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(rotation_x, rotation_y, 0));
+            CreditInstance = Instantiate(Credit, center, Quaternion.identity);
+            //parent it
+            CreditInstance.parent = transform;
+            //populate it
+            CreditInstance.Find("Title").GetComponent<Text>().text = titles[i, 0];
+            CreditInstance.Find("Name").GetComponent<Text>().text = titles[i, 1];
+            CreditInstance.Find("Subtitle").GetComponent<Text>().text = titles[i, 2];
+        }*/
+
+    }
+
+    void Spawn(GameObject credit)
+    {
+        if (SceneFinished)
+        {
+            // ... exit the function.
+            return;
+        }
+
+        // Find a random index between zero and one less than the number of spawn points.
+        int spawnPointIndex = Random.Range(0, spawnPoints.Length);
+
+        // Create an instance of the credit at the randomly selected spawn point's position and rotation.
+        Instantiate(credit, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
     }
 }
