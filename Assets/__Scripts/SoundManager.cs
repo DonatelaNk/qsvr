@@ -31,6 +31,11 @@ public class SoundManager : MonoBehaviour {
     public AudioSource SebastianAudioSource;
     public AudioClip[] SebastianVoiceovers; */
 
+	[Header("DX Reverb")]
+	public AudioSource DxReverbSource;
+	public AudioClip CarScene01Verb;
+	public AudioClip CarScene02Verb;
+	public AudioClip CarScene03Verb;
 
     [Header("Ed Sounds")]
     //Ed's Window
@@ -102,7 +107,8 @@ public class SoundManager : MonoBehaviour {
         Debug.Log("SoundManager: Starting Prelude");
         PreludeAudioSource.Play();
     }
-    public void StartCar01()
+    
+	public void StartCar01()
     {
         Debug.Log("SoundManager: Starting CarScene 1");
         //Start the car soundtrack
@@ -118,6 +124,8 @@ public class SoundManager : MonoBehaviour {
         //Add MH sound effects clip (audio source added to same game objects, see onstart)
         InitSceneSound(MhPFXSource, MhCarScene01PFX);
 
+		//start DX Reverb
+		InitSceneSound(DxReverbSource, CarScene01Verb);
     }
 
     public void StartRadio()
@@ -175,6 +183,9 @@ public class SoundManager : MonoBehaviour {
 		//Add MH sound effects clip
 		InitSceneSound(MhPFXSource, null);
 
+		//start DX Reverb
+		InitSceneSound(DxReverbSource, CarScene02Verb);
+
         //Fix dialogue audio timing issue
         //GetComponent<SceneController>().AudioSyncAdjust();
     }
@@ -212,6 +223,9 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(MhAudioSource, null);
 		//Add MH sound effects clip
 		InitSceneSound(MhPFXSource, null);
+
+		//start DX Reverb
+		InitSceneSound(DxReverbSource, CarScene03Verb);
         
         //Fix dialogue audio timing issue
         //GetComponent<SceneController>().AudioSyncAdjust();
