@@ -2016,7 +2016,7 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 1
+  near: 1.25
   far: 3.5
   volumetricRadius: 0.25
   enableRfl: 1
@@ -20658,8 +20658,7 @@ AudioSource:
   m_GameObject: {fileID: 279549033}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bc8347bee61538946a6336bb9eed4258, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -20745,7 +20744,7 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 1
+  near: 1.25
   far: 3.5
   volumetricRadius: 0.25
   enableRfl: 1
@@ -23793,7 +23792,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 651098802}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
@@ -23804,7 +23803,7 @@ MonoBehaviour:
   near: 1
   far: 10
   volumetricRadius: 0
-  enableRfl: 1
+  enableRfl: 0
 --- !u!1 &656729169
 GameObject:
   m_ObjectHideFlags: 0
@@ -24665,14 +24664,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 735492894}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e503ea6418d27594caa33b93cac1b06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enableSpatialization: 1
   gain: 0
-  useInvSqr: 1
+  useInvSqr: 0
   near: 2
   far: 3
   volumetricRadius: 0
@@ -24697,8 +24696,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 3
+  MinDistance: 0
+  MaxDistance: 4
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -24727,7 +24726,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 1
+      value: 0.7
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -40881,7 +40880,7 @@ MonoBehaviour:
   EdsWindow: {fileID: 411743240}
   Car: {fileID: 1355048970}
   VanityCardDelay: 5
-  StartAt: 1
+  StartAt: 5
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -41029,7 +41028,7 @@ MonoBehaviour:
   DxReverbSource: {fileID: 1327766419}
   CarScene01Verb: {fileID: 8300000, guid: 9410d7376a262994294ab6aec5dd543a, type: 3}
   CarScene02Verb: {fileID: 8300000, guid: 1220f9d1dfe56c842806777db2f4891b, type: 3}
-  CarScene03Verb: {fileID: 8300000, guid: aa04f0688f433c54e858693f241f2e79, type: 3}
+  CarScene03Verb: {fileID: 8300000, guid: 99d4f676579c2e340aa126c89873d9f5, type: 3}
   EdWindow: {fileID: 1335625904}
   EdRollsWindow: {fileID: 8300000, guid: 7b65b990f711860468d447e321d70f57, type: 3}
   EdWindowWind: {fileID: 285843109}
@@ -57112,9 +57111,9 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 1
-  far: 1
-  volumetricRadius: 0.25
+  near: 2
+  far: 3
+  volumetricRadius: 1
   enableRfl: 1
 --- !u!43 &1955631965
 Mesh:
@@ -58041,9 +58040,9 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 1
-  far: 1
-  volumetricRadius: 0.25
+  near: 2
+  far: 3
+  volumetricRadius: 1
   enableRfl: 1
 --- !u!1 &2036470632
 GameObject:

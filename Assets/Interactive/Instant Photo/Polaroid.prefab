@@ -242,7 +242,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Spatialize: 0
+  Spatialize: 1
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
@@ -257,26 +257,26 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.31285667
+      time: 0.19002342
       value: 1.0059967
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.7443541
-      value: 0.035664976
+      time: 0.6753844
+      value: 0.051534116
       inSlope: -0.4032656
       outSlope: -0.4032656
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.8898818
-      value: 0.020758092
+      time: 0.82091206
+      value: 0.030279577
       inSlope: -0.057391748
       outSlope: -0.057391748
       tangentMode: 0
     - serializedVersion: 2
-      time: 1
-      value: 0.018076777
+      time: 0.8491211
+      value: 0.027598262
       inSlope: -0.024275606
       outSlope: -0.024275606
       tangentMode: 0
@@ -293,31 +293,31 @@ AudioSource:
       outSlope: 0.061319258
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.44103593
+      time: 0.31820267
       value: 0
       inSlope: 0.02841916
       outSlope: 0.02841916
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.54407007
+      time: 0.4212368
       value: 0.094642386
       inSlope: 1.7598312
       outSlope: 1.7598312
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.6926033
+      time: 0.62363356
       value: 0.90317565
       inSlope: 2.071425
       outSlope: 2.071425
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.7975599
+      time: 0.7285902
       value: 1.0020173
       inSlope: 0.19878677
       outSlope: 0.19878677
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.9999975
+      time: 0.8491211
       value: 0.9998128
       inSlope: -0.013342475
       outSlope: -0.013342475
