@@ -168,8 +168,8 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(CarAudioSource, CarScene02FOA);
 
 		//Start Wind SFX
-		InitSceneSound(EdWindowWind, EdWindScene02);
-		InitSceneSound(RearWindow, WindowsDownScene02SFX);
+		//InitSceneSound(EdWindowWind, EdWindScene02);
+		//InitSceneSound(RearWindow, WindowsDownScene02SFX);
 
 		//start ED Dialog 
 		InitSceneSound(EdAudioSource, null);
@@ -211,8 +211,8 @@ public class SoundManager : MonoBehaviour {
 		InitSceneSound(CarAudioSource, CarScene03FOA);
 
 		//Start Wind SFX
-		InitSceneSound(EdWindowWind, EdWindScene03);
-		InitSceneSound(RearWindow, WindowsDownScene03SFX);
+		//InitSceneSound(EdWindowWind, EdWindScene03);
+		//InitSceneSound(RearWindow, WindowsDownScene03SFX);
 
 		//start ED Dialog 
 		InitSceneSound(EdAudioSource, null);
