@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 
 public class TitlesController : MonoBehaviour {
-    public Transform Credit; 
+    public Transform Credit;
+    public Font ClosingCreditsFont;
     public GameObject TitleText; //Crew title
     public GameObject NameText; //Crew name
     public GameObject SubtitleText; //Crew subtitle
@@ -49,22 +50,51 @@ public class TitlesController : MonoBehaviour {
 
     string[,] closingCredits = new string[,]
         {
+            {"TODO: ", "Closing Credits","..."},
+            /*{"Mary-Helen", "Hadley Boyd",""},
+            {"Ed", "Drew Moore",""},
+            {"Sebastian", "Michael DeBartolo",""},
+            {"written & directed by", "Illya Szilak",""},
+            {"creative direction & unity development by", "Cyril Tsiboulski",""},
+            {"executive producer", "T-Mo Bauer",""},
+            {"associate producers", "Christopher E. Vroom\nDr. Yael Halaas",""},
+            {"producer", "Kathleen Fox",""},
+            {"director of photography", "Cory Allen",""},
+            {"choreographer", "Dawn Saito",""},
+            {"depthkit operator", "Supreet Mahanti",""},
+            {"assistant Camera", "Tony Bartalini",""},
+            {"sound mixer", "Laura Cunningham",""},
+            {"360 video production & editing by", "Richard Hammer",""}, 
             
-            {"TO DO:", "Closing Credits",""},
-            {"TO DO:", "Closing Credits",""},
-            {"TO DO:", "Closing Credits",""},
-            {"TO DO:", "Closing Credits",""},
-            {"TO DO:", "Closing Credits",""},
-            {"TO DO:", "Closing Credits",""},
+            {"depthkit post production", "Jillian Morrow",""},
+            {"depthkit consultants", "Kyle Kukshtel\nAlexander Porter",""},
+            {"3D artist", "Pat Goodwin",""},
+            {"unity lighting design", "Pat Goodwin\nDale Henry",""},
+            {"interactive development", "Chronosapien Interactive",""},
+            {"color & finish", "theColourSpace",""},
+            {"colorist & finishing artist", "Juan Salvo",""},
+            {"VFX compositor", "Uroš Perišić",""},
+            
+            {"Post production sound services provided by Skywalker Sound, a Lucasfilm Ltd. Company, Marin County, California", "",""},
+            {"sound designer", "Jeremy Bowker",""},
+            {"sound lead", "Kevin Bolen",""},
+            {"dialog editors", "Elizabeth Marston\nDanielle Dupre",""},
+            {"VR audio intern", "Jonathan Do",""},
+            {"set designers", "Nate Frieswyk\nD. Schuyler Burks\n(The Dad Shop)",""},
+            {"haptics design", "Allen Yee",""},
+            {"graphic design", "Willy Wong",""},
+
+            {"special thanks", "Zeina Abi Assy, Opeyemi Olukemi, Tom Krueger, Alexander Porter and Kyle Kukshtel, Ebony Peay Ramirez (Oculus Launchpad), Heather Lee MacFarlane and Jacqueline Bosnjak (Q Department), Oscar Raby and Katy Morrison (VRTOV Studio), Alex Colgan and Angela Bermudo (LeapMotion), all of our generous Kickstarter supporters, the people of Missouri.",""},*/
+
         };
 
     // Use this for initialization
     void Awake()
     {
         //empty out placeholders
-        /*TitleText.GetComponent<Text>().text = "";
+        TitleText.GetComponent<Text>().text = "";
         NameText.GetComponent<Text>().text = "";
-        SubtitleText.GetComponent<Text>().text = "";*/
+        SubtitleText.GetComponent<Text>().text = "";
         titles = openingTitles;
 
         //find the title png
@@ -165,7 +195,7 @@ public class TitlesController : MonoBehaviour {
     public void RollClosingCredits()
     {
         titles = closingCredits;
-        titles = openingTitles;
+       // NameText.GetComponent<Text>().font = ClosingCreditsFont;
         SceneFinished = true;
         NameSelector();
 
