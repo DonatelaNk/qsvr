@@ -36,10 +36,11 @@ public class Sun : MonoBehaviour {
     private float intensityChangeSpeed = 5.0f;
     private float colorChangeSpeed = 5.0f;
     private float exposureChangeSpeed = 5.0f;
-    private float moveSpeed = 4.0f;
+    private float moveSpeed = 7.0f;
     private float resetSunIntensity;
     IEnumerator AnimateSunIntensityCoroutine;
     private bool sunFlicker = false;
+    private bool lightPoleAnimation = false;
     private bool increaseSunIntensity = false;
     private bool decreaseSunIntensity = false;
 
@@ -65,9 +66,9 @@ public class Sun : MonoBehaviour {
             //set position
             lt.transform.position = set.sunPosition;
             //set rotation
-            lt.transform.eulerAngles = new Vector3(set.rotationX, set.rotationY, 0);   
+            lt.transform.eulerAngles = new Vector3(set.rotationX, set.rotationY, 0);
             //set intensity
-            lt.intensity = set.intensity;
+            lt.intensity = 0; // set.intensity;
             //set color
             lt.color = set.color;
             //set exposure
@@ -89,6 +90,17 @@ public class Sun : MonoBehaviour {
                 lt.intensity = resetSunIntensity;
             }
         }
+        if (lightPoleAnimation)
+        {
+            if (lt.intensity < 1.4f)
+            {
+                lt.intensity = Mathf.Lerp(lt.intensity, 1.5f, Time.deltaTime / .2f);
+            } else
+            {
+                lightPoleAnimation = false;
+                SetSun(night);
+            }
+        }
     }
 
     //called by our triggers (found in TriggerDictionary)
@@ -108,6 +120,24 @@ public class Sun : MonoBehaviour {
         float rx = 169.528f;
         float ry = -52.689f;
         StartCoroutine(AnimateSunPositionAndRotation(t, rx, ry, 25.0f));
+    }
+
+    public void TriggerStreetLights()
+    {
+        Vector3 streetLightTargetPosition = new Vector3(3.53f, 1.49f, 0);
+        Vector3 streetLightTargetRotation = new Vector3(169.528f, -267.109f, 20.32899f);
+
+        //place it here:
+        lt.transform.position = streetLightTargetPosition;
+        //set rotation
+        lt.transform.eulerAngles = streetLightTargetRotation;
+        //set intensity
+        lt.intensity = 0;
+        //set color
+        lt.color = new Color32(255, 185, 79, 255);
+        
+        lightPoleAnimation = true;
+       
     }
 
     void MoveSun()
@@ -154,6 +184,9 @@ public class Sun : MonoBehaviour {
                 exposureChangeSpeed = 60.0f;
                 lt.intensity = 0.8f;
             }
+            if (timeOfDay == night)
+                intensityChangeSpeed = 0.5f;
+
             StartCoroutine(AnimateSunPositionAndRotation(set.sunPosition, set.rotationX, set.rotationY, moveSpeed));
             //animate intensity
             if (AnimateSunIntensityCoroutine!=null)
@@ -197,6 +230,7 @@ public class Sun : MonoBehaviour {
         float currentIntensity = lt.intensity;
         //remember the current intesnity so we can go back to it once we're passed the trees
         resetSunIntensity = 1.24f;
+      
         while (elapsedTime < intensityChangeSpeed && true)
         {
             lt.intensity = Mathf.Lerp(currentIntensity, targetIntensity, elapsedTime / speed);

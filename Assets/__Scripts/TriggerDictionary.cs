@@ -59,6 +59,14 @@ public class TriggerDictionary : MonoBehaviour {
         //Reset wheel
         Trigger wheelReset0 = new Trigger("Scene01", false, 5.0f, CarSteering.ResetSteeringWheel);
         triggers.Add("wheelReset0", wheelReset0);
+        
+        //Street light 1
+        Trigger Streetlight1 = new Trigger("Scene01", false, 22.27f, Sun.TriggerStreetLights);
+        triggers.Add("Streetlight1", Streetlight1);
+
+        //Street light 2
+        Trigger Streetlight2 = new Trigger("Scene01", false, 30.5f, Sun.TriggerStreetLights);
+        triggers.Add("Streetlight2", Streetlight2);
 
         //Trigger preDawn Sun
         Trigger preDawnSunTrigger = new Trigger("Scene01", false, 47.13f, Sun.TriggerPreDawn);
