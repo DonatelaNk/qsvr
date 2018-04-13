@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: b4c6ec2c6c0ab1c4994e7931a43d1e68
+timeCreated: 1523547924
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Brownhill Script swash
+  fontNames:
+  - Brownhill Script swash
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

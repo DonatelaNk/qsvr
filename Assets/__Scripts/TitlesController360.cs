@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class TitlesController : MonoBehaviour {
+public class TitlesController360 : MonoBehaviour {
     public Transform Credit; 
     public GameObject TitleText; //Crew title
     public GameObject NameText; //Crew name

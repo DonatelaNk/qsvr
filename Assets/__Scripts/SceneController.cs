@@ -599,7 +599,8 @@ public class SceneController : MonoBehaviour {
 
             if (
             (StartAt == EnumeratedSkipPoints.FirstMemorySpace || 
-            StartAt == EnumeratedSkipPoints.SecondMemorySpace) || 
+            StartAt == EnumeratedSkipPoints.SecondMemorySpace ||
+            StartAt == EnumeratedSkipPoints.FinalCredits) || 
             
             (MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
             MH_PFX_Clip != null && MH_PFX_Clip.loadState == AudioDataLoadState.Loaded &&

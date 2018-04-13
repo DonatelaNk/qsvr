@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: b632fead25755d54d9c5f3844fffea0d
+timeCreated: 1523547475
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Reading
+  fontNames:
+  - Reading
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7b13eb1c22fa1f84b98e3523bf36e16e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
