@@ -6,10 +6,17 @@ using UnityEngine.UI;
 
 public class TitlesController : MonoBehaviour {
     public Transform Credit;
-    public Font ClosingCreditsFont;
-    public GameObject TitleText; //Crew title
-    public GameObject NameText; //Crew name
-    public GameObject SubtitleText; //Crew subtitle
+    public GameObject ClosingCredits;
+    public GameObject Title; //Crew title
+    public GameObject Name; //Crew name
+    public GameObject Subtitle; //Crew subtitle
+
+    private Text TitleText;
+    private Text NameText;
+    private Text SubtitleText;
+
+    private SpriteFader SpriteFader;
+    private CanvasGroup CanvasGroup;
 
     private int CurrentCrewArrayPos = 0;
     private float delay = 0.5f;
@@ -50,24 +57,15 @@ public class TitlesController : MonoBehaviour {
 
     string[,] closingCredits = new string[,]
         {
-            {"TODO: ", "Closing Credits","..."},
-            /*{"Mary-Helen", "Hadley Boyd",""},
-            {"Ed", "Drew Moore",""},
-            {"Sebastian", "Michael DeBartolo",""},
-            {"written & directed by", "Illya Szilak",""},
-            {"creative direction & unity development by", "Cyril Tsiboulski",""},
-            {"executive producer", "T-Mo Bauer",""},
-            {"associate producers", "Christopher E. Vroom\nDr. Yael Halaas",""},
-            {"producer", "Kathleen Fox",""},
-            {"director of photography", "Cory Allen",""},
-            {"choreographer", "Dawn Saito",""},
-            {"depthkit operator", "Supreet Mahanti",""},
-            {"assistant Camera", "Tony Bartalini",""},
-            {"sound mixer", "Laura Cunningham",""},
-            {"360 video production & editing by", "Richard Hammer",""}, 
+
+            /*{"Cast", "<size=30>Mary-Helen</size>\nHADLEY BOYD\n<size=30>Ed</size>\nDREW MOORE\n<size=30>Sebastian</size>\nMICHAEL DeBARTOLO",""},
+
+            {"Created by", "ILLYA SZILAK\nCYRIL TSIBOULSKI",""},
+            {"Produced by", "<size=30>Executive Producer</size>\nT-MO BAUER\n<size=30>Associate Producers</size>\nCHRISTOPHER E. VROOM\nDR. YAEL HALAAS\n<size=30>Producer</size>\nKATHLEEN FOX",""},
+            {"", "<size=30>Director of Photography</size>\nCORY ALLEN\n<size=30>360 Video Production & Editing by</size>\nRichard Hammer\n<size=30>Choreographer</size>\nDAWN SAITO\n<size=30>Depthkit Operator</size>\nSupreet Mahanti\n<size=30>Sound Mixer</size>\nLaura Cunningham\n<size=30>Assistant Camera</size>\nTony Bartalini",""},
+
+            {"Depthkit capture powered by Depthkit", "<size=30>Depthkit Post Production</size>\nJILLIAN MORROW\n<size=30>Depthkit Consultants</size>\nKYLE KUKSHTEL\nALEXANDER PORTER",""},
             
-            {"depthkit post production", "Jillian Morrow",""},
-            {"depthkit consultants", "Kyle Kukshtel\nAlexander Porter",""},
             {"3D artist", "Pat Goodwin",""},
             {"unity lighting design", "Pat Goodwin\nDale Henry",""},
             {"interactive development", "Chronosapien Interactive",""},
@@ -75,7 +73,7 @@ public class TitlesController : MonoBehaviour {
             {"colorist & finishing artist", "Juan Salvo",""},
             {"VFX compositor", "Uroš Perišić",""},
             
-            {"Post production sound services provided by Skywalker Sound, a Lucasfilm Ltd. Company, Marin County, California", "",""},
+            {"Post production sound services provided by Skywalker Sound,\na Lucasfilm Ltd. Company,\nMarin County, California", "",""},
             {"sound designer", "Jeremy Bowker",""},
             {"sound lead", "Kevin Bolen",""},
             {"dialog editors", "Elizabeth Marston\nDanielle Dupre",""},
@@ -91,19 +89,35 @@ public class TitlesController : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
+       
+    }
+    void Start () {
+
+        //cache components
+        CanvasGroup = Credit.gameObject.GetComponent<CanvasGroup>();
+        TitleText = Title.GetComponent<Text>();
+        NameText = Name.GetComponent<Text>();
+        SubtitleText = Subtitle.GetComponent<Text>();
         //empty out placeholders
-        TitleText.GetComponent<Text>().text = "";
-        NameText.GetComponent<Text>().text = "";
-        SubtitleText.GetComponent<Text>().text = "";
+        TitleText.text = "";
+        NameText.text = "";
+        SubtitleText.text = "";
+        //set titles array to opening titles
         titles = openingTitles;
+
+        Color ClosingCreditsAlpha = ClosingCredits.GetComponent<SpriteRenderer>().color;
+        ClosingCreditsAlpha.a = 0f;
+        ClosingCredits.GetComponent<SpriteRenderer>().color = ClosingCreditsAlpha;
 
         //find the title png
         QSVR_Title = GameObject.Find("QSVR_Title");
-        Color tmpColor = QSVR_Title.GetComponent<SpriteRenderer>().color;
-        tmpColor.a = 0f;
-        QSVR_Title.GetComponent<SpriteRenderer>().color = tmpColor;
-    }
-    void Start () {
+        SpriteFader = QSVR_Title.GetComponent<SpriteFader>();
+        Color QSVR_TitleAlpha = QSVR_Title.GetComponent<SpriteRenderer>().color;
+        QSVR_TitleAlpha.a = 0f;
+        QSVR_Title.GetComponent<SpriteRenderer>().color = QSVR_TitleAlpha;
+
+        
+
         //Get the Fade Delay value from the Fade Object in/out script attached to teh Fancy game object
         SceneManager = GameObject.Find("SceneManager");
         VanityCardDelay = SceneManager.GetComponent<SceneController>().VanityCardDelay;
@@ -122,7 +136,7 @@ public class TitlesController : MonoBehaviour {
             //if this is the last array item and we're not rollwing closing credits show our title PNG
             if (!SceneFinished && CurrentCrewArrayPos == titles.GetUpperBound(0))
             {
-                QSVR_Title.GetComponent<SpriteFader>().FadeInSprite();
+                SpriteFader.FadeInSprite();
             }
             string Title = titles[CurrentCrewArrayPos, 0];
             string Name = titles[CurrentCrewArrayPos, 1];
@@ -165,12 +179,12 @@ public class TitlesController : MonoBehaviour {
     IEnumerator FadeIn(string CrewTitle, string CrewName, string Subtitle)
     {
         yield return new WaitForSeconds(delay);
-        TitleText.GetComponent<Text>().text = CrewTitle;
-        NameText.GetComponent<Text>().text = CrewName;     
-        SubtitleText.GetComponent<Text>().text = Subtitle;  
+        TitleText.text = CrewTitle;
+        NameText.text = CrewName;     
+        SubtitleText.text = Subtitle;  
         for (float f = 0f; f <= 1; f += 0.01f)
         {
-            Credit.gameObject.GetComponent<CanvasGroup>().alpha = f;
+            CanvasGroup.alpha = f;
             yield return null;
         }
     }
@@ -180,7 +194,7 @@ public class TitlesController : MonoBehaviour {
         yield return new WaitForSeconds(delay);
         for (float f = 1f; f >= 0; f -= 0.01f)
         {
-            Credit.gameObject.GetComponent<CanvasGroup>().alpha = f;
+            CanvasGroup.alpha = f;
             yield return null;
         }
         NameSelector(); //pick the next name
@@ -194,10 +208,16 @@ public class TitlesController : MonoBehaviour {
 
     public void RollClosingCredits()
     {
-        titles = closingCredits;
-       // NameText.GetComponent<Text>().font = ClosingCreditsFont;
-        SceneFinished = true;
-        NameSelector();
+        SpriteFader = ClosingCredits.GetComponent<SpriteFader>();
+        SpriteFader.FadeInSprite();
+        //titles = closingCredits;
+        /*NameText.font = ClosingCreditsFont;*/
+        /*NameText.color = new Color(1, 1, 1, 1); //solid white
+        NameText.lineSpacing = 1.0f;
+        NameText.fontSize = 40;*/
+        //SceneFinished = true;
+        //WaitTime = 2.0f;
+        //NameSelector();
 
 
         //SceneManager.GetComponent<SceneController>().MemoryDust.SetActive(true);
