@@ -61,6 +61,10 @@ public class MemorySpaces : MonoBehaviour {
     //leapmotion interaction manager must be added to instantiated game objects at runtime
     private InteractionBehaviour LMInteractionBehaviour;
 
+    private SceneController SceneController;
+    private SoundManager SoundManager;
+    private PageTurnController PageTurnController;
+
     void Awake()
     {
         
@@ -71,6 +75,10 @@ public class MemorySpaces : MonoBehaviour {
         CountDownUserIdleTime = MaxUserIdleTime;
         Diary.SetActive(false);
         Sun = GameObject.Find("SUN_Animated").GetComponent<Sun>();
+        //cache things
+        SceneController = GetComponent<SceneController>();
+        SoundManager = GetComponent<SoundManager>();
+        PageTurnController = Diary.GetComponent<PageTurnController>();
     }
 
     void Update()
@@ -84,7 +92,7 @@ public class MemorySpaces : MonoBehaviour {
             //reset the countdown clock
             foreach (Transform child in m_parent.transform)
             {
-                if (GetComponent<SceneController>().LeapMotion)
+                if (SceneController.LeapMotion)
                 {
                     if (child.gameObject.GetComponent<InteractionBehaviour>().isGrasped)
                     {
@@ -124,7 +132,7 @@ public class MemorySpaces : MonoBehaviour {
             MemorySpaceActive = true;
 
             //Trigger Memory space 1 audio
-            GetComponent<SoundManager>().MemorySpaceOne();
+            SoundManager.MemorySpaceOne();
 
             //Position the MemorySpace parent in the box (in case the box was moved by user)
             Box = GameObject.Find("Box");
@@ -165,7 +173,7 @@ public class MemorySpaces : MonoBehaviour {
                 }
 
                 //if using Leapmotion, add interaction manager
-                if (GetComponent<SceneController>().LeapMotion)
+                if (SceneController.LeapMotion)
                 {
                     LMInteractionBehaviour = polaroidInstance.gameObject.AddComponent<InteractionBehaviour>();
                     //LMInteractionBehaviour.allowMultiGrasp = true;
@@ -189,11 +197,12 @@ public class MemorySpaces : MonoBehaviour {
             currentVideoResetTrigger = "CarScene03VideoTrigger";
 
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
+            //see how long the selected
             StartCoroutine(exitMemorySpaceCoroutine);
 
             MemorySpaceActive = true;
             //Trigger Memory space 2 audio
-            GetComponent<SoundManager>().MemorySpaceTwo();
+            SoundManager.MemorySpaceTwo();
             Diary.SetActive(true);
             //make it a child of the memory room parent
             Diary.transform.parent = m_parent;
@@ -212,20 +221,20 @@ public class MemorySpaces : MonoBehaviour {
 
     public void PauseVideos()
     {
-        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();
-        GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Pause();
-        GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Pause();
+        SceneController.VideoPlayer.GetComponent<MediaPlayer>().Control.Pause();
+        SceneController.Red.GetComponent<MediaPlayer>().Control.Pause();
+        SceneController.Blue.GetComponent<MediaPlayer>().Control.Pause();
     }
     public void ResumeVideos()
     {
         //if exiting first memory space
         float seekTime = GetComponent<TriggerDictionary>().triggers[currentVideoResetTrigger].triggerTime * 1000;
         Debug.Log("seekTime: " + seekTime);
-        GetComponent<SceneController>().Red.GetComponent<MediaPlayer>().Control.Seek(seekTime);
-        GetComponent<SceneController>().Blue.GetComponent<MediaPlayer>().Control.Seek(seekTime);
-        GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Seek(seekTime);
+        SceneController.Red.GetComponent<MediaPlayer>().Control.Seek(seekTime);
+        SceneController.Blue.GetComponent<MediaPlayer>().Control.Seek(seekTime);
+        SceneController.VideoPlayer.GetComponent<MediaPlayer>().Control.Seek(seekTime);
         //GetComponent<SceneController>().VideoPlayer.GetComponent<MediaPlayer>().Control.Play();
-        GetComponent<SceneController>().ResetSync();
+        SceneController.ResetSync();
     }
     public void LoopActorVideos()
     {
@@ -249,15 +258,31 @@ public class MemorySpaces : MonoBehaviour {
         if (CountDownUserIdleTime <= 0)
         {
             //break the memory space corutine;
-            Debug.Log("break the memory space corutine and exit");
-            ExitMemorySpaceNow();
+            if (Diary.activeSelf)
+            {
+                //if audio isn't playing in second memory space
+                if(PageTurnController.pageAudioSource == null)
+                {
+                    Debug.Log("break the memory space corutine and exit");
+                    ExitMemorySpaceNow();
+                } else if(!PageTurnController.pageAudioSource.isPlaying)
+                {
+                    Debug.Log("break the memory space corutine and exit");
+                    ExitMemorySpaceNow();
+                }
+                
+            } else
+            {
+                Debug.Log("break the memory space corutine and exit");
+                ExitMemorySpaceNow();
+            }
         }
     }
 
     public void SetMemorySpaceMood()
     {
         //Reveal memory dust
-        GetComponent<SceneController>().MemoryDust.SetActive(true);
+        SceneController.MemoryDust.SetActive(true);
         //Start fod
         RenderSettings.fog = true;
         RenderSettings.fogDensity = 0.0f;
@@ -269,6 +294,14 @@ public class MemorySpaces : MonoBehaviour {
         StartCoroutine(addFogCoroutine);
     }
 
+    public void ResetExitCoroutine(float AudioClipLength)
+    {
+        //this doesn't work for whatever reason...
+        StopCoroutine(exitMemorySpaceCoroutine);
+        exitMemorySpaceCoroutine = ExitMemorySpace(AudioClipLength, currentMemorySpaceTrigger);
+        StartCoroutine(exitMemorySpaceCoroutine);
+        Debug.Log("exitMemorySpaceCoroutine reset");
+    }
    
     public void ResetUserIdleTime()
     {
@@ -278,16 +311,30 @@ public class MemorySpaces : MonoBehaviour {
     private void ExitMemorySpaceNow()
     {
         MemorySpaceActive = false;
+        //exitMemorySpaceCoroutine = null;
         StopCoroutine(exitMemorySpaceCoroutine);
         //remove momory dust
-        GetComponent<SceneController>().MemoryDust.SetActive(false);
+        SceneController.MemoryDust.SetActive(false);
         removeFogCoroutine = EndFog();
         StartCoroutine(removeFogCoroutine);
         ResumeVideos();  
         //destroy objects available in memory space
         foreach (Transform child in m_parent.transform)
         {
-            GameObject.Destroy(child.gameObject);
+            //GameObject.Destroy(child.gameObject);
+            //only destroy if it's not being held
+            if (!child.GetComponent<OVRGrabbable>().isGrabbed)
+            {
+                Destroy(child.gameObject);
+            }
+            else
+            {
+                //unparent it and assign it to the Box
+                child.parent = Box.transform;
+                //remove audio source
+                AudioSource a = child.gameObject.GetComponent<AudioSource>();
+                Destroy(a);
+            }
         }
         EventManager.TriggerEvent(currentMemorySpaceTrigger);
     }
@@ -303,7 +350,7 @@ public class MemorySpaces : MonoBehaviour {
 
     IEnumerator ExitMemorySpace(float wait, string triggerLabel)
     {
-        while (true)
+        if(true)
         {
             yield return new WaitForSeconds(wait);
             Debug.Log("ExitMemorySpace coroutine finished.");

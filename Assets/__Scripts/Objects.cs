@@ -7,6 +7,7 @@ public class Objects : MonoBehaviour
 {
 
     public GameObject ObjectsSets;
+    public GameObject Box;
     private GameObject currentSet;
 
     public void GetRandomObjectSet()
@@ -23,8 +24,21 @@ public class Objects : MonoBehaviour
 
     public void DestroyObjectSet()
     {
+        //Destroy(currentSet);
+        //make sure object is not being held before destroying it
+        //int numCantDestroy = 0;
+        foreach (Transform child in currentSet.transform)
+        {
+            if (!child.GetComponent<OVRGrabbable>().isGrabbed)
+            {
+                Destroy(child.gameObject);     
+            }else
+            {
+                //unparent it and assign it to the Box
+                child.parent = Box.transform;
+            }
+        }
         Destroy(currentSet);
-
     }
 
 }

@@ -24,7 +24,7 @@ public class CarSteering : MonoBehaviour {
     void Update()
     {
         //Hit space to reposition the player in backseat
-        if (Input.GetKeyDown(KeyCode.R))
+        /*if (Input.GetKeyDown(KeyCode.R))
         {
             TurnWheelRight();
         }
@@ -35,7 +35,7 @@ public class CarSteering : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W))
         {
             ResetSteeringWheel();
-        }
+        }*/
     }
 
     // Update is called once per frame

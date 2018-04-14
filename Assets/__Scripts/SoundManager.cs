@@ -72,15 +72,15 @@ public class SoundManager : MonoBehaviour {
     public AudioClip MhCarScene02PFX;
     public AudioClip MhCarScene03PFX;
 
+    private SceneController SceneController;
 
 
-
-   /* [Header("Memory Spaces Sounds")]
-    public AudioSource MemorySpace;
-    public AudioClip MemorySpaceEnter;
-    public AudioClip MemorySpaceExit;
-    public AudioClip MemorySpace01;
-    public AudioClip MemorySpace02; */
+    /* [Header("Memory Spaces Sounds")]
+     public AudioSource MemorySpace;
+     public AudioClip MemorySpaceEnter;
+     public AudioClip MemorySpaceExit;
+     public AudioClip MemorySpace01;
+     public AudioClip MemorySpace02; */
 
 
 
@@ -99,6 +99,8 @@ public class SoundManager : MonoBehaviour {
     }
     void Start()
     {
+        SceneController = GetComponent<SceneController>();
+        SceneController.RadioStation.SetActive(false);
     }
 
     //Prelude, Car Scene 1, Memory Space 1, Car Scene 2, Memory Space 2, and Car Scene 3
@@ -136,6 +138,8 @@ public class SoundManager : MonoBehaviour {
         {
             speaker.GetComponent<AudioSource>().Play();
         }
+        //turn on the station display
+        SceneController.TuneRadio();
     }
 
     public void StartEntryIntoMemorySpaceOne()

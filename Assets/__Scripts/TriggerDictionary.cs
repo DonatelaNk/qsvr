@@ -60,6 +60,37 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger wheelReset0 = new Trigger("Scene01", false, 5.0f, CarSteering.ResetSteeringWheel);
         triggers.Add("wheelReset0", wheelReset0);
 
+        //Turn off dashboard lights
+        //Trigger TurnOffDashLights = new Trigger("Scene01", false, 15.0f, SceneController.TurnOffDashLights);
+        //triggers.Add("TurnOffDashLights", TurnOffDashLights);
+
+        /************************ RADIO ************************************/
+        Trigger Tune1 = new Trigger("Scene01", false, 62.297f, SceneController.StopTuneRadio);
+        triggers.Add("Tune1", Tune1);
+        Trigger Tune2 = new Trigger("Scene01", false, 65.3f, SceneController.TuneRadio);
+        triggers.Add("Tune2", Tune2);
+        Trigger Tune3 = new Trigger("Scene01", false, 67.231f, SceneController.StopTuneRadio);
+        triggers.Add("Tune3", Tune3);
+        Trigger Tune4 = new Trigger("Scene01", false, 74.00f, SceneController.TuneRadio);
+        triggers.Add("Tune4", Tune4);
+        Trigger Tune5 = new Trigger("Scene01", false, 79.6f, SceneController.StopTuneRadio);
+        triggers.Add("Tune5", Tune5);
+        Trigger Tune6 = new Trigger("Scene01", false, 102.2f, SceneController.TuneRadio);
+        triggers.Add("Tune6", Tune6);
+        Trigger Tune7 = new Trigger("Scene01", false, 103.6f, SceneController.StopTuneRadio);
+        triggers.Add("Tune7", Tune7);
+        Trigger Tune8 = new Trigger("Scene01", false, 119.83f, SceneController.TurnOffRadio);
+        triggers.Add("Tune8", Tune8);
+        /****************** //END Radio tuning ****************************/
+
+        //Street light 1
+        Trigger Streetlight1 = new Trigger("Scene01", false, 22.27f, Sun.TriggerStreetLights);
+        triggers.Add("Streetlight1", Streetlight1);
+
+        //Street light 2
+        Trigger Streetlight2 = new Trigger("Scene01", false, 30.5f, Sun.TriggerStreetLights);
+        triggers.Add("Streetlight2", Streetlight2);
+
         //Trigger preDawn Sun
         Trigger preDawnSunTrigger = new Trigger("Scene01", false, 47.13f, Sun.TriggerPreDawn);
         triggers.Add("preDawnSunTrigger", preDawnSunTrigger);
