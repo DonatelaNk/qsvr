@@ -94,7 +94,7 @@ public class Sun : MonoBehaviour {
         {
             if (lt.intensity < 1.4f)
             {
-                lt.intensity = Mathf.Lerp(lt.intensity, 1.5f, Time.deltaTime / .2f);
+                lt.intensity = Mathf.Lerp(lt.intensity, 1.5f, Time.deltaTime / .06f);
             } else
             {
                 lightPoleAnimation = false;

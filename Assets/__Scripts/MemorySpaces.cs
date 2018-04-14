@@ -63,6 +63,7 @@ public class MemorySpaces : MonoBehaviour {
 
     private SceneController SceneController;
     private SoundManager SoundManager;
+    private PageTurnController PageTurnController;
 
     void Awake()
     {
@@ -77,6 +78,7 @@ public class MemorySpaces : MonoBehaviour {
         //cache things
         SceneController = GetComponent<SceneController>();
         SoundManager = GetComponent<SoundManager>();
+        PageTurnController = Diary.GetComponent<PageTurnController>();
     }
 
     void Update()
@@ -195,6 +197,7 @@ public class MemorySpaces : MonoBehaviour {
             currentVideoResetTrigger = "CarScene03VideoTrigger";
 
             exitMemorySpaceCoroutine = ExitMemorySpace(MemoryMaxTime, currentMemorySpaceTrigger);
+            //see how long the selected
             StartCoroutine(exitMemorySpaceCoroutine);
 
             MemorySpaceActive = true;
@@ -255,8 +258,24 @@ public class MemorySpaces : MonoBehaviour {
         if (CountDownUserIdleTime <= 0)
         {
             //break the memory space corutine;
-            Debug.Log("break the memory space corutine and exit");
-            ExitMemorySpaceNow();
+            if (Diary.activeSelf)
+            {
+                //if audio isn't playing in second memory space
+                if(PageTurnController.pageAudioSource == null)
+                {
+                    Debug.Log("break the memory space corutine and exit");
+                    ExitMemorySpaceNow();
+                } else if(!PageTurnController.pageAudioSource.isPlaying)
+                {
+                    Debug.Log("break the memory space corutine and exit");
+                    ExitMemorySpaceNow();
+                }
+                
+            } else
+            {
+                Debug.Log("break the memory space corutine and exit");
+                ExitMemorySpaceNow();
+            }
         }
     }
 
@@ -275,6 +294,14 @@ public class MemorySpaces : MonoBehaviour {
         StartCoroutine(addFogCoroutine);
     }
 
+    public void ResetExitCoroutine(float AudioClipLength)
+    {
+        //this doesn't work for whatever reason...
+        StopCoroutine(exitMemorySpaceCoroutine);
+        exitMemorySpaceCoroutine = ExitMemorySpace(AudioClipLength, currentMemorySpaceTrigger);
+        StartCoroutine(exitMemorySpaceCoroutine);
+        Debug.Log("exitMemorySpaceCoroutine reset");
+    }
    
     public void ResetUserIdleTime()
     {
@@ -284,6 +311,7 @@ public class MemorySpaces : MonoBehaviour {
     private void ExitMemorySpaceNow()
     {
         MemorySpaceActive = false;
+        //exitMemorySpaceCoroutine = null;
         StopCoroutine(exitMemorySpaceCoroutine);
         //remove momory dust
         SceneController.MemoryDust.SetActive(false);
@@ -322,7 +350,7 @@ public class MemorySpaces : MonoBehaviour {
 
     IEnumerator ExitMemorySpace(float wait, string triggerLabel)
     {
-        while (true)
+        if(true)
         {
             yield return new WaitForSeconds(wait);
             Debug.Log("ExitMemorySpace coroutine finished.");

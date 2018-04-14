@@ -5,6 +5,7 @@ using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 using System.Linq;
 using Leap.Unity;
+using UnityEngine.UI;
 
 
 public class SceneController : MonoBehaviour {
@@ -61,7 +62,11 @@ public class SceneController : MonoBehaviour {
     public GameObject SteeringWheel;
     public GameObject EdsWindow;
     public GameObject Dashboard;
+    public GameObject Clock;
+    public GameObject RadioStation;
     private GameObject AnimatedCarParts;
+    private bool TuneRadioStation;
+    private Text TuneRadioStationFreq;
     private bool park = false; //controls the movement of the parking/gearshift
    
    
@@ -225,6 +230,8 @@ public class SceneController : MonoBehaviour {
         TitlesController = Titles.GetComponent<TitlesController>();
         TriggerDictionary = GetComponent<TriggerDictionary>();
 
+        TuneRadioStationFreq = RadioStation.GetComponent<Text>();
+
         //See if we need to skip intro and/or go to specific place
         //if not, run the project from the beginning
         if (StartAt == EnumeratedSkipPoints.Prelude)
@@ -344,7 +351,7 @@ public class SceneController : MonoBehaviour {
         Debug.Log("SceneController: Now entering memory space 1");
         GetComponent<MemorySpaces>().EnterMemorySpace(1);
         SoundManager.StartEntryIntoMemorySpaceOne();
-
+        TurnOffDashLights();
         //remove/reset actor audio
         ResetAudio(2);
 
@@ -442,7 +449,11 @@ public class SceneController : MonoBehaviour {
             Quaternion quats = Quaternion.FromToRotation(Vector3.up, Vector3.up) * Quaternion.Euler(-1.61f, 0, -10f);
             GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime*20);
         }
-        
+        if(TuneRadioStation)
+        {
+            float freq = float.Parse(TuneRadioStationFreq.text) + Time.deltaTime;
+            TuneRadioStationFreq.text = freq.ToString();
+        }
 
     }
 
@@ -455,6 +466,7 @@ public class SceneController : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
             ResetHeadsetPosition();
+            
         }
 
         //Hit Escape to exit (build mode only)
@@ -596,7 +608,24 @@ public class SceneController : MonoBehaviour {
     public void TurnOffDashLights()
     {
         Dashboard.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
+
     }
+    public void TuneRadio()
+    {
+        RadioStation.SetActive(true);
+        TuneRadioStation = true;
+    }
+    public void StopTuneRadio()
+    {
+        RadioStation.SetActive(true);
+        TuneRadioStation = false;
+    }
+    public void TurnOffRadio()
+    {
+        RadioStation.SetActive(false);
+        TuneRadioStation = false;
+    }
+
     public void ResetSync()
     {
         sync = false;

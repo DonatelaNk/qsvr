@@ -23,7 +23,9 @@ public class PosterUnrollController : MonoBehaviour
 
 
     private OVRGrabbable posterGrabbable;
+    private OVRGrabbable posterUnrollHandleGrabbable;
     private InteractionBehaviour posterGraspable;
+    private InteractionBehaviour posterUnrollHandleGraspable;
 
     private Vector3 posterUnrollHandleStartPositionLocal;
     private float posterUnrollDistance;
@@ -39,6 +41,10 @@ public class PosterUnrollController : MonoBehaviour
     {
         posterGrabbable = GetComponent<OVRGrabbable>();
         posterGraspable = GetComponent<InteractionBehaviour>();
+
+        posterUnrollHandleGrabbable = posterUnrollAnimation.GetComponent<OVRGrabbable>();
+        posterUnrollHandleGraspable = posterUnrollAnimation.GetComponent<InteractionBehaviour>();
+        
 
 
         if (posterUnrollHandle != null)
@@ -64,17 +70,17 @@ public class PosterUnrollController : MonoBehaviour
 
 
         //Show hand animation only of the poster is being held
-        if (posterGrabbable.isGrabbed || posterGraspable.isGrasped)
+        /*if (posterGrabbable.isGrabbed || posterGraspable.isGrasped)
         {
            posterUnrollAnimation.SetActive(true);
         }else
         {
             posterUnrollAnimation.SetActive(false);
-        }
+        }*/
 		// Reset the poster to closed if the poster isn't currently grabbed
 		if ((!posterGrabbable.isGrabbed && !posterGraspable.isGrasped) || 
-            (!posterUnrollHandle.ovrGrabbable.isGrabbed &&
-            !posterUnrollHandle.GetComponent<InteractionBehaviour>().isGrasped))
+            (!posterUnrollHandleGrabbable.isGrabbed &&
+            !posterUnrollHandleGraspable.isGrasped))
 		{
 			closePosterCurrentTime -= Time.deltaTime;
 			
@@ -92,7 +98,7 @@ public class PosterUnrollController : MonoBehaviour
 		}
 
 		// Poster unrolling
-		if (posterUnrollHandle.ovrGrabbable.isGrabbed || posterUnrollHandle.GetComponent<InteractionBehaviour>().isGrasped)
+		if (posterUnrollHandle.ovrGrabbable.isGrabbed || posterUnrollHandleGraspable.isGrasped)
 		{
 			SetPosterUnroll(posterUnrollHandle);
 		}
@@ -113,14 +119,14 @@ public class PosterUnrollController : MonoBehaviour
 		if (posterUnrollHandle)
 		{
 			// Main hand
-			if (posterUnrollHandle.ovrGrabbable.isGrabbed ||
-                posterUnrollHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			if (posterUnrollHandleGrabbable.isGrabbed ||
+               posterUnrollHandleGraspable.isGrasped)
 			{
 				posterUnrollHandle.SetHandleState(PageTurnHandle.HandleStates.MainHand);
 			}
 			// Active
-			else if (!posterUnrollHandle.ovrGrabbable.isGrabbed &&
-                     !posterUnrollHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			else if (!posterUnrollHandleGrabbable.isGrabbed &&
+                     !posterUnrollHandleGraspable.isGrasped)
 			{
 				posterUnrollHandle.SetHandleState(PageTurnHandle.HandleStates.Active);
 			}

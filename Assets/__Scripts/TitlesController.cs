@@ -50,8 +50,8 @@ public class TitlesController : MonoBehaviour {
             {"producer", "Kathleen Fox",""},
             {"associate producers", "Christopher E. Vroom\nDr. Yael Halaas",""},
             {"executive producer", "T-Mo Bauer",""},
-            {"creative direction & unity development by", "Cyril Tsiboulski",""},
-            {"written & directed by", "Illya Szilak",""},
+            /*{"creative direction & unity development by", "Cyril Tsiboulski",""},*/
+            {"created by", "Illya Szilak &\nCyril Tsiboulski",""},
             {"", "",""}, //Queerskins:\nA Love Story
         };
 

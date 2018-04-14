@@ -29,6 +29,9 @@ public class PageTurnController : MonoBehaviour
     public Collider pageTurnRightHandleCollider;
     public Collider pageTurnLeftHandleCollider;
 
+    public GameObject LeftHandle;
+    public GameObject RightHandle;
+
 
     [Header("Page Audio")]
 	public bool AutoplayRandMonologue = true;
@@ -67,6 +70,7 @@ public class PageTurnController : MonoBehaviour
 	private int currentPage;
 	private float closeBookCurrentTime;
     private SoundManager SoundManager;
+    private MemorySpaces MemorySpaces;
 
 
     private Coroutine setPageCoroutine;
@@ -78,6 +82,7 @@ public class PageTurnController : MonoBehaviour
 		bookGrabbable = GetComponent<OVRGrabbable>(); //OVR
         bookGrasped = GetComponent<InteractionBehaviour>(); //LeapMotion
         SoundManager = GameObject.Find("SceneManager").GetComponent<SoundManager>();
+        MemorySpaces = GameObject.Find("SceneManager").GetComponent<MemorySpaces>();
 
 
         if (pageTurnRightHandle != null && pageTurnLeftHandle != null)
@@ -91,10 +96,11 @@ public class PageTurnController : MonoBehaviour
 		currentPage = (int)megaBookBuilder.page;
 
 		closeBookCurrentTime = closeBookDelay;
-		
 
-		//RandomizeFirstPage();
-	}
+        LeftHandle.SetActive(false);
+        RightHandle.SetActive(false);
+        //RandomizeFirstPage();
+    }
 
     void LateUpdate()
 	{
@@ -102,15 +108,15 @@ public class PageTurnController : MonoBehaviour
 			return;
 
 		// Lock the axis of the grabbables to the book
-		pageTurnRightHandle.transform.rotation = transform.rotation;
-		pageTurnLeftHandle.transform.rotation = transform.rotation;
+		//pageTurnRightHandle.transform.rotation = transform.rotation;
+		//pageTurnLeftHandle.transform.rotation = transform.rotation;
 
         // Set book colliders enabled based on the current page
-        if (rightPageCollider)
-			rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
+        //if (rightPageCollider)
+			//rightPageCollider.enabled = currentPage <= megaBookBuilder.NumPages;
 
-		if (leftPageCollider)
-			leftPageCollider.enabled = currentPage >= 0;
+		//if (leftPageCollider)
+			//leftPageCollider.enabled = currentPage >= 0;
 
         if (currentPage >= 0)
         {
@@ -160,6 +166,7 @@ public class PageTurnController : MonoBehaviour
 		}
         
 		// Page turning
+        /*
 		if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped)
 		{
 			SetPageTurn(pageTurnRightHandle, pageTurnLeftHandle);
@@ -177,10 +184,10 @@ public class PageTurnController : MonoBehaviour
 			// Set the page
 			if (Mathf.Approximately(megaBookBuilder.page, currentPage) == false && setPageCoroutine == null)
 				setPageCoroutine = StartCoroutine(DoSetPage());
-		}
+		}*/
 
 		// Handle states
-		UpdateHandleStates();
+		//UpdateHandleStates();
     }
 
 
@@ -325,7 +332,10 @@ public class PageTurnController : MonoBehaviour
 			{
 				pageAudioSource.clip = pageTextureAudioType.audioClip;
                 pageAudioSource.PlayDelayed(3);
-			}
+                //make sure we don't exit till the audio has finished
+                MemorySpaces.ResetExitCoroutine(pageTextureAudioType.audioClip.length);
+
+            }
 		}
 
 		if (onPageSet != null)
