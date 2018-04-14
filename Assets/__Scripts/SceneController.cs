@@ -60,6 +60,7 @@ public class SceneController : MonoBehaviour {
     public GameObject GearShift;
     public GameObject SteeringWheel;
     public GameObject EdsWindow;
+    public GameObject Dashboard;
     private GameObject AnimatedCarParts;
     private bool park = false; //controls the movement of the parking/gearshift
    
@@ -83,6 +84,13 @@ public class SceneController : MonoBehaviour {
     public GameObject OVR;
     public GameObject LM;
     private Vector3 originalCameraPosition;
+
+    //cache script referenced
+    private Blindfold Blindfold;
+    private SoundManager SoundManager;
+    private MemorySpaces MemorySpaces;
+    private TitlesController TitlesController;
+    private TriggerDictionary TriggerDictionary;
 
 
     //Vanity card game object
@@ -210,6 +218,12 @@ public class SceneController : MonoBehaviour {
         //set GearShift into drive mode
         GearShift.transform.eulerAngles = new Vector3(GearShift.transform.rotation.x, GearShift.transform.rotation.x, -80.0f);
 
+        //get scripts attached
+        Blindfold = GetComponent<Blindfold>();
+        SoundManager = GetComponent<SoundManager>();
+        MemorySpaces = GetComponent<MemorySpaces>();
+        TitlesController = Titles.GetComponent<TitlesController>();
+        TriggerDictionary = GetComponent<TriggerDictionary>();
 
         //See if we need to skip intro and/or go to specific place
         //if not, run the project from the beginning
@@ -232,7 +246,7 @@ public class SceneController : MonoBehaviour {
             AnimatedCarParts.SetActive(false);
 
             //Trigger the prelude sound track
-            GetComponent<SoundManager>().StartPrelude();
+            SoundManager.StartPrelude();
 
         }
         else
@@ -281,7 +295,7 @@ public class SceneController : MonoBehaviour {
     void StartScene()
     {
         //Blindfold user while we're activating all the game objects
-        GetComponent<Blindfold>().setBlindFold();
+        Blindfold.setBlindFold();
         //Set the story skybox;
         RenderSettings.skybox = StorySkybox;
         //enable the 360 video
@@ -289,7 +303,7 @@ public class SceneController : MonoBehaviour {
         //Activate car
         Car.SetActive(true);
         AnimatedCarParts.SetActive(true);
-        GameObject.Find("SteeringWheel").GetComponent<CarSteering>().StartSteering();
+        SteeringWheel.GetComponent<CarSteering>().StartSteering();
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
@@ -329,7 +343,7 @@ public class SceneController : MonoBehaviour {
     {
         Debug.Log("SceneController: Now entering memory space 1");
         GetComponent<MemorySpaces>().EnterMemorySpace(1);
-        GetComponent<SoundManager>().StartEntryIntoMemorySpaceOne();
+        SoundManager.StartEntryIntoMemorySpaceOne();
 
         //remove/reset actor audio
         ResetAudio(2);
@@ -342,7 +356,7 @@ public class SceneController : MonoBehaviour {
     {
         triggerMemorySpace = true; //reset this var for 2nd memory sapce entry
         //trigger any sounds for the exit
-        GetComponent<SoundManager>().StartExitFromMemorySpaceOne();
+        SoundManager.StartExitFromMemorySpaceOne();
         GetComponent<Objects>().GetRandomObjectSet();
         EventManager.StopListening("ExitMemorySpaceOne", StartExitFromMemorySpaceOne);
     }
@@ -351,7 +365,7 @@ public class SceneController : MonoBehaviour {
     {
         Debug.Log("Now entering memory space 2");
         GetComponent<MemorySpaces>().EnterMemorySpace(2);
-        GetComponent<SoundManager>().StartEntryIntoMemorySpaceTwo();
+        SoundManager.StartEntryIntoMemorySpaceTwo();
 
         //remove/reset actor audio
         ResetAudio(3);
@@ -377,9 +391,9 @@ public class SceneController : MonoBehaviour {
     public void StartFinale()
     {
         StartCoroutine(StartWrapUp(4.0f));
-        GetComponent<Blindfold>().fadeInBlindFold();
+        Blindfold.fadeInBlindFold();
         //start any finale music/sound
-        GetComponent<SoundManager>().StartFinale();
+        SoundManager.StartFinale();
     }
 
     //This function is called when the scene is fully faded at the end
@@ -391,23 +405,28 @@ public class SceneController : MonoBehaviour {
 
     void WrapUpScene()
     {
-        Destroy(Red);
-        Destroy(Blue);
+
+        Red.SetActive(false);
+        Blue.SetActive(false);
         SphereVideo.SetActive(false);
         //Remove interactiveobjects
-        Destroy(InteractiveObjects);
+        InteractiveObjects.SetActive(false);
+        //Destroy(InteractiveObjects);
         park = false;
-        Destroy(AnimatedCarParts);
-        Destroy(Car);
-        
+        AnimatedCarParts.SetActive(false);
+        Car.SetActive(false);
+        Titles.SetActive(true);
+        //Destroy(AnimatedCarParts);
+        //Destroy(Car);
+
         //reset skybox
         RenderSettings.skybox = VanitySkybox;
         RenderSettings.skybox.SetFloat("_Blend", 1.0f);
         //show titles
-        GetComponent<Blindfold>().fadeOutBlindFold();
-        Titles.SetActive(true);
+        Blindfold.fadeOutBlindFold();
+        //Titles.SetActive(true);
         //roll closing credits
-        Titles.GetComponent<TitlesController>().RollClosingCredits();
+        TitlesController.RollClosingCredits();
     }
 
     //--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--
@@ -574,6 +593,10 @@ public class SceneController : MonoBehaviour {
         control.Seek(SkipTo);
         //control.Play();     
     }
+    public void TurnOffDashLights()
+    {
+        Dashboard.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
+    }
     public void ResetSync()
     {
         sync = false;
@@ -585,11 +608,11 @@ public class SceneController : MonoBehaviour {
         //we get out of sync here if they are not ready but videos are
         if (!sync && Blue.activeSelf && Red.activeSelf && VideoPlayer.activeSelf)
         {
-            AudioClip MH_DX_Clip = GetComponent<SoundManager>().MhAudioSource.clip;
-            AudioClip MH_PFX_Clip = GetComponent<SoundManager>().MhPFXSource.clip;
-            AudioClip ED_DX_Clip = GetComponent<SoundManager>().EdAudioSource.clip;
-            AudioClip ED_PFX_Clip = GetComponent<SoundManager>().EdPFXSource.clip;
-            AudioClip DX_Reverb = GetComponent<SoundManager>().DxReverbSource.clip;
+            AudioClip MH_DX_Clip = SoundManager.MhAudioSource.clip;
+            AudioClip MH_PFX_Clip = SoundManager.MhPFXSource.clip;
+            AudioClip ED_DX_Clip = SoundManager.EdAudioSource.clip;
+            AudioClip ED_PFX_Clip = SoundManager.EdPFXSource.clip;
+            AudioClip DX_Reverb = SoundManager.DxReverbSource.clip;
 
             //Debug.Log("MH_DX_Clip.loadState: " + MH_DX_Clip.loadState);
 
@@ -616,12 +639,12 @@ public class SceneController : MonoBehaviour {
                     controlBlue.GetBufferingProgress() >= 1)
                 {
                     sync = true;
-                    
 
-                    GetComponent<SoundManager>().MhAudioSource.Stop();
-                    GetComponent<SoundManager>().MhPFXSource.Stop();
-                    GetComponent<SoundManager>().EdAudioSource.Stop();
-                    GetComponent<SoundManager>().DxReverbSource.Stop();
+
+                    SoundManager.MhAudioSource.Stop();
+                    SoundManager.MhPFXSource.Stop();
+                    SoundManager.EdAudioSource.Stop();
+                    SoundManager.DxReverbSource.Stop();
 
 
                     /*if ((StartAt == EnumeratedSkipPoints.Prelude ||
@@ -633,11 +656,11 @@ public class SceneController : MonoBehaviour {
                     }*/
 
                     Debug.Log("PLAY Audio/Video in sync");
-                    GetComponent<SoundManager>().MhAudioSource.Play();
-                    GetComponent<SoundManager>().MhPFXSource.Play();
-                    GetComponent<SoundManager>().EdAudioSource.Play();
-                    GetComponent<SoundManager>().EdPFXSource.Play();
-                    GetComponent<SoundManager>().DxReverbSource.Play();
+                    SoundManager.MhAudioSource.Play();
+                    SoundManager.MhPFXSource.Play();
+                    SoundManager.EdAudioSource.Play();
+                    SoundManager.EdPFXSource.Play();
+                    SoundManager.DxReverbSource.Play();
 
                     //start video playback
                     control360.Play();
@@ -653,34 +676,34 @@ public class SceneController : MonoBehaviour {
     void ResetAudio(int scene)
     {
         //remove audio
-        GetComponent<SoundManager>().MhAudioSource.clip = null;
-        GetComponent<SoundManager>().MhPFXSource.clip = null;
-        GetComponent<SoundManager>().EdAudioSource.clip = null;
-        GetComponent<SoundManager>().EdPFXSource.clip = null;
-        GetComponent<SoundManager>().DxReverbSource.clip = null;
+        SoundManager.MhAudioSource.clip = null;
+        SoundManager.MhPFXSource.clip = null;
+        SoundManager.EdAudioSource.clip = null;
+        SoundManager.EdPFXSource.clip = null;
+        SoundManager.DxReverbSource.clip = null;
         //Preload the next scene's sound, but do not play
         if (scene==2)
         {
-            GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene02DX;
-            GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene02PFX;
-            GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene02DX;
-            GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene02PFX;
-            GetComponent<SoundManager>().DxReverbSource.clip = GetComponent<SoundManager>().CarScene02Verb;
+            SoundManager.MhAudioSource.clip = SoundManager.MhCarScene02DX;
+            SoundManager.MhPFXSource.clip = SoundManager.MhCarScene02PFX;
+            SoundManager.EdAudioSource.clip = SoundManager.EdCarScene02DX;
+            SoundManager.EdPFXSource.clip = SoundManager.EdCarScene02PFX;
+            SoundManager.DxReverbSource.clip = SoundManager.CarScene02Verb;
         }
         if (scene == 3)
         {
-            GetComponent<SoundManager>().MhAudioSource.clip = GetComponent<SoundManager>().MhCarScene03DX;
-            GetComponent<SoundManager>().MhPFXSource.clip = GetComponent<SoundManager>().MhCarScene03PFX;
-            GetComponent<SoundManager>().EdAudioSource.clip = GetComponent<SoundManager>().EdCarScene03DX;
-            GetComponent<SoundManager>().EdPFXSource.clip = GetComponent<SoundManager>().EdCarScene03PFX;
-            GetComponent<SoundManager>().DxReverbSource.clip = GetComponent<SoundManager>().CarScene03Verb;
+            SoundManager.MhAudioSource.clip = SoundManager.MhCarScene03DX;
+            SoundManager.MhPFXSource.clip = SoundManager.MhCarScene03PFX;
+            SoundManager.EdAudioSource.clip = SoundManager.EdCarScene03DX;
+            SoundManager.EdPFXSource.clip = SoundManager.EdCarScene03PFX;
+            SoundManager.DxReverbSource.clip = SoundManager.CarScene03Verb;
         }
         //make sure it's stopped
-        GetComponent<SoundManager>().MhAudioSource.Stop();
-        GetComponent<SoundManager>().MhPFXSource.Stop();
-        GetComponent<SoundManager>().EdAudioSource.Stop();
-        GetComponent<SoundManager>().EdPFXSource.Stop();
-        GetComponent<SoundManager>().DxReverbSource.Stop();
+        SoundManager.MhAudioSource.Stop();
+        SoundManager.MhPFXSource.Stop();
+        SoundManager.EdAudioSource.Stop();
+        SoundManager.EdPFXSource.Stop();
+        SoundManager.DxReverbSource.Stop();
     }
     void ResetAudioClip(AudioClip clip)
     {
@@ -711,27 +734,27 @@ public class SceneController : MonoBehaviour {
         //See where we're skiping
         if (StartAt == EnumeratedSkipPoints.FirstMemorySpace)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["MemorySpace01Trigger"].triggerTime * 1000;
+            SkipTo = TriggerDictionary.triggers["MemorySpace01Trigger"].triggerTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.CarTwo)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene02VideoTrigger"].triggerTime * 1000;
+            SkipTo = TriggerDictionary.triggers["CarScene02VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
             ResetAudio(2);
         }
         else if (StartAt == EnumeratedSkipPoints.SecondMemorySpace)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["MemorySpace02Trigger"].triggerTime * 1000;
+            SkipTo = TriggerDictionary.triggers["MemorySpace02Trigger"].triggerTime * 1000;
         }
         else if (StartAt == EnumeratedSkipPoints.CarThree)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["CarScene03VideoTrigger"].triggerTime * 1000;
+            SkipTo = TriggerDictionary.triggers["CarScene03VideoTrigger"].triggerTime * 1000;
             //remove/reset actor audio
             ResetAudio(3);
         }
         else if (StartAt == EnumeratedSkipPoints.FinalCredits)
         {
-            SkipTo = GetComponent<TriggerDictionary>().triggers["FinaleTrigger"].triggerTime * 1000;
+            SkipTo = TriggerDictionary.triggers["FinaleTrigger"].triggerTime * 1000;
         }
         else
         {
@@ -774,6 +797,6 @@ public class SceneController : MonoBehaviour {
     IEnumerator RemoveBlindfold()
     {
         yield return new WaitForSeconds(4.0f);
-        GetComponent<Blindfold>().fadeOutBlindFold();
+        Blindfold.fadeOutBlindFold();
     }  
 }

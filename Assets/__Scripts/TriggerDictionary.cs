@@ -59,7 +59,11 @@ public class TriggerDictionary : MonoBehaviour {
         //Reset wheel
         Trigger wheelReset0 = new Trigger("Scene01", false, 5.0f, CarSteering.ResetSteeringWheel);
         triggers.Add("wheelReset0", wheelReset0);
-        
+
+        //Turn off dashboard lights
+        Trigger TurnOffDashLights = new Trigger("Scene01", false, 15.0f, SceneController.TurnOffDashLights);
+        triggers.Add("TurnOffDashLights", TurnOffDashLights);
+
         //Street light 1
         Trigger Streetlight1 = new Trigger("Scene01", false, 22.27f, Sun.TriggerStreetLights);
         triggers.Add("Streetlight1", Streetlight1);
