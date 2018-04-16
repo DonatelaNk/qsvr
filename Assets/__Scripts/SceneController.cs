@@ -6,6 +6,7 @@ using RenderHeads.Media.AVProVideo;
 using System.Linq;
 using Leap.Unity;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class SceneController : MonoBehaviour {
@@ -89,6 +90,7 @@ public class SceneController : MonoBehaviour {
     public GameObject OVR;
     public GameObject LM;
     private Vector3 originalCameraPosition;
+    public GameObject bounds;
 
     //cache script referenced
     private Blindfold Blindfold;
@@ -96,6 +98,7 @@ public class SceneController : MonoBehaviour {
     private MemorySpaces MemorySpaces;
     private TitlesController TitlesController;
     private TriggerDictionary TriggerDictionary;
+
 
 
     //Vanity card game object
@@ -155,6 +158,7 @@ public class SceneController : MonoBehaviour {
     {
         //hide memory dust
         MemoryDust.SetActive(false);
+        //bounds.SetActive(false);
         //choose controller
         if (LeapMotion)
         {
@@ -304,6 +308,7 @@ public class SceneController : MonoBehaviour {
     //Function triggered by listener once the title sequence is compeleted (or if we skipped it)
     void StartScene()
     {
+        
         //Blindfold user while we're activating all the game objects
         Blindfold.SetBlindFold();
         //Set the story skybox;
@@ -400,8 +405,8 @@ public class SceneController : MonoBehaviour {
 
     public void StartFinale()
     {
-        StartCoroutine(StartWrapUp(4.0f));
-        Blindfold.FadeInBlindFold(0.25f);
+        StartCoroutine(StartWrapUp(5.0f));
+        Blindfold.FadeInBlindFold(4.25f);
         //start any finale music/sound
         SoundManager.StartFinale();
     }
@@ -433,7 +438,7 @@ public class SceneController : MonoBehaviour {
         RenderSettings.skybox = VanitySkybox;
         RenderSettings.skybox.SetFloat("_Blend", 1.0f);
         //show titles
-        Blindfold.FadeOutBlindFold(0.25f);
+        Blindfold.FadeOutBlindFold(7.25f);
         //Titles.SetActive(true);
         //roll closing credits
         TitlesController.RollClosingCredits();
@@ -466,10 +471,16 @@ public class SceneController : MonoBehaviour {
     void Update () {
        
         //Hit space to reposition the player in backseat
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetHeadsetPosition();
             
+        }
+        //restart scene
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            ResetHeadsetPosition();
         }
 
         //Hit Escape to exit (build mode only)
@@ -657,11 +668,11 @@ public class SceneController : MonoBehaviour {
             StartAt == EnumeratedSkipPoints.SecondMemorySpace ||
             StartAt == EnumeratedSkipPoints.FinalCredits) || 
             
-            (MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
+            /*(MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
             MH_PFX_Clip != null && MH_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
             ED_DX_Clip != null && ED_DX_Clip.loadState == AudioDataLoadState.Loaded &&
             ED_PFX_Clip != null && ED_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
-            DX_Reverb != null && DX_Reverb.loadState == AudioDataLoadState.Loaded) &&
+            DX_Reverb != null && DX_Reverb.loadState == AudioDataLoadState.Loaded) &&*/
 
             (video360Loaded && videoBlueLoaded && videoRedLoaded))
             {
@@ -829,6 +840,6 @@ public class SceneController : MonoBehaviour {
     IEnumerator RemoveBlindfold()
     {
         yield return new WaitForSeconds(4.0f);
-        Blindfold.FadeOutBlindFold(0.25f);
+        Blindfold.FadeOutBlindFold(7.25f);
     }  
 }
