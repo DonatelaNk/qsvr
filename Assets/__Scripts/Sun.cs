@@ -15,6 +15,7 @@ public class Sun : MonoBehaviour {
     public List<LightSet> sunset;
     public List<LightSet> graveSite;
     public List<LightSet> finaleLight;
+    public List<LightSet> bigFinish;
     public List<LightSet> memorySpace;
     [Serializable]
     public class LightSet
@@ -112,6 +113,7 @@ public class Sun : MonoBehaviour {
     public void TriggerSunset() { SetSun(sunset); }
     public void TriggerGraveSiteLight() { SetSun(graveSite); }
     public void TriggerMemorySpaceLight() { SetSun(memorySpace); }
+    public void TriggerBigFinish() { SetSun(bigFinish); }
     public void TriggerFinaleLight() { SetSun(finaleLight); }
 
     public void TriggerAdjustSun()

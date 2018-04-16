@@ -216,6 +216,9 @@ public class SceneController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //QualitySettings.vSyncCount = 0;
+        //Camera.main.fieldOfView = 60.0f;
+
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
         AnimatedCarParts = GameObject.Find("AnimatedCarParts");
@@ -302,7 +305,7 @@ public class SceneController : MonoBehaviour {
     void StartScene()
     {
         //Blindfold user while we're activating all the game objects
-        Blindfold.setBlindFold();
+        Blindfold.SetBlindFold();
         //Set the story skybox;
         RenderSettings.skybox = StorySkybox;
         //enable the 360 video
@@ -398,7 +401,7 @@ public class SceneController : MonoBehaviour {
     public void StartFinale()
     {
         StartCoroutine(StartWrapUp(4.0f));
-        Blindfold.fadeInBlindFold();
+        Blindfold.FadeInBlindFold(0.25f);
         //start any finale music/sound
         SoundManager.StartFinale();
     }
@@ -430,7 +433,7 @@ public class SceneController : MonoBehaviour {
         RenderSettings.skybox = VanitySkybox;
         RenderSettings.skybox.SetFloat("_Blend", 1.0f);
         //show titles
-        Blindfold.fadeOutBlindFold();
+        Blindfold.FadeOutBlindFold(0.25f);
         //Titles.SetActive(true);
         //roll closing credits
         TitlesController.RollClosingCredits();
@@ -826,6 +829,6 @@ public class SceneController : MonoBehaviour {
     IEnumerator RemoveBlindfold()
     {
         yield return new WaitForSeconds(4.0f);
-        Blindfold.fadeOutBlindFold();
+        Blindfold.FadeOutBlindFold(0.25f);
     }  
 }

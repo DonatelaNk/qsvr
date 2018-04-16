@@ -7,20 +7,45 @@ public class RangeChecker : MonoBehaviour {
     bool outofbounds = false;
     bool fadeInTriggered = false;
     bool fadeOutTriggered = false;
-    GameObject SceneManager;
+    private GameObject SceneManager;
+    private Blindfold Blindfold;
+    private Collider cameraCollider;
+    private Collider thisCollider;
 
     void Start()
     {
         m_main = Camera.main;
+        cameraCollider = m_main.GetComponent<Collider>();
+        thisCollider = GetComponent<Collider>();
         SceneManager = GameObject.Find("SceneManager");
+        Blindfold = SceneManager.GetComponent<Blindfold>();
     }
     private void LateUpdate()
     {
-        GetDistance(transform.position, m_main.transform.position);
+        //GetDistance(transform.position, m_main.transform.position);
+        if (thisCollider.bounds.Intersects(cameraCollider.bounds))
+        {
+            //print("Camera within bounds");
+            if (!fadeInTriggered)
+            {
+                FadeInScene();
+                fadeInTriggered = true;
+                fadeOutTriggered = false;
+            }
+        } else
+        {
+            if (!fadeOutTriggered)
+            {
+                FadeOutScene();
+                fadeOutTriggered = true;
+                fadeInTriggered = false;
+            }
+                
+        }
     }
 
     //With percentage i.e. between 0 and 1
-    public bool GetDistance(Vector3 me, Vector3 head)
+    /*public bool GetDistance(Vector3 me, Vector3 head)
     {
        //Debug.Log(me.y - head.y);
        if ((me.y-head.y) < -0.3f)
@@ -36,13 +61,13 @@ public class RangeChecker : MonoBehaviour {
             outofbounds = false;
         }
         return outofbounds;
-    }
+    }*/
     private void FadeOutScene()
     {
-        SceneManager.GetComponent<Blindfold>().fadeInBlindFold();
+        Blindfold.FadeInBlindFold(0.2f);
     }
     private void FadeInScene()
     {
-        SceneManager.GetComponent<Blindfold>().fadeOutBlindFold();
+        Blindfold.FadeOutBlindFold(0.2f);
     }
 }
