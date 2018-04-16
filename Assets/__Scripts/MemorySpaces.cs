@@ -140,8 +140,9 @@ public class MemorySpaces : MonoBehaviour {
 
 
             //Populate the box with a random set of potographs
-            //Instantiate a polaroid prefab and assign materials from our random array set ( 1of 3)
-            int randSetNum = UnityEngine.Random.Range(1, 3);
+            //Instantiate a polaroid prefab and assign materials from our random array set (1 of 3)
+            int randSetNum = UnityEngine.Random.Range(1, 4);
+            Debug.Log("Picked picture set is: " + randSetNum);
             switch (randSetNum)
             {
                 case 1:
@@ -296,7 +297,6 @@ public class MemorySpaces : MonoBehaviour {
 
     public void ResetExitCoroutine(float AudioClipLength)
     {
-        //this doesn't work for whatever reason...
         StopCoroutine(exitMemorySpaceCoroutine);
         exitMemorySpaceCoroutine = ExitMemorySpace(AudioClipLength, currentMemorySpaceTrigger);
         StartCoroutine(exitMemorySpaceCoroutine);

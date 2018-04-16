@@ -204,9 +204,17 @@ public class TriggerDictionary : MonoBehaviour {
         Trigger FlyHitTrigger = new Trigger("Scene03", false, 612.25f, SoundManager.StartFlyHit);
         triggers.Add("FlyHitTrigger", FlyHitTrigger);
 
+        //Trigger BigFinish
+        Trigger BigFinish = new Trigger("Finale", false, 615.7f, Sun.TriggerBigFinish);
+        triggers.Add("BigFinish", BigFinish);
+
         //Trigger finale
         Trigger FinaleTrigger = new Trigger("Finale", false, 638.0f, SceneController.StartFinale);
         triggers.Add("FinaleTrigger", FinaleTrigger);
+
+
+
+        
 
         //Light cookies, grouped
         //Beginning of Scene 2 flickers

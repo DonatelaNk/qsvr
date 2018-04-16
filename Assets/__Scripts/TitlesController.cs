@@ -20,7 +20,7 @@ public class TitlesController : MonoBehaviour {
 
     private int CurrentCrewArrayPos = 0;
     private float delay = 0.5f;
-    private float WaitTime = 3.5f;
+    private float WaitTime = 3.2f;
     private float VanityCardDelay;
     private GameObject SceneManager;
     private bool SceneFinished = false;
@@ -46,6 +46,8 @@ public class TitlesController : MonoBehaviour {
             {"sound mixer", "Laura Cunningham",""},
             {"360 video production & editing by", "Richard Hammer",""},
             {"depthkit operator", "Supreet Mahanti",""},
+            {"colorist & finishing artist", "Juan Salvo",""},
+            {"3D artist", "Pat Goodwin",""},
             {"director of photography", "Cory Allen",""},
             {"producer", "Kathleen Fox",""},
             {"associate producers", "Christopher E. Vroom\nDr. Yael Halaas",""},

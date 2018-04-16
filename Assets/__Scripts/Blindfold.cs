@@ -5,13 +5,17 @@ using QSVR.Internals;
 
 public class Blindfold : MonoBehaviour {
 
-    //Fade options
-    public float fadeTime = 0.25f;
+    //Fade options  
     public Color fadeColor = new Color(0.0f, 0.0f, 0.0f, 1.0f);
     public Material fadeMaterial = null;
 
+    private float fadeTime;
     private ScreenFadeControl fadeControl;
     private List<ScreenFadeControl> fadeControls;
+
+    IEnumerator FadeOutCoroutine;
+    IEnumerator FadeInCoroutine;
+
 
     void Awake()
     {
@@ -40,17 +44,23 @@ public class Blindfold : MonoBehaviour {
         SetFadersEnabled(fadeControls, false);
     }
 
-    public void fadeInBlindFold()
+    public void FadeInBlindFold(float fadeSpeed)
     {
-        StartCoroutine(FadeIn(fadeControls));
+        StopAllCoroutines();
+        fadeTime = fadeSpeed;
+        FadeInCoroutine = FadeIn(fadeControls);
+        StartCoroutine(FadeInCoroutine);
     }
 
-    public void fadeOutBlindFold()
+    public void FadeOutBlindFold(float fadeSpeed)
     {
-        StartCoroutine(FadeOut(fadeControls));
+        StopAllCoroutines();
+        fadeTime = fadeSpeed;
+        FadeOutCoroutine = FadeOut(fadeControls);
+        StartCoroutine(FadeOutCoroutine);
     }
 
-    public void setBlindFold()
+    public void SetBlindFold()
     {
         Color color = fadeColor;
         color.a = 1.0f;
@@ -66,36 +76,44 @@ public class Blindfold : MonoBehaviour {
     }
     public IEnumerator FadeIn(IEnumerable<ScreenFadeControl> fadeControls)
     {
-       //Debug.Log("Doing fade In");
-       // Derived from OVRScreenFade
-       float elapsedTime = 0.0f;
-       Color color = fadeColor;
-       color.a = 0.0f;
-       fadeMaterial.color = color;
-       SetFadersEnabled(fadeControls, true);
-       while (elapsedTime < fadeTime)
-       {
-           yield return new WaitForEndOfFrame();
-           elapsedTime += Time.deltaTime;
-           color.a = Mathf.Clamp01(elapsedTime / fadeTime);
-           fadeMaterial.color = color;
-       }
-
+       if (true)
+        {
+            //Debug.Log("Doing fade In");
+            // Derived from OVRScreenFade
+            float elapsedTime = 0.0f;
+            Color color = fadeColor;
+            color.a = fadeMaterial.color.a;
+            fadeMaterial.color = color;
+            SetFadersEnabled(fadeControls, true);
+          
+            while (elapsedTime < fadeTime)
+            {
+                yield return new WaitForEndOfFrame();
+                elapsedTime += Time.deltaTime;
+                color.a = Mathf.Clamp01(elapsedTime / fadeTime);
+                fadeMaterial.color = color;
+            }
+        }
     }
 
     public IEnumerator FadeOut(IEnumerable<ScreenFadeControl> fadeControls)
     {
-       //Debug.Log("Fading back out");
-       float elapsedTime = 0.0f;
-       Color color = fadeMaterial.color = fadeColor;
-       while (elapsedTime < fadeTime)
-       {
-           yield return new WaitForEndOfFrame();
-           elapsedTime += Time.deltaTime;
-           color.a = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
-           fadeMaterial.color = color;
-       }
-       SetFadersEnabled(fadeControls, false);
+       if (true)
+        {
+            //Debug.Log("Fading back out");
+            float elapsedTime = 0.0f;
+            Color color = fadeMaterial.color = fadeColor;
+            float currentAlpha = fadeMaterial.color.a;
+            while (elapsedTime < fadeTime)
+            {
+                yield return new WaitForEndOfFrame();
+                elapsedTime += Time.deltaTime;
+                color.a = currentAlpha - Mathf.Clamp01(elapsedTime / fadeTime);
+                fadeMaterial.color = color;
+            }
+            SetFadersEnabled(fadeControls, false);
+        }
+        
     }
 
 }
