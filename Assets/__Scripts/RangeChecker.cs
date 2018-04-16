@@ -23,25 +23,30 @@ public class RangeChecker : MonoBehaviour {
     private void LateUpdate()
     {
         //GetDistance(transform.position, m_main.transform.position);
-        if (thisCollider.bounds.Intersects(cameraCollider.bounds))
+        if (cameraCollider!=null)
         {
-            //print("Camera within bounds");
-            if (!fadeInTriggered)
+            if (thisCollider.bounds.Intersects(cameraCollider.bounds))
             {
-                FadeInScene();
-                fadeInTriggered = true;
-                fadeOutTriggered = false;
+                //print("Camera within bounds");
+                if (!fadeInTriggered)
+                {
+                    FadeInScene();
+                    fadeInTriggered = true;
+                    fadeOutTriggered = false;
+                }
             }
-        } else
-        {
-            if (!fadeOutTriggered)
+            else
             {
-                FadeOutScene();
-                fadeOutTriggered = true;
-                fadeInTriggered = false;
+                if (!fadeOutTriggered)
+                {
+                    FadeOutScene();
+                    fadeOutTriggered = true;
+                    fadeInTriggered = false;
+                }
+
             }
-                
         }
+        
     }
 
     //With percentage i.e. between 0 and 1

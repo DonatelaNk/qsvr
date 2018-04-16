@@ -90,6 +90,7 @@ public class SceneController : MonoBehaviour {
     public GameObject OVR;
     public GameObject LM;
     private Vector3 originalCameraPosition;
+    public GameObject bounds;
 
     //cache script referenced
     private Blindfold Blindfold;
@@ -157,6 +158,7 @@ public class SceneController : MonoBehaviour {
     {
         //hide memory dust
         MemoryDust.SetActive(false);
+        //bounds.SetActive(false);
         //choose controller
         if (LeapMotion)
         {
@@ -306,6 +308,7 @@ public class SceneController : MonoBehaviour {
     //Function triggered by listener once the title sequence is compeleted (or if we skipped it)
     void StartScene()
     {
+        
         //Blindfold user while we're activating all the game objects
         Blindfold.SetBlindFold();
         //Set the story skybox;
@@ -402,8 +405,8 @@ public class SceneController : MonoBehaviour {
 
     public void StartFinale()
     {
-        StartCoroutine(StartWrapUp(4.0f));
-        Blindfold.FadeInBlindFold(7.25f);
+        StartCoroutine(StartWrapUp(5.0f));
+        Blindfold.FadeInBlindFold(4.25f);
         //start any finale music/sound
         SoundManager.StartFinale();
     }
@@ -665,11 +668,11 @@ public class SceneController : MonoBehaviour {
             StartAt == EnumeratedSkipPoints.SecondMemorySpace ||
             StartAt == EnumeratedSkipPoints.FinalCredits) || 
             
-            (MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
+            /*(MH_DX_Clip != null && MH_DX_Clip.loadState == AudioDataLoadState.Loaded &&
             MH_PFX_Clip != null && MH_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
             ED_DX_Clip != null && ED_DX_Clip.loadState == AudioDataLoadState.Loaded &&
             ED_PFX_Clip != null && ED_PFX_Clip.loadState == AudioDataLoadState.Loaded &&
-            DX_Reverb != null && DX_Reverb.loadState == AudioDataLoadState.Loaded) &&
+            DX_Reverb != null && DX_Reverb.loadState == AudioDataLoadState.Loaded) &&*/
 
             (video360Loaded && videoBlueLoaded && videoRedLoaded))
             {
