@@ -6,6 +6,7 @@ using RenderHeads.Media.AVProVideo;
 using System.Linq;
 using Leap.Unity;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class SceneController : MonoBehaviour {
@@ -96,6 +97,7 @@ public class SceneController : MonoBehaviour {
     private MemorySpaces MemorySpaces;
     private TitlesController TitlesController;
     private TriggerDictionary TriggerDictionary;
+
 
 
     //Vanity card game object
@@ -401,7 +403,7 @@ public class SceneController : MonoBehaviour {
     public void StartFinale()
     {
         StartCoroutine(StartWrapUp(4.0f));
-        Blindfold.FadeInBlindFold(0.25f);
+        Blindfold.FadeInBlindFold(7.25f);
         //start any finale music/sound
         SoundManager.StartFinale();
     }
@@ -433,7 +435,7 @@ public class SceneController : MonoBehaviour {
         RenderSettings.skybox = VanitySkybox;
         RenderSettings.skybox.SetFloat("_Blend", 1.0f);
         //show titles
-        Blindfold.FadeOutBlindFold(0.25f);
+        Blindfold.FadeOutBlindFold(7.25f);
         //Titles.SetActive(true);
         //roll closing credits
         TitlesController.RollClosingCredits();
@@ -466,10 +468,16 @@ public class SceneController : MonoBehaviour {
     void Update () {
        
         //Hit space to reposition the player in backseat
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetHeadsetPosition();
             
+        }
+        //restart scene
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            ResetHeadsetPosition();
         }
 
         //Hit Escape to exit (build mode only)
@@ -829,6 +837,6 @@ public class SceneController : MonoBehaviour {
     IEnumerator RemoveBlindfold()
     {
         yield return new WaitForSeconds(4.0f);
-        Blindfold.FadeOutBlindFold(0.25f);
+        Blindfold.FadeOutBlindFold(7.25f);
     }  
 }
