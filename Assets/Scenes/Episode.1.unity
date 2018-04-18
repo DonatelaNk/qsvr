@@ -602,7 +602,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
@@ -623,32 +623,26 @@ AudioSource:
       outSlope: -0.025972271
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.17921317
-      value: 0.9989555
-      inSlope: 0.037763543
-      outSlope: 0.037763543
+      time: 0.10845816
+      value: 0.9960029
+      inSlope: -0.2410777
+      outSlope: -0.2410777
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.22313249
-      value: 0.8030378
-      inSlope: -11.837959
-      outSlope: -11.837959
+      time: 0.2027615
+      value: 0.50584704
+      inSlope: -5.4084463
+      outSlope: -5.4084463
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.24174008
-      value: 0.13154894
-      inSlope: -3.6007013
-      outSlope: -3.6007013
+      time: 0.38520396
+      value: 0.029161751
+      inSlope: -0.56734043
+      outSlope: -0.56734043
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.29640543
-      value: 0.0412696
-      inSlope: -0.8145932
-      outSlope: -0.8145932
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.39504242
-      value: 0.019580841
+      time: 0.4842682
+      value: 0.02260971
       inSlope: -0.015746908
       outSlope: -0.015746908
       tangentMode: 0
@@ -665,22 +659,22 @@ AudioSource:
       outSlope: -0.09191752
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.2347483
+      time: 0.2469706
       value: 0
-      inSlope: -0.118176654
-      outSlope: -0.118176654
+      inSlope: 0.29686895
+      outSlope: 0.29686895
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.2823604
+      time: 0.26192126
       value: 0.5639975
       inSlope: 10.875298
       outSlope: 10.875298
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.35524952
+      time: 0.33481038
       value: 1.000947
-      inSlope: 4.0392056
-      outSlope: 4.0392056
+      inSlope: 1.1817029
+      outSlope: 1.1817029
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1250,8 +1244,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 0
-  MaxDistance: 3
+  MinDistance: 1.5
+  MaxDistance: 5
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1385,7 +1379,7 @@ AudioSource:
       tangentMode: 0
     - serializedVersion: 2
       time: 1
-      value: 0.29252625
+      value: 0.20161438
       inSlope: 0.057783287
       outSlope: 0.057783287
       tangentMode: 0
@@ -1820,8 +1814,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 177958319}
-  - component: {fileID: 177958320}
   - component: {fileID: 177958321}
+  - component: {fileID: 177958320}
   m_Layer: 0
   m_Name: RearRightSpeaker
   m_TagString: Untagged
@@ -1850,7 +1844,7 @@ AudioSource:
   m_GameObject: {fileID: 177958318}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+  OutputAudioMixerGroup: {fileID: 243562953568216710, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 86cf4ba5683c6e641bdba448c0c2f087, type: 3}
   m_PlayOnAwake: 0
@@ -1862,10 +1856,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 0.2
-  MaxDistance: 1.6
+  MinDistance: 0.5
+  MaxDistance: 8
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1943,8 +1937,8 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 0.8
-  far: 60
+  near: 0.5
+  far: 50
   volumetricRadius: 0
   enableRfl: 0
 --- !u!1 &180436357
@@ -20677,8 +20671,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 279549034}
-  - component: {fileID: 279549035}
   - component: {fileID: 279549036}
+  - component: {fileID: 279549035}
   m_Layer: 0
   m_Name: RearLeftSpeaker
   m_TagString: Untagged
@@ -20707,7 +20701,7 @@ AudioSource:
   m_GameObject: {fileID: 279549033}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+  OutputAudioMixerGroup: {fileID: 243562953568216710, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: bc8347bee61538946a6336bb9eed4258, type: 3}
   m_PlayOnAwake: 0
@@ -20719,10 +20713,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 0.2
-  MaxDistance: 1.6
+  MinDistance: 0.5
+  MaxDistance: 8
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -20800,8 +20794,8 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 0.7
-  far: 60
+  near: 0.5
+  far: 50
   volumetricRadius: 0
   enableRfl: 0
 --- !u!1 &285843106
@@ -20846,10 +20840,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableSpatialization: 1
-  gain: 0
+  gain: 10
   useInvSqr: 1
-  near: 3
-  far: 50
+  near: 10
+  far: 20
   volumetricRadius: 0
   enableRfl: 0
 --- !u!82 &285843109
@@ -20872,8 +20866,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 5
+  MinDistance: 1.5
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -21039,7 +21033,7 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: 9016c3d8d42f9184cacd7dd2a3bff8a7, type: 3}
     audioClip: {fileID: 8300000, guid: 54c71706856d260488d978e50f7f6555, type: 3}
   - texture: {fileID: 2800000, guid: dce15494aaae4744189a8a89b9709b39, type: 3}
-    audioClip: {fileID: 8300000, guid: 12df8f79e77cf6a438245f242bf9f60d, type: 3}
+    audioClip: {fileID: 8300000, guid: 755c088bff336f14fa76aeea66a4c968, type: 3}
   - texture: {fileID: 2800000, guid: 44dc5b2bb58f0c84b81bd265a75aa1fe, type: 3}
     audioClip: {fileID: 8300000, guid: 4b21b2c44f52e254691b7339d5c8ec57, type: 3}
   - texture: {fileID: 2800000, guid: 6733cf9f741c3da47837ffa9ef0f3b5f, type: 3}
@@ -24163,7 +24157,8 @@ AudioSource:
   m_GameObject: {fileID: 656729169}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243966097783515218, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: ba0f0f413c2465844b8ae858aa4a5123, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -24174,7 +24169,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1.69
+  MinDistance: 1.75
   MaxDistance: 3
   Pan2D: 0
   rolloffMode: 1
@@ -41031,7 +41026,7 @@ MonoBehaviour:
   RadioStation: {fileID: 264597569}
   Car: {fileID: 1355048970}
   VanityCardDelay: 5
-  StartAt: 1
+  StartAt: 0
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -41092,45 +41087,45 @@ MonoBehaviour:
   polaroid: {fileID: 54633588328411768, guid: d49061592ac06fd4a81ebee4b936f270, type: 2}
   PictureSet1:
   - texture: {fileID: 2800000, guid: a1a99fc0332c5464391564b0567e2413, type: 3}
-    audioClip: {fileID: 8300000, guid: 30937c45fc3c68d4ca64f560127dece9, type: 3}
+    audioClip: {fileID: 8300000, guid: aea4d268ee3c4b747b94b271034f0e6a, type: 3}
   - texture: {fileID: 2800000, guid: b35f11e3e0e1b9043ba955c7639b6024, type: 3}
-    audioClip: {fileID: 8300000, guid: 78076149f6e27a94cad2cbd61c020edc, type: 3}
+    audioClip: {fileID: 8300000, guid: 701d939dfc121004d9bf4f9813f9d840, type: 3}
   - texture: {fileID: 2800000, guid: e979acd9ce7a9aa4da8bf0938013eba7, type: 3}
     audioClip: {fileID: 8300000, guid: 4ca592b60bf2b0f49a3bfe76ba1561a8, type: 3}
   - texture: {fileID: 2800000, guid: 019e2466c32172847b34090894c2b772, type: 3}
     audioClip: {fileID: 8300000, guid: 39e141231367ae64bbb2d49b392bd40f, type: 3}
   - texture: {fileID: 2800000, guid: 35e220edda2b6cf438dcd4151224f5a7, type: 3}
-    audioClip: {fileID: 8300000, guid: 3767dad3a125aa542ac356e2e1b3bb59, type: 3}
+    audioClip: {fileID: 8300000, guid: 81a8cbe4e3a7a97499e4ef53b2147d46, type: 3}
   - texture: {fileID: 2800000, guid: 409759a5b53c42e4a98ee3ee9273df36, type: 3}
-    audioClip: {fileID: 8300000, guid: ae0a353403d29ab4b9470acc0a741ffb, type: 3}
+    audioClip: {fileID: 8300000, guid: 69082b5071ec3b14fa964d0073410df1, type: 3}
   - texture: {fileID: 2800000, guid: 2588118482c508b459f154ca11f825dd, type: 3}
     audioClip: {fileID: 8300000, guid: e60c5a560621e3c4696cfcc37b5ccf35, type: 3}
   - texture: {fileID: 2800000, guid: 33217a9dff8c2fa439f674a8e6e63ac2, type: 3}
     audioClip: {fileID: 8300000, guid: 1fe6e7e3065bb4046abedc566e2d8717, type: 3}
   - texture: {fileID: 2800000, guid: 926c8e6bf42da4b49b0c314be9a97154, type: 3}
-    audioClip: {fileID: 8300000, guid: 3f7536730e4cb5a49b38f75b87e1c57b, type: 3}
+    audioClip: {fileID: 8300000, guid: 86fa7cc040179d44bb051725e0fa4f92, type: 3}
   PictureSet2:
   - texture: {fileID: 2800000, guid: 37947d595f58e474dada5c56cff55c1c, type: 3}
-    audioClip: {fileID: 8300000, guid: e7176009b96105c4482324ae11d174a2, type: 3}
+    audioClip: {fileID: 8300000, guid: 1ac34a017c0edd941944f6aa29035811, type: 3}
   - texture: {fileID: 2800000, guid: a281e2bbd13e21443a55173f22c19489, type: 3}
     audioClip: {fileID: 8300000, guid: b75ed61a67cb36e45901012ed1a411dc, type: 3}
   - texture: {fileID: 2800000, guid: 81d16c10538f73344bf29f98f76edd50, type: 3}
-    audioClip: {fileID: 8300000, guid: c0703e4bac15d544aa1a06746a9a78e8, type: 3}
+    audioClip: {fileID: 8300000, guid: 113b1ff94dcf1a246b168358ea2eb9d7, type: 3}
   - texture: {fileID: 2800000, guid: d31865421e37d274989c98622a064256, type: 3}
     audioClip: {fileID: 8300000, guid: 0f8fe0b25f6fee440a934a3fa3094df8, type: 3}
   - texture: {fileID: 2800000, guid: b8741e00705742d46846b262eda212ed, type: 3}
-    audioClip: {fileID: 8300000, guid: 1bb06c7fb9cc5eb469061048ea5bf57e, type: 3}
+    audioClip: {fileID: 8300000, guid: c269a08c9e622f64d8a6f66edb4a1d9e, type: 3}
   - texture: {fileID: 2800000, guid: 1105e14c94a94704c948d6770f6ca503, type: 3}
-    audioClip: {fileID: 8300000, guid: b8eb7b5f10111304fb04e0e17e6c1bb7, type: 3}
+    audioClip: {fileID: 8300000, guid: 1a2527d14afd488448b59ea6d0ba62b4, type: 3}
   - texture: {fileID: 2800000, guid: adac0c19984aa6943a83e933fa9e4ce7, type: 3}
-    audioClip: {fileID: 8300000, guid: d3802b7751e57ba46b7e1f60ae5eed0e, type: 3}
+    audioClip: {fileID: 8300000, guid: c41d78251e0a52044978228506075592, type: 3}
   - texture: {fileID: 2800000, guid: 8547d9ba51076ca4d9cd6f110d8fceb6, type: 3}
-    audioClip: {fileID: 8300000, guid: fed606fbf08fed2408270f513cdf365a, type: 3}
+    audioClip: {fileID: 8300000, guid: fe9efe68175402a48b6e3880dd8f881c, type: 3}
   - texture: {fileID: 2800000, guid: 965b9daaccc3e2f44b1d2d144e6b750c, type: 3}
-    audioClip: {fileID: 8300000, guid: 71f8bbfcfcc03fa43a577563f021c0bb, type: 3}
+    audioClip: {fileID: 8300000, guid: a918e9fbd4a428b4596f2f2859c0ec8c, type: 3}
   PictureSet3:
   - texture: {fileID: 2800000, guid: 183c9c89bfc4c2b4fa6f58bc8b282bfe, type: 3}
-    audioClip: {fileID: 8300000, guid: 75e9cff85e0d5ae46aeb133d7e0ecd05, type: 3}
+    audioClip: {fileID: 8300000, guid: b2e0d051bc4056845964f511876f0625, type: 3}
   - texture: {fileID: 2800000, guid: 7ef67f8b19b31ae449650ae4c31308f2, type: 3}
     audioClip: {fileID: 8300000, guid: ffe3ccb4806e3b3499846ffd046d5274, type: 3}
   - texture: {fileID: 2800000, guid: 78df77a767f077841a03a734845d2718, type: 3}
@@ -41138,13 +41133,13 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: c255e10b138713e419a8c15c634fa476, type: 3}
     audioClip: {fileID: 8300000, guid: 8806b531b86c9e44c8a52dc7d54d2639, type: 3}
   - texture: {fileID: 2800000, guid: 6c50b54bf7e908741bb55fcc65c4e6d6, type: 3}
-    audioClip: {fileID: 8300000, guid: 0d8308950c3f8364eb6ad2c7517fd5af, type: 3}
+    audioClip: {fileID: 8300000, guid: 3935a5eff962e604fbfb0549892d719a, type: 3}
   - texture: {fileID: 2800000, guid: 1401bb7aac382b343817d520b43842bf, type: 3}
-    audioClip: {fileID: 8300000, guid: 31f5618a48d0d2347abdd2bb8c3e5664, type: 3}
+    audioClip: {fileID: 8300000, guid: 7fad044364311844c91b81aa0fe6b87d, type: 3}
   - texture: {fileID: 2800000, guid: 641560e50b1dff242a09704bbc17e43e, type: 3}
-    audioClip: {fileID: 8300000, guid: 8dde8622e19170442b4fcab2810bd91f, type: 3}
+    audioClip: {fileID: 8300000, guid: 18dd0092544e07842832deccf05213fe, type: 3}
   - texture: {fileID: 2800000, guid: 189a4961087c82c468d32c3f83356837, type: 3}
-    audioClip: {fileID: 8300000, guid: 2bf4362dffae9344080245e77b12aa43, type: 3}
+    audioClip: {fileID: 8300000, guid: e8f9faedfc31e17418cc68d9c2a7e262, type: 3}
   - texture: {fileID: 2800000, guid: 4a868831d4ec0e744a8de1b839e09b1a, type: 3}
     audioClip: {fileID: 8300000, guid: 631d00becd018ad408c78fe7fdac4eda, type: 3}
   - texture: {fileID: 2800000, guid: cfb660c2751200043bca4d47555a6d58, type: 3}
@@ -41266,7 +41261,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 51f675c77e2a87947938e5628016f874, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0f15ac15dec7c884896124dda65d0b7e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -41275,7 +41270,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -41348,7 +41343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb001ad917b86f148a2c85acdd0d5c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useVirtualSpeakers: 1
+  useVirtualSpeakers: 0
 --- !u!1 &1193381888
 GameObject:
   m_ObjectHideFlags: 0
@@ -41757,7 +41752,7 @@ AudioSource:
       tangentMode: 0
     - serializedVersion: 2
       time: 1
-      value: 0.36566162
+      value: 0.20202637
       inSlope: 0.05358086
       outSlope: 0.05358086
       tangentMode: 0
@@ -57928,8 +57923,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1951968553}
-  - component: {fileID: 1951968554}
   - component: {fileID: 1951968555}
+  - component: {fileID: 1951968554}
   m_Layer: 0
   m_Name: FrontLeftSpeaker
   m_TagString: Untagged
@@ -57958,7 +57953,7 @@ AudioSource:
   m_GameObject: {fileID: 1951968552}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+  OutputAudioMixerGroup: {fileID: 243562953568216710, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: bc8347bee61538946a6336bb9eed4258, type: 3}
   m_PlayOnAwake: 0
@@ -57970,10 +57965,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1.1
-  MaxDistance: 1.8
+  MinDistance: 0.7
+  MaxDistance: 13
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -58051,7 +58046,7 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 1.4
+  near: 1
   far: 50
   volumetricRadius: 0
   enableRfl: 0
@@ -58631,8 +58626,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2035779376}
-  - component: {fileID: 2035779377}
   - component: {fileID: 2035779378}
+  - component: {fileID: 2035779377}
   m_Layer: 0
   m_Name: FrontRightSpeaker
   m_TagString: Untagged
@@ -58661,7 +58656,7 @@ AudioSource:
   m_GameObject: {fileID: 2035779375}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
+  OutputAudioMixerGroup: {fileID: 243562953568216710, guid: 1dd706bb85d8aef4e83a6229dbd62c36,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 86cf4ba5683c6e641bdba448c0c2f087, type: 3}
   m_PlayOnAwake: 0
@@ -58673,10 +58668,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1.1
-  MaxDistance: 1.8
+  MinDistance: 0.7
+  MaxDistance: 13
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -58754,7 +58749,7 @@ MonoBehaviour:
   enableSpatialization: 1
   gain: 0
   useInvSqr: 1
-  near: 1.6
+  near: 1
   far: 50
   volumetricRadius: 0
   enableRfl: 0
