@@ -177,8 +177,9 @@ public class MemorySpaces : MonoBehaviour {
                 if (SceneController.LeapMotion)
                 {
                     LMInteractionBehaviour = polaroidInstance.gameObject.AddComponent<InteractionBehaviour>();
+                    //LMInteractionBehaviour.graspedMovementType = GraspedMovementType.Kinematic;
                     //LMInteractionBehaviour.allowMultiGrasp = true;
-       
+
                 }
 
                 //add a script to prevent very thin colliders (like paper and photos) from going though each other

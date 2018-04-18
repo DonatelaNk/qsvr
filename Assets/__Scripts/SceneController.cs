@@ -73,6 +73,7 @@ public class SceneController : MonoBehaviour {
    
     //Cady
     public GameObject Car;
+    private CarSteering CarSteering;
 
     [Header("Debug Tools & Settings")]
     //time in seconds to wait for the vanity card onscreen
@@ -89,7 +90,7 @@ public class SceneController : MonoBehaviour {
     public bool OculusTouch;
     public GameObject OVR;
     public GameObject LM;
-    private Vector3 originalCameraPosition;
+    //private Vector3 originalCameraPosition;
     public GameObject bounds;
 
     //cache script referenced
@@ -165,7 +166,7 @@ public class SceneController : MonoBehaviour {
             //Destroy(OVR);
             OVR.SetActive(false);
             //remember where the LMRig is positioned
-            originalCameraPosition = LM.transform.position;
+            //originalCameraPosition = LM.transform.position;
         }
         else
         {
@@ -226,9 +227,11 @@ public class SceneController : MonoBehaviour {
         Fancy = GameObject.Find("Fancy");
         Titles = GameObject.Find("Titles");
         AnimatedCarParts = GameObject.Find("AnimatedCarParts");
-       
+        CarSteering = SteeringWheel.GetComponent<CarSteering>();
+
+
         //set GearShift into drive mode
-        GearShift.transform.eulerAngles = new Vector3(GearShift.transform.rotation.x, GearShift.transform.rotation.x, -80.0f);
+        //GearShift.transform.eulerAngles = new Vector3(GearShift.transform.rotation.x, GearShift.transform.rotation.x, -80.0f);
 
         //get scripts attached
         Blindfold = GetComponent<Blindfold>();
@@ -318,7 +321,7 @@ public class SceneController : MonoBehaviour {
         //Activate car
         Car.SetActive(true);
         AnimatedCarParts.SetActive(true);
-        SteeringWheel.GetComponent<CarSteering>().StartSteering();
+        CarSteering.StartSteering();
         //Activate Actors
         Red.SetActive(true);
         Blue.SetActive(true);
@@ -363,6 +366,8 @@ public class SceneController : MonoBehaviour {
         //remove/reset actor audio
         ResetAudio(2);
 
+        CarSteering.StopSteering();
+
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
         EventManager.StopListening("EnterMemorySpaceOne", StartEntryIntoMemorySpaceOne);
@@ -374,6 +379,7 @@ public class SceneController : MonoBehaviour {
         SoundManager.StartExitFromMemorySpaceOne();
         GetComponent<Objects>().GetRandomObjectSet();
         EventManager.StopListening("ExitMemorySpaceOne", StartExitFromMemorySpaceOne);
+        CarSteering.StartSteering();
     }
 
     void StartEntryIntoMemorySpaceTwo()
@@ -388,11 +394,13 @@ public class SceneController : MonoBehaviour {
         //Destroy interactive objects set
         GetComponent<Objects>().DestroyObjectSet();
         EventManager.StopListening("EnterMemorySpaceTwo", StartEntryIntoMemorySpaceTwo);
+        CarSteering.StopSteering();
     }
     void StartExitFromMemorySpaceTwo()
     {
         GetComponent<Objects>().GetRandomObjectSet();
         EventManager.StopListening("ExitMemorySpaceTwo", StartExitFromMemorySpaceTwo);
+        CarSteering.StartSteering();
     }
 
 
@@ -442,6 +450,9 @@ public class SceneController : MonoBehaviour {
         //Titles.SetActive(true);
         //roll closing credits
         TitlesController.RollClosingCredits();
+
+        //go to title scene after 30 seconds
+        StartCoroutine(LoadTitleCard());
     }
 
     //--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--<<O>>--
@@ -455,7 +466,7 @@ public class SceneController : MonoBehaviour {
         if (park)
         {
             Quaternion quats = Quaternion.FromToRotation(Vector3.up, Vector3.up) * Quaternion.Euler(-1.61f, 0, -10f);
-            GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime*20);
+            GearShift.transform.rotation = Quaternion.Slerp(GearShift.transform.rotation, quats, Time.deltaTime*15);
         }
         if(TuneRadioStation)
         {
@@ -476,12 +487,7 @@ public class SceneController : MonoBehaviour {
             ResetHeadsetPosition();
             
         }
-        //restart scene
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            ResetHeadsetPosition();
-        }
+        
 
         //Hit Escape to exit (build mode only)
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -813,7 +819,8 @@ public class SceneController : MonoBehaviour {
             OVRManager.display.RecenterPose();
         }else if(LeapMotion){
             //LM
-            LM.transform.position = new Vector3(originalCameraPosition.x, originalCameraPosition.y, originalCameraPosition.z);
+            //LM.transform.position = new Vector3(originalCameraPosition.x, originalCameraPosition.y, originalCameraPosition.z);
+            Debug.Log("LM tracker reset");
         }
         
     }
@@ -841,5 +848,12 @@ public class SceneController : MonoBehaviour {
     {
         yield return new WaitForSeconds(4.0f);
         Blindfold.FadeOutBlindFold(7.25f);
-    }  
+    }
+
+    //Courtine to load the title card
+    IEnumerator LoadTitleCard()
+    {
+        yield return new WaitForSeconds(30.0f);
+        SceneManager.LoadScene("Title");
+    }
 }
