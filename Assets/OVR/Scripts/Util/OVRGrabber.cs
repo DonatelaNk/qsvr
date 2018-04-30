@@ -2,14 +2,14 @@
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.4.1 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculus.com/licenses/LICENSE-3.3
+https://developer.oculus.com/licenses/sdk-3.4.1
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -151,7 +151,10 @@ public class OVRGrabber : MonoBehaviour
 
 		float prevFlex = m_prevFlex;
 		// Update values from inputs
-		m_prevFlex = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, m_controller);
+		float primaryHandTriggerFlex = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, m_controller);
+		float primaryIndexTriggerFlex = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, m_controller);
+
+		m_prevFlex = primaryHandTriggerFlex > primaryIndexTriggerFlex ? primaryHandTriggerFlex : primaryIndexTriggerFlex;
 
 		CheckForGrabOrRelease(prevFlex);
     }
@@ -168,19 +171,19 @@ public class OVRGrabber : MonoBehaviour
     {
         // Get the grab trigger
 		OVRGrabbable grabbable = otherCollider.GetComponent<OVRGrabbable>() ?? otherCollider.GetComponentInParent<OVRGrabbable>();
-        if (grabbable == null) return;
-
+        if (grabbable == null || !grabbable.isGrabbable) return;
+		
         // Add the grabbable
         int refCount = 0;
         m_grabCandidates.TryGetValue(grabbable, out refCount);
         m_grabCandidates[grabbable] = refCount + 1;
-    }
+	}
 
     void OnTriggerExit(Collider otherCollider)
     {
 		OVRGrabbable grabbable = otherCollider.GetComponent<OVRGrabbable>() ?? otherCollider.GetComponentInParent<OVRGrabbable>();
         if (grabbable == null) return;
-
+		Debug.Log("On trigger exit: " + otherCollider.transform.name);
         // Remove the grabbable
         int refCount = 0;
         bool found = m_grabCandidates.TryGetValue(grabbable, out refCount);
@@ -216,11 +219,11 @@ public class OVRGrabber : MonoBehaviour
         float closestMagSq = float.MaxValue;
 		OVRGrabbable closestGrabbable = null;
         Collider closestGrabbableCollider = null;
-
-        // Iterate grab candidates and find the closest grabbable candidate
+		//Debug.Log("Grab candidate count: " + m_grabCandidates.Count);
+		// Iterate grab candidates and find the closest grabbable candidate
 		foreach (OVRGrabbable grabbable in m_grabCandidates.Keys)
         {
-            bool canGrab = !(grabbable.isGrabbed && !grabbable.allowOffhandGrab);
+			bool canGrab = !(grabbable.isGrabbed && !grabbable.allowOffhandGrab);
             if (!canGrab)
             {
                 continue;
@@ -231,7 +234,6 @@ public class OVRGrabber : MonoBehaviour
                 if (grabbable.grabPoints[j] != null)
                 {
                     Collider grabbableCollider = grabbable.grabPoints[j];
-
                     // Store the closest grabbable
                     Vector3 closestPointOnBounds = grabbableCollider.ClosestPointOnBounds(m_gripTransform.position);
                     float grabbableMagSq = (m_gripTransform.position - closestPointOnBounds).sqrMagnitude;
@@ -242,6 +244,7 @@ public class OVRGrabber : MonoBehaviour
                         closestGrabbableCollider = grabbableCollider;
                     }
                 }
+                
             }
         }
 
@@ -254,8 +257,8 @@ public class OVRGrabber : MonoBehaviour
             {
                 closestGrabbable.grabbedBy.OffhandGrabbed(closestGrabbable);
             }
-
-            m_grabbedObj = closestGrabbable;
+			
+			m_grabbedObj = closestGrabbable;
             m_grabbedObj.GrabBegin(this, closestGrabbableCollider);
 
             m_lastPos = transform.position;
@@ -310,8 +313,8 @@ public class OVRGrabber : MonoBehaviour
         {
             return;
         }
-
-        Rigidbody grabbedRigidbody = m_grabbedObj.grabbedRigidbody;
+		
+		Rigidbody grabbedRigidbody = m_grabbedObj.grabbedRigidbody;
         Vector3 grabbablePosition = pos + rot * m_grabbedObjectPosOff;
         Quaternion grabbableRotation = rot * m_grabbedObjectRotOff;
 
@@ -349,7 +352,7 @@ public class OVRGrabber : MonoBehaviour
     protected void GrabbableRelease(Vector3 linearVelocity, Vector3 angularVelocity)
     {
         m_grabbedObj.GrabEnd(linearVelocity, angularVelocity);
-        if(m_parentHeldObject) m_grabbedObj.transform.parent = null;
+        if(m_parentHeldObject) m_grabbedObj.transform.parent = m_grabbedObj.originalParent;
         m_grabbedObj = null;
     }
 

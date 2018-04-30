@@ -21,6 +21,7 @@ public class MemorySpaces : MonoBehaviour {
     public Transform m_parent;
     //max time to wait for the user being inactive before existing the memory space
     public float MaxUserIdleTime = 15.0f; //15 seconds
+    public Light BoxSpotlight;
     private float CountDownUserIdleTime;
     private string currentMemorySpaceTrigger;
     private string currentVideoResetTrigger;
@@ -177,7 +178,8 @@ public class MemorySpaces : MonoBehaviour {
                 if (SceneController.LeapMotion)
                 {
                     LMInteractionBehaviour = polaroidInstance.gameObject.AddComponent<InteractionBehaviour>();
-                    //LMInteractionBehaviour.graspedMovementType = GraspedMovementType.Kinematic;
+                    //LMInteractionBehaviour.OnGraspedMovement += onGraspedMovement;
+                    //LMInteractionBehaviour.manager.OnPostPhysicalUpdate += applyXAxisWallConstraint;
                     //LMInteractionBehaviour.allowMultiGrasp = true;
 
                 }
@@ -207,7 +209,7 @@ public class MemorySpaces : MonoBehaviour {
             SoundManager.MemorySpaceTwo();
             Diary.SetActive(true);
             //make it a child of the memory room parent
-            Diary.transform.parent = m_parent;
+            //Diary.transform.parent = m_parent;
             //GetComponent<SoundManager>().InitVoiceover();
 
 
@@ -293,6 +295,8 @@ public class MemorySpaces : MonoBehaviour {
         RenderSettings.fogEndDistance = 20;*/
         addFogCoroutine = StartFog();
         Sun.TriggerMemorySpaceLight();
+        //Turn on the box spotlight
+        StartCoroutine(AnimateSunIntensity(3.0f, 6.0f));
         StartCoroutine(addFogCoroutine);
     }
 
@@ -318,26 +322,63 @@ public class MemorySpaces : MonoBehaviour {
         SceneController.MemoryDust.SetActive(false);
         removeFogCoroutine = EndFog();
         StartCoroutine(removeFogCoroutine);
-        ResumeVideos();  
+        ResumeVideos();
+        //turn off the box spitlight
+        StartCoroutine(AnimateSunIntensity(0f, 2.0f));
         //destroy objects available in memory space
         foreach (Transform child in m_parent.transform)
         {
             //GameObject.Destroy(child.gameObject);
             //only destroy if it's not being held
-            if (!child.GetComponent<OVRGrabbable>().isGrabbed)
-            {
+            //if (!child.GetComponent<OVRGrabbable>().isGrabbed)
+            //{
                 Destroy(child.gameObject);
-            }
-            else
-            {
-                //unparent it and assign it to the Box
-                child.parent = Box.transform;
-                //remove audio source
-                AudioSource a = child.gameObject.GetComponent<AudioSource>();
-                Destroy(a);
-            }
+            //}
+            //else
+            //{
+              // child.parent = Box.transform;
+               //remove audio source
+               //AudioSource a = child.gameObject.GetComponent<AudioSource>();
+               //if (a!=null)
+               //{
+                  //Destroy(a);
+              // }
+            //}
         }
         EventManager.TriggerEvent(currentMemorySpaceTrigger);
+    }
+
+    private void onGraspedMovement(Vector3 presolvedPos, Quaternion presolvedRot,
+                               Vector3 solvedPos, Quaternion solvedRot,
+                               List<InteractionController> graspingControllers)
+    {
+        // Project the vector of the motion of the object due to grasping along the world X axis.
+        Vector3 movementDueToGrasp = solvedPos - presolvedPos;
+        float xAxisMovement = movementDueToGrasp.x;
+
+        // Move the object back to its position before the grasp solve this frame,
+        // then add just its movement along the world X axis.
+        LMInteractionBehaviour.rigidbody.position = presolvedPos;
+        LMInteractionBehaviour.rigidbody.position += Vector3.right * xAxisMovement;
+    }
+
+    private void applyXAxisWallConstraint()
+    {
+        // This constraint forces the interaction object to have a positive X coordinate.
+        Vector3 objPos = LMInteractionBehaviour.rigidbody.position;
+        if (objPos.x < 0F)
+        {
+            objPos.x = 0F;
+            LMInteractionBehaviour.rigidbody.position = objPos;
+
+            // Zero out any negative-X velocity when the constraint is applied.
+            Vector3 objVel = LMInteractionBehaviour.rigidbody.velocity;
+            if (objVel.x < 0F)
+            {
+                objVel = new Vector3(0, 0, 0);
+                LMInteractionBehaviour.rigidbody.velocity = objVel;
+            }
+        }
     }
 
     IEnumerator SetupMemorySpace(float wait, float memberSpaceNumber)
@@ -382,5 +423,18 @@ public class MemorySpaces : MonoBehaviour {
             yield return null;
         }
         StopCoroutine(removeFogCoroutine);
+    }
+
+    IEnumerator AnimateSunIntensity(float targetIntensity, float speed)
+    {
+        float elapsedTime = 0;
+        //get current intensity
+        float currentIntensity = BoxSpotlight.intensity;
+        while (elapsedTime < speed)
+        {
+            BoxSpotlight.intensity = Mathf.Lerp(currentIntensity, targetIntensity, elapsedTime / speed);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }

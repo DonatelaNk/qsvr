@@ -17,5 +17,10 @@ public class SceneReset : MonoBehaviour {
         {
             SceneManager.LoadScene("Episode.1");
         }
+        //Hit Escape to exit (build mode only)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 }
