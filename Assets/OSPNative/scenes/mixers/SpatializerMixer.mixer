@@ -28,6 +28,7 @@ AudioMixerController:
     - 8992da0db37df2240880e65feb214b5b
     - a17ef33e85f07724799e81c8d7c57a4a
     - c38e5d07cd6b7a7409064e33eaadbece
+    - 01ca807e0d338504b9cbbcd90b210ecc
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500003}
@@ -43,6 +44,7 @@ AudioMixerGroupController:
   - {fileID: 243514918281938984}
   - {fileID: 243793003219940860}
   - {fileID: 243069111969984510}
+  - {fileID: 243562953568216710}
   - {fileID: 243508357889116804}
   - {fileID: 243246198049350682}
   - {fileID: 243237525267627524}
@@ -182,6 +184,7 @@ AudioMixerSnapshotController:
     285e7a478d90a1f4ea39bf4e24e02ebf: 3.2656894
     a89f6577b9e4455488d6df6378289e90: 40
     afbfe0879e482b64b9dd4ceeeed82492: 0.33
+    20f409a76462cd1438da66d68a011093: 9.925883
     5ac468b7ba34c334faf1dc9646ad0690: 7.9871106
     ae6a7db7773ab66468e20795efab2e3e: 43
     c37752d75bf132d47a7c3a93049722dc: 1
@@ -267,6 +270,7 @@ AudioMixerSnapshotController:
     29b9835ff985b2e4c97d9e4ee57e84b1: 0.415
     7ccabb5f18fe7824da14df39f37a68ec: 72
     0d4bed6fb113d6f4089b817171a98447: 1
+    b7e4998fd3b3de54b91e4ea325801fa5: 4.648096
     94ae16af151487945bb3ddfac58fad72: -14.96685
     d90c93cfc45013545b3760e70f40dd9c: 0.65
   m_TransitionOverrides: {}
@@ -389,6 +393,23 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &243562953568216710
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Radio
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 01ca807e0d338504b9cbbcd90b210ecc
+  m_Children: []
+  m_Volume: 20f409a76462cd1438da66d68a011093
+  m_Pitch: 86349062ff7393549a79d44ae953a473
+  m_Effects:
+  - {fileID: 244256680417434160}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &243793003219940860
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -411,7 +432,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ed's Yell
+  m_Name: Loud Jump SFXs
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: a17ef33e85f07724799e81c8d7c57a4a
   m_Children: []
@@ -432,6 +453,19 @@ AudioMixerEffectController:
   m_EffectID: ccedeb6da2ad22848b5fa1bed638e2b0
   m_EffectName: Attenuation
   m_MixLevel: 21eca06f269e1344cad44d517f361bfc
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &244256680417434160
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_EffectID: 44bf9b43c3a28064aa78209c0dab030a
+  m_EffectName: Attenuation
+  m_MixLevel: 40acd7b2745da4c43b28091526c42c59
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0

@@ -280,4 +280,6 @@ public class TitlesController : MonoBehaviour {
         // Create an instance of the credit at the randomly selected spawn point's position and rotation.
         Instantiate(credit, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
     }*/
+
+   
 }

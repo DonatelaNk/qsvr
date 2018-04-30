@@ -71,6 +71,7 @@ public class PageTurnController : MonoBehaviour
 	private float closeBookCurrentTime;
     private SoundManager SoundManager;
     private MemorySpaces MemorySpaces;
+    private SceneController SceneController;
 
 
     private Coroutine setPageCoroutine;
@@ -83,8 +84,9 @@ public class PageTurnController : MonoBehaviour
         bookGrasped = GetComponent<InteractionBehaviour>(); //LeapMotion
         SoundManager = GameObject.Find("SceneManager").GetComponent<SoundManager>();
         MemorySpaces = GameObject.Find("SceneManager").GetComponent<MemorySpaces>();
+        SceneController = GameObject.Find("SceneManager").GetComponent<SceneController>();
 
-
+       
         if (pageTurnRightHandle != null && pageTurnLeftHandle != null)
 		{
 			pageTurnRightStartPositionLocal = pageTurnRightHandle.transform.localPosition;
@@ -96,13 +98,18 @@ public class PageTurnController : MonoBehaviour
 		currentPage = (int)megaBookBuilder.page;
 
 		closeBookCurrentTime = closeBookDelay;
+        
+        //disable page turning for LeapMotion
+        //if (SceneController.LeapMotion)
+        //{
+            LeftHandle.SetActive(false);
+            RightHandle.SetActive(false);
+        //}
 
-        LeftHandle.SetActive(false);
-        RightHandle.SetActive(false);
         //RandomizeFirstPage();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
 	{
 		if (megaBookBuilder == null || pageTurnRightHandle == null || pageTurnLeftHandle == null)
 			return;
@@ -131,10 +138,12 @@ public class PageTurnController : MonoBehaviour
         // Reset to page 0 if the book isn't currently grabbed
         if (!bookGrabbable.isGrabbed && !bookGrasped.isGrasped)
 		{
-			/*if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.ovrGrabbable.isGrabbed ||
-                pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped || 
-                pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
-				closeBookCurrentTime = closeBookDelay;*/
+            
+            /*
+			//if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.ovrGrabbable.isGrabbed ||
+                //pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped || 
+                //pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
+				//closeBookCurrentTime = closeBookDelay;
 
 			closeBookCurrentTime -= Time.deltaTime;
 
@@ -145,10 +154,10 @@ public class PageTurnController : MonoBehaviour
 
 				setPageCoroutine = StartCoroutine(DoSetPage(-1, 0.25f));
                 
-            }
+            }*/
 		}
 		else
-		{
+		{ 
 			// Open the book to a randomized page (if closed)
 			if (megaBookBuilder.page < 0)
 			{
@@ -159,35 +168,40 @@ public class PageTurnController : MonoBehaviour
                     randomPage = GetOddRandomPage(0, pageTextureAudioList.Count);
                 
                 setPageCoroutine = StartCoroutine(DoSetPage(randomPage, 0.5f));
-                
+                //LeftHandle.SetActive(true);
+                //RightHandle.SetActive(true);
             }
 
 			closeBookCurrentTime = closeBookDelay;
 		}
-        
-		// Page turning
-        /*
-		if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped)
-		{
-			SetPageTurn(pageTurnRightHandle, pageTurnLeftHandle);
-		}
-		else if (pageTurnLeftHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
-		{
-			SetPageTurn(pageTurnLeftHandle, pageTurnRightHandle);
-		}
-		else
-		{
-			// Send the grabbables back to their original positions
-			pageTurnRightHandle.transform.position = Vector3.MoveTowards(pageTurnRightHandle.transform.position, transform.TransformPoint(pageTurnRightStartPositionLocal), Time.deltaTime * 2.5f);
-			pageTurnLeftHandle.transform.position = Vector3.MoveTowards(pageTurnLeftHandle.transform.position, transform.TransformPoint(pageTurnLeftStartPositionLocal), Time.deltaTime * 2.5f);
 
-			// Set the page
-			if (Mathf.Approximately(megaBookBuilder.page, currentPage) == false && setPageCoroutine == null)
-				setPageCoroutine = StartCoroutine(DoSetPage());
-		}*/
+        // Page turning for touch only
+        /*if (!SceneController.LeapMotion)
+        {
 
-		// Handle states
-		//UpdateHandleStates();
+
+            if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
+            {
+                SetPageTurn(pageTurnRightHandle, pageTurnLeftHandle);
+            }
+            else if (pageTurnLeftHandle.ovrGrabbable.isGrabbed)
+            {
+                SetPageTurn(pageTurnLeftHandle, pageTurnRightHandle);
+            }
+            else
+            {
+                // Send the grabbables back to their original positions
+                pageTurnRightHandle.transform.position = Vector3.MoveTowards(pageTurnRightHandle.transform.position, transform.TransformPoint(pageTurnRightStartPositionLocal), Time.deltaTime * 2.5f);
+                pageTurnLeftHandle.transform.position = Vector3.MoveTowards(pageTurnLeftHandle.transform.position, transform.TransformPoint(pageTurnLeftStartPositionLocal), Time.deltaTime * 2.5f);
+
+                // Set the page
+                if (Mathf.Approximately(megaBookBuilder.page, currentPage) == false && setPageCoroutine == null)
+                    setPageCoroutine = StartCoroutine(DoSetPage());
+            }
+
+            // Handle states
+            UpdateHandleStates();
+        }*/
     }
 
 
@@ -214,19 +228,19 @@ public class PageTurnController : MonoBehaviour
 		if (pageTurnRightHandle)
 		{
 			// Main hand
-			if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
 			{
 				pageTurnRightHandle.SetHandleState(PageTurnHandle.HandleStates.MainHand);
 			}
 
 			// Off hand
-			else if (pageTurnLeftHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			else if (pageTurnLeftHandle.ovrGrabbable.isGrabbed)
 			{
 				pageTurnRightHandle.SetHandleState(PageTurnHandle.HandleStates.OffHand);
 			}
 
 			// Off and Active
-			else if (!pageTurnRightHandle.ovrGrabbable.isGrabbed && !pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			else if (!pageTurnRightHandle.ovrGrabbable.isGrabbed)
 			{
 				if (megaBookBuilder.page >= megaBookBuilder.NumPages)
 					pageTurnRightHandle.SetHandleState(PageTurnHandle.HandleStates.Off);
@@ -238,19 +252,19 @@ public class PageTurnController : MonoBehaviour
 		if (pageTurnLeftHandle)
 		{
 			// Main hand
-			if (pageTurnLeftHandle.ovrGrabbable.isGrabbed || pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			if (pageTurnLeftHandle.ovrGrabbable.isGrabbed)
 			{
 				pageTurnLeftHandle.SetHandleState(PageTurnHandle.HandleStates.MainHand);
 			}
 
 			// Off hand
-			else if (pageTurnRightHandle.ovrGrabbable.isGrabbed || pageTurnRightHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			else if (pageTurnRightHandle.ovrGrabbable.isGrabbed)
 			{
 				pageTurnLeftHandle.SetHandleState(PageTurnHandle.HandleStates.OffHand);
 			}
 
 			// Off and Active
-			else if (!pageTurnLeftHandle.ovrGrabbable.isGrabbed && !pageTurnLeftHandle.GetComponent<InteractionBehaviour>().isGrasped)
+			else if (!pageTurnLeftHandle.ovrGrabbable.isGrabbed)
 			{
 				if (megaBookBuilder.page < 0)
 					pageTurnLeftHandle.SetHandleState(PageTurnHandle.HandleStates.Off);
