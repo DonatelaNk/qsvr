@@ -13,7 +13,7 @@ public class SceneReset : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //restart scene
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("Episode.1");
         }
