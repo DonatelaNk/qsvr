@@ -57,7 +57,7 @@ public class MemorySpaces : MonoBehaviour {
     private float MaxActorLoop = 19.0f;
     private float CounterMaxActorLoop;
 
-    private bool MemorySpaceActive = false;
+    public bool MemorySpaceActive = false;
 
     //leapmotion interaction manager must be added to instantiated game objects at runtime
     private InteractionBehaviour LMInteractionBehaviour;

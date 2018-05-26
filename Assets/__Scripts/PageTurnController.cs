@@ -336,8 +336,8 @@ public class PageTurnController : MonoBehaviour
 
 		megaBookBuilder.page = currentPage = (int)pageToSet;
 
-		// play audio
-		if (AutoplayRandMonologue && pageAudioSource != null)
+		// play audio, BUT only if we're still inside the memory space
+		if (AutoplayRandMonologue && pageAudioSource != null && MemorySpaces.MemorySpaceActive)
 		{
 			PageTextureAudioType pageTextureAudioType = pageTextureAudioList.Find(p => p.texture == megaBookBuilder.GetPageTexture(currentPage, true));
             AutoplayRandMonologue = false;

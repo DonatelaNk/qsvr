@@ -1182,7 +1182,7 @@ Prefab:
     - target: {fileID: 54685616077862592, guid: def5a05256f57a1449f4623c7e140217,
         type: 2}
       propertyPath: m_AngularDrag
-      value: 0
+      value: 5.32
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114858169567447394, guid: def5a05256f57a1449f4623c7e140217, type: 2}
@@ -1807,7 +1807,7 @@ Prefab:
       objectReference: {fileID: 1865100264}
     - target: {fileID: 11498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_VideoPath
-      value: QueerskinsTenthCut.mp4
+      value: QueerskinsEleventhCut.mp4
       objectReference: {fileID: 0}
     - target: {fileID: 498420, guid: 5a12218ea7e5b7a4e8b89d25e07d237d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -27575,7 +27575,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1679776052628946, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1219091473461712, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_StaticEditorFlags
@@ -27611,7 +27611,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4018772944887878, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0.033905298
+      value: -0.033905294
       objectReference: {fileID: 0}
     - target: {fileID: 4018772944887878, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_LocalRotation.w
@@ -27658,23 +27658,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4235097044963514, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 28
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 4626047492694230, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 26
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 4989796828964018, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 24
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 4433347373568260, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 27
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 4228897344579456, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 29
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 4389708945092530, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
@@ -27682,7 +27682,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4042480635026204, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 30
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 23367786741475542, guid: cd637997c6c41514d9772707b191201d,
         type: 2}
@@ -27711,7 +27711,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4018772944887878, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_RootOrder
-      value: 23
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1932602374924634, guid: cd637997c6c41514d9772707b191201d, type: 2}
       propertyPath: m_IsActive
@@ -27749,7 +27749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &402096753
 Transform:
   m_ObjectHideFlags: 0
@@ -42959,7 +42959,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -47355,14 +47355,14 @@ MonoBehaviour:
   Blue: {fileID: 615939670}
   InteractiveObjects: {fileID: 988423553}
   GearShift: {fileID: 254768780}
-  SteeringWheel: {fileID: 402096752}
+  SteeringWheel: {fileID: 1038146013}
   EdsWindow: {fileID: 411743240}
   Dashboard: {fileID: 835918563}
   Clock: {fileID: 1383961457}
   RadioStation: {fileID: 264597569}
   Car: {fileID: 1355048970}
   VanityCardDelay: 5
-  StartAt: 0
+  StartAt: 1
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -47482,6 +47482,7 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: cfb660c2751200043bca4d47555a6d58, type: 3}
     audioClip: {fileID: 8300000, guid: 98b568bef3ca26c4889f3e67d232923d, type: 3}
   Diary: {fileID: 294697732}
+  MemorySpaceActive: 0
 --- !u!114 &1173825490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48615,7 +48616,7 @@ MonoBehaviour:
       cameraCenter: {x: 0, y: 0, z: 0}
   _depthPackingEpsilon: 0.0005
   _depthSaturationThreshold: 0.5
-  _depthBrightnessThreshold: 0.5
+  _depthBrightnessThreshold: 0.8
   _internalEdgeThreshold: 0.5
   _meshDensity: 0
   _shader: {fileID: 4800000, guid: 5daae16e80ae7462ba75f45061a74157, type: 3}
@@ -48633,7 +48634,7 @@ MonoBehaviour:
   _player: {fileID: 1320535731}
   _renderer: {fileID: 1320535732}
   _depthPackingEpsilon: 0.0005
-  _depthLuminanceFilter: 0.5
+  _depthLuminanceFilter: 0.8
   _depthSaturationFilter: 0.5
   _triangleSizeLimit: 0.5
   _collider: {fileID: 1320535734}
@@ -48728,7 +48729,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1320535729}
   m_LocalRotation: {x: -0.16065106, y: -0.05019405, z: 0.9857204, w: 0.005211314}
-  m_LocalPosition: {x: -0.022, y: 1.056, z: -8.68}
+  m_LocalPosition: {x: -0.022, y: 1.056, z: -8.6865}
   m_LocalScale: {x: 1.05, y: 1.05, z: 0.8068869}
   m_Children: []
   m_Father: {fileID: 2081666163}
@@ -64597,7 +64598,7 @@ MonoBehaviour:
   night:
   - color: {r: 0.17279412, g: 0.3276356, b: 0.6911765, a: 1}
     intensity: 1
-    exposure: -3.5
+    exposure: 0
     sunPosition: {x: -0.077, y: 0.76, z: -3.84}
     rotationX: 172.11
     rotationY: -199.8
@@ -64625,14 +64626,14 @@ MonoBehaviour:
   midDay:
   - color: {r: 1, g: 0.91764706, b: 0.7921569, a: 1}
     intensity: 0.4
-    exposure: 0.4
+    exposure: 0
     sunPosition: {x: 4.42, y: 2.687889, z: 1.31}
     rotationX: 151
     rotationY: -267
   bridgeDay:
   - color: {r: 1, g: 0.9411765, b: 0.85882354, a: 1}
     intensity: 0.4
-    exposure: 0.4
+    exposure: 0
     sunPosition: {x: 2.87, y: 1.32, z: 6.76}
     rotationX: 134.679
     rotationY: 53.188
