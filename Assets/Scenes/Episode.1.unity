@@ -26430,6 +26430,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: PageTurnController+PageSetHandler, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  prompt: {fileID: 499965695}
 --- !u!114 &294697736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28371,6 +28372,95 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &499965695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 499965696}
+  - component: {fileID: 499965697}
+  - component: {fileID: 499965698}
+  m_Layer: 0
+  m_Name: grab-here
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &499965696
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499965695}
+  m_LocalRotation: {x: 0.6693742, y: 0.019768244, z: -0.00904422, w: 0.7426073}
+  m_LocalPosition: {x: 0.0681, y: 0.0025, z: 0.0357}
+  m_LocalScale: {x: 0.0248332, y: 0.024833195, z: 0.024833195}
+  m_Children: []
+  m_Father: {fileID: 2006739173}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 84, y: 9.5, z: 7.162}
+--- !u!212 &499965697
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499965695}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: ee9ed94d13f5f2543991cbfe2c203452, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 4.39, y: 1.96}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+--- !u!114 &499965698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499965695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4119854eb96df2642b74b17a606d6548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeSpeed: 0.3
+  fadeDelay: 0
+  fadeinOnload: 0
+  fadeoutOnload: 0
 --- !u!1 &504524851
 GameObject:
   m_ObjectHideFlags: 0
@@ -47362,7 +47452,7 @@ MonoBehaviour:
   RadioStation: {fileID: 264597569}
   Car: {fileID: 1355048970}
   VanityCardDelay: 5
-  StartAt: 1
+  StartAt: 0
   LeapMotion: 0
   OculusTouch: 1
   OVR: {fileID: 425612495}
@@ -47460,6 +47550,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: fe9efe68175402a48b6e3880dd8f881c, type: 3}
   - texture: {fileID: 2800000, guid: 965b9daaccc3e2f44b1d2d144e6b750c, type: 3}
     audioClip: {fileID: 8300000, guid: a918e9fbd4a428b4596f2f2859c0ec8c, type: 3}
+  - texture: {fileID: 2800000, guid: 2588118482c508b459f154ca11f825dd, type: 3}
+    audioClip: {fileID: 8300000, guid: e60c5a560621e3c4696cfcc37b5ccf35, type: 3}
   PictureSet3:
   - texture: {fileID: 2800000, guid: 183c9c89bfc4c2b4fa6f58bc8b282bfe, type: 3}
     audioClip: {fileID: 8300000, guid: b2e0d051bc4056845964f511876f0625, type: 3}
@@ -47481,6 +47573,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 631d00becd018ad408c78fe7fdac4eda, type: 3}
   - texture: {fileID: 2800000, guid: cfb660c2751200043bca4d47555a6d58, type: 3}
     audioClip: {fileID: 8300000, guid: 98b568bef3ca26c4889f3e67d232923d, type: 3}
+  - texture: {fileID: 2800000, guid: 2588118482c508b459f154ca11f825dd, type: 3}
+    audioClip: {fileID: 8300000, guid: e60c5a560621e3c4696cfcc37b5ccf35, type: 3}
   Diary: {fileID: 294697732}
   MemorySpaceActive: 0
 --- !u!114 &1173825490
@@ -64598,14 +64692,14 @@ MonoBehaviour:
   night:
   - color: {r: 0.17279412, g: 0.3276356, b: 0.6911765, a: 1}
     intensity: 1
-    exposure: 0
+    exposure: -3
     sunPosition: {x: -0.077, y: 0.76, z: -3.84}
     rotationX: 172.11
     rotationY: -199.8
   preDawn:
   - color: {r: 0.6901961, g: 0.6901961, b: 1, a: 1}
     intensity: 0.6
-    exposure: -3
+    exposure: -2
     sunPosition: {x: -0.077, y: 1.29, z: -3.84}
     rotationX: 167.625
     rotationY: -181.697
@@ -64708,6 +64802,7 @@ Transform:
   - {fileID: 504524852}
   - {fileID: 902742240}
   - {fileID: 1651371585}
+  - {fileID: 499965696}
   m_Father: {fileID: 294697733}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
