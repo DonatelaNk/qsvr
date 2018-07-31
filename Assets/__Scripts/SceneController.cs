@@ -88,6 +88,7 @@ public class SceneController : MonoBehaviour {
 
     public bool LeapMotion;
     public bool OculusTouch;
+    public bool FestivalBuild = true;
     public GameObject OVR;
     public GameObject LM;
     //private Vector3 originalCameraPosition;
