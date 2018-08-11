@@ -104,17 +104,21 @@ public class PageTurnController : MonoBehaviour
 		closeBookCurrentTime = closeBookDelay;
 
         //disable page turning for LeapMotion
-        //if (SceneController.LeapMotion)
-        //{
-        // LeftHandle.SetActive(false);
-        // RightHandle.SetActive(false);
-        //}
+        if (SceneController.LeapMotion)
+        {
+            LeftHandle.SetActive(false);
+            RightHandle.SetActive(false);
+        } else
+        {
+            //show the grab here prompt
+            Color tmp = prompt.GetComponent<SpriteRenderer>().color;
+            tmp.a = 0f;
+            prompt.GetComponent<SpriteRenderer>().color = tmp;
+            SpriteFader = prompt.GetComponent<SpriteFader>();
+        }
 
         //RandomizeFirstPage();
-        Color tmp = prompt.GetComponent<SpriteRenderer>().color;
-        tmp.a = 0f;
-        prompt.GetComponent<SpriteRenderer>().color = tmp;
-        SpriteFader = prompt.GetComponent<SpriteFader>();
+        
 
     }
 
@@ -147,7 +151,7 @@ public class PageTurnController : MonoBehaviour
         // Reset to page 0 if the book isn't currently grabbed
         if (!bookGrabbable.isGrabbed && !bookGrasped.isGrasped)
 		{
-            if (!helpPromptRemoved)
+            if (!helpPromptRemoved && !SceneController.LeapMotion)
                 SpriteFader.FadeOutSprite();
 
             //LeftHandle.SetActive(false);
@@ -173,7 +177,7 @@ public class PageTurnController : MonoBehaviour
         }
 		else
 		{
-            if (!helpPromptRemoved)
+            if (!helpPromptRemoved && !SceneController.LeapMotion)
                 SpriteFader.FadeInSprite();
 
             // LeftHandle.SetActive(true);

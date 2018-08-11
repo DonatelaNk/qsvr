@@ -98,6 +98,7 @@ public class MemorySpaces : MonoBehaviour {
                     if (child.gameObject.GetComponent<InteractionBehaviour>().isGrasped)
                     {
                         CountDownUserIdleTime = MaxUserIdleTime;
+                        //Debug.Log("Grasped");
                     }
                 }
                 else
@@ -105,6 +106,7 @@ public class MemorySpaces : MonoBehaviour {
                     if (child.gameObject.GetComponent<OVRGrabbable>().isGrabbed)
                     {
                         CountDownUserIdleTime = MaxUserIdleTime;
+                        //Debug.Log("Grabbed");
                     }
                 }
             }
@@ -181,6 +183,7 @@ public class MemorySpaces : MonoBehaviour {
                     //LMInteractionBehaviour.OnGraspedMovement += onGraspedMovement;
                     //LMInteractionBehaviour.manager.OnPostPhysicalUpdate += applyXAxisWallConstraint;
                     //LMInteractionBehaviour.allowMultiGrasp = true;
+                    //LMInteractionBehaviour.graspedMovementType
 
                 }
 
@@ -348,7 +351,7 @@ public class MemorySpaces : MonoBehaviour {
         EventManager.TriggerEvent(currentMemorySpaceTrigger);
     }
 
-    private void onGraspedMovement(Vector3 presolvedPos, Quaternion presolvedRot,
+    /*private void onGraspedMovement(Vector3 presolvedPos, Quaternion presolvedRot,
                                Vector3 solvedPos, Quaternion solvedRot,
                                List<InteractionController> graspingControllers)
     {
@@ -360,7 +363,9 @@ public class MemorySpaces : MonoBehaviour {
         // then add just its movement along the world X axis.
         LMInteractionBehaviour.rigidbody.position = presolvedPos;
         LMInteractionBehaviour.rigidbody.position += Vector3.right * xAxisMovement;
-    }
+    }*/
+
+
 
     private void applyXAxisWallConstraint()
     {
